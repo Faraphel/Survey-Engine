@@ -1,0 +1,33 @@
+{
+  "text-welcome": {
+    "type": "text",
+    "title": "Bienvenue !",
+    "description": "Nous réalisons une étude sur le logiciel Steam afin de déterminer son ergonomie.\nVous serez invité à naviguer sur la plateforme Steam d'une page à l'autre."
+  },
+
+  "question-usage": {
+    "type": "question-choice",
+    "title": "A quel point êtes-vous familier avec Steam ?",
+    "choices": {
+      "0": "Ne connait pas",
+      "1": "Connait de nom",
+      "2": "Utilisation rare",
+      "3": "Utilisation moyenne",
+      "4": "Utilisation fréquente"
+    }
+  },
+
+  "web-language": {
+    "type": "mission-web",
+    "title": "Changer la langue en français.",
+    "url": "https://steampowered.com/",
+    "check": "document.getElementsByTagName('html')[0].lang == 'fr'"
+  },
+
+  "web-point-shop": {
+    "type": "mission-web",
+    "title": "Rendez-vous sur la boutique des points.",
+    "url": "https://steampowered.com/",
+    "check": "true"
+  }
+}
