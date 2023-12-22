@@ -58,7 +58,7 @@ class FrameSurvey(QFrame):
 
     def load_file(self, survey_path: Path | str):
         # load the surveys screens
-        with open(survey_path) as file:
+        with open(survey_path, encoding="utf-8") as file:
             surveys_data = json.load(file)
 
         self.survey_screens = [

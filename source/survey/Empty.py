@@ -1,7 +1,7 @@
 from typing import Any
 
 from PyQt6.QtCore import pyqtSignal
-from survey.base import BaseSurvey
+from source.survey.base import BaseSurvey
 
 
 class Empty(BaseSurvey):

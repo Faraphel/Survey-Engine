@@ -2,14 +2,18 @@ from typing import Type
 
 from PyQt6.QtCore import pyqtSignal
 
-from . import Text, ChoiceQuestion, WebMission, Empty
+from . import Text, ChoiceQuestion, WebMission, Empty, TextQuestion
 from .base import BaseSurvey
 
 
 all_survey: dict[str, Type[BaseSurvey]] = {
+    # base
     "empty": Empty,
     "text": Text,
+    # questions
     "question-choice": ChoiceQuestion,
+    "question-text": TextQuestion,
+    # missions
     "mission-web": WebMission,
 }
 

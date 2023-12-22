@@ -1,12 +1,12 @@
 import time
 from typing import Optional, Any
 
-from PyQt6.QtCore import Qt, QTimer, pyqtSignal, QUrl
-from PyQt6.QtGui import QFont
+from PyQt6.QtCore import Qt, QTimer, pyqtSignal, QUrl, QEvent, QObject
+from PyQt6.QtGui import QFont, QMouseEvent, QResizeEvent
 from PyQt6.QtWidgets import QLabel, QVBoxLayout, QSizePolicy
 
-from survey.base import BaseSurvey
-from source.widget import DecoratedWebEngineView
+from source.survey.base import BaseSurvey
+from source.widget import Browser
 
 
 class WebMission(BaseSurvey):
@@ -15,15 +15,15 @@ class WebMission(BaseSurvey):
 
         self.check_condition = check_condition
         self.default_url = url
-        self.signals = signals  # TODO: default None ?
+        self.signals = signals if signals is not None else {}
 
         # set layout
         self._layout = QVBoxLayout()
         self.setLayout(self._layout)
 
         # data collection
-        self.initial_time = time.time()
-        self.collect_urls: list[tuple[float, str]] = []  # list of urls that the user went by
+        self.start_time = time.time()
+        self._collected_events: list[dict[str, Any]] = []
 
         # mission title
         self.label_title = QLabel()
@@ -37,11 +37,12 @@ class WebMission(BaseSurvey):
         self.label_title.setFont(font_title)
 
         # web page
-        self.web_view = DecoratedWebEngineView()
-        self._layout.addWidget(self.web_view)
-        self.web_view.urlChanged.connect(self._on_url_changed)  # NOQA: connect exist
+        self.browser = Browser()
+        self._layout.addWidget(self.browser)
+        self.browser.web.focusProxy().installEventFilter(self)  # capture the event in eventFilter
+        self.browser.web.urlChanged.connect(self._on_url_changed)  # NOQA: connect exist
 
-        self.web_view.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        self.browser.web.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
 
         # setup the timer for the check
         if self.check_condition is not None:
@@ -59,31 +60,92 @@ class WebMission(BaseSurvey):
             signals=signals
         )
 
+    # events
+
+    def eventFilter(self, obj: QObject, event: QEvent) -> bool:
+        if obj is self.browser.web.focusProxy():
+            # if the object is the content of the web engine widget
+            match event.type():
+                case QEvent.Type.MouseMove:
+                    # if this is a mouse movement
+                    event: QMouseEvent
+                    position = event.position()
+
+                    self._save_event(
+                        type="mouse_move",
+                        position=(position.x(), position.y())
+                    )
+
+                case QEvent.Type.MouseButtonPress:
+                    # if this is a mouse click press
+                    event: QMouseEvent
+                    position = event.position()
+
+                    self._save_event(
+                        type="mouse_press",
+                        position=(position.x(), position.y()),
+                        button=event.button(),
+                    )
+
+                case QEvent.Type.MouseButtonRelease:
+                    # if this is a mouse click release
+                    event: QMouseEvent
+                    position = event.position()
+
+                    self._save_event(
+                        type="mouse_release",
+                        position=(position.x(), position.y()),
+                        button=event.button(),
+                    )
+
+                case QEvent.Type.MouseButtonDblClick:
+                    # if this is a mouse double click
+                    event: QMouseEvent
+                    position = event.position()
+
+                    self._save_event(
+                        type="mouse_double_click",
+                        position=(position.x(), position.y()),
+                    )
+
+                case QEvent.Type.Resize:
+                    # if the window got resized
+                    event: QResizeEvent
+                    size = event.size()
+
+                    self._save_event(
+                        type="resize",
+                        size=(size.width(), size.height()),
+                    )
+
+        return super().eventFilter(obj, event)
+
     def on_show(self) -> None:
-        self.web_view.setUrl(QUrl(self.default_url))
+        # initialize the start time
+        self.start_time = time.time()
+
+        # set the web view to the default url
+        self.browser.web.setUrl(QUrl(self.default_url))
 
         if self.check_condition is not None:
             # enable the timer
             self.timer_check.start()
 
         else:
-            # call directly the success signal
-            if "success" in self.signals:
-                self.signals["success"].emit()  # NOQA: emit exist
+            self._success()  # call directly the success method
 
     def on_hide(self) -> None:
         self.timer_check.stop()
 
-    # data collection
+    def _success(self):
+        # TODO: animation or notification to clearly mark mission as succeeded
 
-    def get_collected_data(self) -> dict:
-        # TODO: more data to collect
-        return {
-            "collect_urls": self.collect_urls
-        }
+        # mark the success in the events
+        self._save_event(type="check")
 
-    def _on_url_changed(self):
-        self.collect_urls.append((time.time() - self.initial_time, self.web_view.url()))
+        # emit on the success signal
+        if "success" in self.signals:
+            self.signals["success"].emit()  # NOQA: emit exist
 
     # condition
 
@@ -93,8 +155,27 @@ class WebMission(BaseSurvey):
         """
 
         def check_callback(result: bool):
-            if result and "success" in self.signals:
-                self.signals["success"].emit()  # NOQA: emit exist
+            if result:
+                self._success()
 
-        page = self.web_view.page()
+        page = self.browser.web.page()
         page.runJavaScript(self.check_condition, resultCallback=check_callback)
+
+    # data collection
+
+    def _save_event(self, **data) -> None:
+        # save the data of the event and add the current time
+        data["time"] = round(time.time() - self.start_time, 3)
+        self._collected_events.append(data)
+
+    def get_collected_data(self) -> dict:
+        return {
+            "event": self._collected_events,
+        }
+
+    def _on_url_changed(self):
+        # log the new url
+        self._save_event(
+            type="url",
+            url=self.browser.web.url().toString()
+        )

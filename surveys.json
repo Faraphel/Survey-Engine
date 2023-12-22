@@ -29,5 +29,10 @@
     "title": "Rendez-vous sur la boutique des points.",
     "url": "https://steampowered.com/",
     "check": "true"
+  },
+
+  "question-experience": {
+    "type": "question-text",
+    "title": "Qu'avez vous pensé de l'interface de Steam ?"
   }
 }
