@@ -137,6 +137,8 @@ class FrameSurvey(QFrame):
         self.frame_survey = survey
         # change the widget on the layout
         self._layout.replaceWidget(old_frame_survey, self.frame_survey)
+        # adjust the size of the widgets
+        self.window().adjustSize()
         # call the new survey event
         survey.on_show()
         # delete the old frame

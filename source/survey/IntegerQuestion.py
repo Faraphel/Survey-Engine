@@ -1,16 +1,26 @@
-from typing import Any
+from typing import Any, Optional
 
 from PyQt6.QtCore import Qt, pyqtSignal
-from PyQt6.QtGui import QFont, QIntValidator
-from PyQt6.QtWidgets import QVBoxLayout, QLabel, QDoubleSpinBox, QSpinBox
+from PyQt6.QtGui import QFont
+from PyQt6.QtWidgets import QVBoxLayout, QLabel, QSpinBox
 
 from source.survey.base import BaseSurvey
 
 
 class IntegerQuestion(BaseSurvey):
-    def __init__(self, title: str, signals: dict[str, pyqtSignal] = None):
+    def __init__(
+            self,
+            title: str,
+            default: Optional[int] = None,
+            minimum: Optional[int] = None,
+            maximum: Optional[int] = None,
+            signals: dict[str, pyqtSignal] = None
+    ):
         super().__init__()
 
+        default = default if default is not None else 0
+        minimum = minimum if minimum is not None else 0
+        maximum = maximum if maximum is not None else 100
         self.signals = signals if signals is not None else {}
 
         # set layout
@@ -30,15 +40,18 @@ class IntegerQuestion(BaseSurvey):
 
         # response
         self.entry_response = QSpinBox()
-        self.entry_response.setMinimum(13)
-        self.entry_response.setMaximum(200)
-        self.entry_response.setValue(30)
+        self.entry_response.setMinimum(minimum)
+        self.entry_response.setMaximum(maximum)
+        self.entry_response.setValue(default)
         self._layout.addWidget(self.entry_response)
 
     @classmethod
     def from_dict(cls, data: dict[str, Any], signals: dict[str, pyqtSignal]) -> "IntegerQuestion":
         return cls(
             title=data["title"],
+            default=data.get("default"),
+            minimum=data.get("minimum"),
+            maximum=data.get("maximum"),
             signals=signals,
         )
 

@@ -39,6 +39,8 @@ class SingleChoiceQuestion(BaseSurvey):
             # checking any button allow the user to go to the next step
             self.group_responses.buttonClicked.connect(signals["success"].emit)  # NOQA: connect and emit exists
 
+        self.button_responses_id: dict[QRadioButton, str] = {}
+
         for choice_id, choice_text in choices.items():
             # create a radio button for that choice
             button = QRadioButton()
@@ -48,7 +50,8 @@ class SingleChoiceQuestion(BaseSurvey):
             self._layout_responses.addWidget(button)
 
             # add the button to the group
-            self.group_responses.addButton(button, int(choice_id))
+            self.group_responses.addButton(button)
+            self.button_responses_id[button] = choice_id
 
     @classmethod
     def from_dict(cls, data: dict[str, Any], signals: dict[str, pyqtSignal]) -> "SingleChoiceQuestion":
@@ -61,5 +64,5 @@ class SingleChoiceQuestion(BaseSurvey):
 
     def get_collected_data(self) -> dict:
         return {
-            "choice": self.group_responses.checkedId()
+            "choice": self.button_responses_id[self.group_responses.checkedButton()]
         }
