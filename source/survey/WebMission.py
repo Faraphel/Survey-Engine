@@ -86,6 +86,8 @@ class WebMission(BaseSurvey):
     # events
 
     def eventFilter(self, obj: QObject, event: QEvent) -> bool:
+        # TODO: scroll ?
+
         if obj is self.browser.web.focusProxy() and not self._finished:
             # if the object is the content of the web engine widget
             match event.type():

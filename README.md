@@ -3,7 +3,7 @@
 This is a small engine for the survey created for one of our master projet.  
 It allows for a small survey embedding a web page to track the user input allowing for metrics collection.  
 This run with the [PyQt6](https://www.riverbankcomputing.com/software/pyqt/) and 
-[PyQt6-WebEngine](https://www.riverbankcomputing.com/software/pyqtwebengine/) librairie. 
+[PyQt6-WebEngine](https://www.riverbankcomputing.com/software/pyqtwebengine/) librairies. 
 
 # Installation
 

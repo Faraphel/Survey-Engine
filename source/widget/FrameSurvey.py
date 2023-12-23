@@ -69,6 +69,9 @@ class FrameSurvey(QFrame):
         # progress bar
         self.progress = QProgressBar()
         self._layout.addWidget(self.progress)
+        self.progress.setStyleSheet("QProgressBar::chunk { background-color: #03A9FC; }")
+        self.progress.setTextVisible(False)
+        self.progress.setFixedHeight(8)
 
         # load the survey configuration file
         self.load_file(survey_path)
@@ -111,8 +114,6 @@ class FrameSurvey(QFrame):
 
         # update the progress bar
         self.progress.setMaximum(len(surveys_data["surveys"]))
-        self.progress.setTextVisible(False)
-        self.progress.setFixedHeight(8)
 
     def next_survey(self):
         # get the collected data from the survey
