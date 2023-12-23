@@ -10,7 +10,6 @@ from source import assets_path
 from source.survey.base import BaseSurvey
 from source.widget import Browser
 
-
 page_success_path: Path = assets_path / "web/success.html"
 
 
@@ -170,19 +169,21 @@ class WebMission(BaseSurvey):
         self.timer_check.stop()
 
     def _success(self):
-        if not self._finished:
-            # mark the success in the events
-            self._save_event(type="check")
-
-            # emit on the success signal
-            if "success" in self.signals:
-                self.signals["success"].emit()  # NOQA: emit exist
-
-            # change the content of the page to the success message
-            self.browser.web.load(QUrl.fromLocalFile(str(page_success_path.absolute())))
+        if self._finished:
+            return
 
         # mark the mission as finished
         self._finished = True
+
+        # mark the success in the events
+        self._save_event(type="check")
+
+        # emit on the success signal
+        if "success" in self.signals:
+            self.signals["success"].emit()  # NOQA: emit exist
+
+        # change the content of the page to the success message
+        self.browser.web.load(QUrl.fromLocalFile(str(page_success_path.absolute())))
 
     # condition
 
