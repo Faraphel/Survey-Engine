@@ -1,25 +1,66 @@
 {
   "surveys": {
-    "text-welcome": {
+
+    "welcome": {
       "type": "text",
       "title": "Bienvenue !",
-      "description": "Nous réalisons une étude sur le logiciel Steam afin de déterminer son ergonomie.\nVous serez invité à naviguer sur la plateforme Steam d'une page à l'autre.",
+      "description": "Salut ...",
       "abandonable": true
     },
 
-    "question-usage": {
+    "age": {
+      "type": "question-integer",
+      "title": "Quel est votre âge ?",
+      "default": 30,
+      "minimum": 13,
+      "maximum": 150
+    },
+
+    "usage-steam": {
       "type": "question-single-choice",
-      "title": "A quel point êtes-vous familier avec Steam ?",
+      "title": "Utilisez-vous Steam ?",
       "choices": {
-        "0": "Ne connait pas",
-        "1": "Connait de nom",
-        "2": "Utilisation rare",
-        "3": "Utilisation moyenne",
-        "4": "Utilisation fréquente"
+        "always": "Tout le temps",
+        "often": "Souvent",
+        "sometime": "De temps en temps",
+        "rarely": "Rarement",
+        "never": "Jamais"
       }
     },
 
-    "web-language": {
+    "usage-concurrent": {
+      "type": "question-multiple-choice",
+      "title": "Quel autre plateforme de jeu en ligne utilisez-vous ?",
+      "choices": {
+        "epic": "Epic Games Store",
+        "gog": "GOG",
+        "origin": "Origin",
+        "uplay": "Uplay",
+        "battle": "Battle.net"
+      },
+      "details_choice_enabled": true,
+      "details_choice_id": "other",
+      "details_choice_text": "Autre"
+    },
+
+    "difficulty-before": {
+      "type": "question-single-choice",
+      "title": "Avez-vous déjà rencontré des difficultés particulières lors de votre utilisation de Steam ?",
+      "choices": {
+        "no": "Non"
+      },
+      "details_choice_enabled": true,
+      "details_choice_id": "yes",
+      "details_choice_text": "Oui"
+    },
+
+    "mission-explanation": {
+      "type": "text",
+      "title": "Explication de l'Evaluation",
+      "description": "Vous allez devoir naviguer dans steam ..."
+    },
+
+    "mission-language": {
       "type": "mission-web",
       "title": "Changer la langue en français.",
       "url": "https://steampowered.com/",
@@ -27,18 +68,35 @@
       "skip_time": 60
     },
 
-    "web-point-shop": {
-      "type": "mission-web",
-      "title": "Rendez-vous sur la boutique des points.",
-      "url": "https://steampowered.com/",
-      "check": "true",
-      "skip_time": 90
-    },
-
     "question-experience": {
       "type": "question-text",
       "title": "Qu'avez vous pensé de l'interface de Steam ?"
+    },
+
+    "difficulty-after": {
+      "type": "question-single-choice",
+      "title": "Avez-vous rencontré des difficultés particulières lors de ce test ?",
+      "choices": {
+        "no": "Non"
+      },
+      "details_choice_enabled": true,
+      "details_choice_id": "yes",
+      "details_choice_text": "Oui"
+    },
+
+    "hardest-mission": {
+      "type": "question-single-choice",
+      "title": "Parmi les tâches, laquelle avez-vous trouvée la plus difficile ?",
+      "choices": {
+        "mission-language": "Changer la langue"
+      }
+    },
+
+    "comment": {
+      "type": "question-text",
+      "title": "Vous pouvez laisser un commentaire sur votre ressenti général (optionnel)"
     }
+
   }
 }
 

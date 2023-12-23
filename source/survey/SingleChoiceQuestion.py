@@ -2,14 +2,29 @@ from typing import Any
 
 from PyQt6.QtCore import Qt, pyqtSignal
 from PyQt6.QtGui import QFont
-from PyQt6.QtWidgets import QFrame, QVBoxLayout, QLabel, QRadioButton, QButtonGroup
+from PyQt6.QtWidgets import QFrame, QVBoxLayout, QLabel, QRadioButton, QButtonGroup, QLineEdit, QAbstractButton
 
 from source.survey.base import BaseSurvey
 
 
 class SingleChoiceQuestion(BaseSurvey):
-    def __init__(self, title: str, choices: dict[Any, str], signals: dict[str, pyqtSignal]):
+    def __init__(
+            self,
+            title: str,
+            details_choice_enabled: bool = None,
+            details_choice_id: str = None,
+            details_choice_text: str = None,
+            choices: dict[Any, str] = None,
+            signals: dict[str, pyqtSignal] = None
+    ):
         super().__init__()
+
+        self.details_choice_enabled = details_choice_enabled if details_choice_enabled is not None else None
+        self.details_choice_id = details_choice_id if details_choice_id is not None else None
+        self.details_choice_text = details_choice_text if details_choice_text is not None else None
+
+        choices = choices if choices is not None else {}
+        signals = signals if signals is not None else {}
 
         # set layout
         self._layout = QVBoxLayout()
@@ -39,7 +54,7 @@ class SingleChoiceQuestion(BaseSurvey):
             # checking any button allow the user to go to the next step
             self.group_responses.buttonClicked.connect(signals["success"].emit)  # NOQA: connect and emit exists
 
-        self.button_responses_id: dict[QRadioButton, str] = {}
+        self.button_responses_id: dict[QAbstractButton, str] = {}
 
         for choice_id, choice_text in choices.items():
             # create a radio button for that choice
@@ -53,16 +68,43 @@ class SingleChoiceQuestion(BaseSurvey):
             self.group_responses.addButton(button)
             self.button_responses_id[button] = choice_id
 
+        if self.details_choice_enabled:
+            self.button_response_other = QRadioButton()
+            self._layout_responses.addWidget(self.button_response_other)
+            self.button_responses_id[self.button_response_other] = self.details_choice_id
+
+            self.button_response_other.setText(self.details_choice_text)
+            self.group_responses.addButton(self.button_response_other)
+            self.button_response_other.toggled.connect(self._on_response_other_check)  # NOQA: connect exist
+
+            self.entry_response_other = QLineEdit()
+            self._layout_responses.addWidget(self.entry_response_other)
+            self.entry_response_other.setEnabled(False)
+
     @classmethod
     def from_dict(cls, data: dict[str, Any], signals: dict[str, pyqtSignal]) -> "SingleChoiceQuestion":
         return cls(
             title=data["title"],
             choices=data["choices"],
+            details_choice_enabled=data.get("details_choice_enabled"),
+            details_choice_id=data.get("details_choice_id"),
+            details_choice_text=data.get("details_choice_text"),
 
             signals=signals,
         )
 
     def get_collected_data(self) -> dict:
-        return {
-            "choice": self.button_responses_id[self.group_responses.checkedButton()]
+        checked_button = self.group_responses.checkedButton()
+
+        collected_data = {
+            "choice": self.button_responses_id[checked_button] if checked_button is not None else None,
         }
+
+        if self.details_choice_enabled:
+            collected_data["other"] = self.entry_response_other.text()
+
+        return collected_data
+
+    def _on_response_other_check(self):
+        # refresh the other entry response status
+        self.entry_response_other.setEnabled(self.button_response_other.isChecked())

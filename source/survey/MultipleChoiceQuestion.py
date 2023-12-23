@@ -12,12 +12,16 @@ class MultipleChoiceQuestion(BaseSurvey):
             self,
             title: str,
             choices: dict[Any, str],
-            other_choice: bool = None,
+            details_choice_enabled: bool = None,
+            details_choice_id: str = None,
+            details_choice_text: str = None,
             signals: dict[str, pyqtSignal] = None
     ):
         super().__init__()
 
-        self.other_choice = other_choice if other_choice is not None else None
+        self.details_choice_enabled = details_choice_enabled if details_choice_enabled is not None else None
+        self.details_choice_id = details_choice_id if details_choice_id is not None else None
+        self.details_choice_text = details_choice_text if details_choice_text is not None else None
         self.signals = signals if signals is not None else {}
 
         # set layout
@@ -55,11 +59,11 @@ class MultipleChoiceQuestion(BaseSurvey):
             # save the button
             self.button_responses[choice_id] = button
 
-        if self.other_choice:
+        if self.details_choice_enabled:
             self.button_response_other = QCheckBox()
             self._layout_responses.addWidget(self.button_response_other)
-            self.button_response_other.setText("Autre")
-            self.button_response_other.clicked.connect(self._on_response_other_check)  # NOQA: connect exist
+            self.button_response_other.setText(self.details_choice_text)
+            self.button_response_other.toggled.connect(self._on_response_other_check)  # NOQA: connect exist
 
             self.entry_response_other = QLineEdit()
             self._layout_responses.addWidget(self.entry_response_other)
@@ -70,7 +74,9 @@ class MultipleChoiceQuestion(BaseSurvey):
         return cls(
             title=data["title"],
             choices=data["choices"],
-            other_choice=data.get("other_choice"),
+            details_choice_enabled=data.get("details_choice_enabled"),
+            details_choice_id=data.get("details_choice_id"),
+            details_choice_text=data.get("details_choice_text"),
 
             signals=signals,
         )
@@ -85,10 +91,16 @@ class MultipleChoiceQuestion(BaseSurvey):
         self.entry_response_other.setEnabled(self.button_response_other.isChecked())
 
     def get_collected_data(self) -> dict:
-        return {
-            "choice": {choice_id: button.isChecked() for choice_id, button in self.button_responses.items()},
-            "other": (
-                self.entry_response_other.text() if self.other_choice and self.button_response_other.isChecked()
-                else None
-            )
+        collected_data = {
+            "choice": [
+                choice_id
+                for choice_id, button in self.button_responses.items()
+                if button.isChecked()
+            ]
         }
+
+        if self.details_choice_enabled:
+            collected_data["choice"].append(self.details_choice_id)
+            collected_data["other"] = self.entry_response_other.text()
+
+        return collected_data
