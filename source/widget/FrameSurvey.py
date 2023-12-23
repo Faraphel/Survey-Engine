@@ -4,7 +4,7 @@ import uuid
 from pathlib import Path
 
 from PyQt6.QtCore import pyqtSignal
-from PyQt6.QtWidgets import QFrame, QVBoxLayout, QHBoxLayout, QPushButton
+from PyQt6.QtWidgets import QFrame, QVBoxLayout, QHBoxLayout, QPushButton, QProgressBar
 
 from source.survey.base import BaseSurvey
 from source.survey import Empty, survey_get
@@ -66,6 +66,10 @@ class FrameSurvey(QFrame):
         self.button_forward.setText("Suivant")
         self.button_forward.clicked.connect(self.next_survey)  # NOQA: connect exist
 
+        # progress bar
+        self.progress = QProgressBar()
+        self._layout.addWidget(self.progress)
+
         # load the survey configuration file
         self.load_file(survey_path)
 
@@ -105,6 +109,11 @@ class FrameSurvey(QFrame):
         ]
         self.current_survey_index = 0
 
+        # update the progress bar
+        self.progress.setMaximum(len(surveys_data["surveys"]))
+        self.progress.setTextVisible(False)
+        self.progress.setFixedHeight(8)
+
     def next_survey(self):
         # get the collected data from the survey
         collected_data = self.frame_survey.get_collected_data()
@@ -115,6 +124,7 @@ class FrameSurvey(QFrame):
             self.collected_datas["surveys"][survey_id] = collected_data
 
         self.current_survey_index += 1
+        self.progress.setValue(self.current_survey_index)
 
         if self.current_survey_index < len(self.survey_screens):
             self.update_survey()
