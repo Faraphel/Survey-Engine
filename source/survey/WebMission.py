@@ -163,7 +163,7 @@ class WebMission(BaseSurvey):
 
     def on_hide(self) -> None:
         # disable full screen mode
-        self.window().showMinimized()
+        self.window().showNormal()
 
         # stop the checking loop
         self.timer_check.stop()
