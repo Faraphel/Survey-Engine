@@ -1,41 +1,48 @@
 {
-  "text-welcome": {
-    "type": "text",
-    "title": "Bienvenue !",
-    "description": "Nous réalisons une étude sur le logiciel Steam afin de déterminer son ergonomie.\nVous serez invité à naviguer sur la plateforme Steam d'une page à l'autre.",
-    "abandonable": true
-  },
+  "name": "steam-navigation",
+  "collected_data_url": "http://127.0.0.1:8000/rest/university/recherche/survey/",
 
-  "question-usage": {
-    "type": "question-choice",
-    "title": "A quel point êtes-vous familier avec Steam ?",
-    "choices": {
-      "0": "Ne connait pas",
-      "1": "Connait de nom",
-      "2": "Utilisation rare",
-      "3": "Utilisation moyenne",
-      "4": "Utilisation fréquente"
+  "surveys": {
+    "text-welcome": {
+      "type": "text",
+      "title": "Bienvenue !",
+      "description": "Nous réalisons une étude sur le logiciel Steam afin de déterminer son ergonomie.\nVous serez invité à naviguer sur la plateforme Steam d'une page à l'autre.",
+      "abandonable": true
+    },
+
+    "question-usage": {
+      "type": "question-choice",
+      "title": "A quel point êtes-vous familier avec Steam ?",
+      "choices": {
+        "0": "Ne connait pas",
+        "1": "Connait de nom",
+        "2": "Utilisation rare",
+        "3": "Utilisation moyenne",
+        "4": "Utilisation fréquente"
+      }
+    },
+
+    "web-language": {
+      "type": "mission-web",
+      "title": "Changer la langue en français.",
+      "url": "https://steampowered.com/",
+      "check": "document.getElementsByTagName('html')[0].lang == 'fr'",
+      "skip_time": 60
+    },
+
+    "web-point-shop": {
+      "type": "mission-web",
+      "title": "Rendez-vous sur la boutique des points.",
+      "url": "https://steampowered.com/",
+      "check": "true",
+      "skip_time": 90
+    },
+
+    "question-experience": {
+      "type": "question-text",
+      "title": "Qu'avez vous pensé de l'interface de Steam ?"
     }
-  },
-
-  "web-language": {
-    "type": "mission-web",
-    "title": "Changer la langue en français.",
-    "url": "https://steampowered.com/",
-    "check": "document.getElementsByTagName('html')[0].lang == 'fr'",
-    "skip_time": 60
-  },
-
-  "web-point-shop": {
-    "type": "mission-web",
-    "title": "Rendez-vous sur la boutique des points.",
-    "url": "https://steampowered.com/",
-    "check": "true",
-    "skip_time": 90
-  },
-
-  "question-experience": {
-    "type": "question-text",
-    "title": "Qu'avez vous pensé de l'interface de Steam ?"
   }
 }
+
+

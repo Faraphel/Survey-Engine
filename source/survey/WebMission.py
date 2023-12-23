@@ -96,7 +96,7 @@ class WebMission(BaseSurvey):
 
                     self._save_event(
                         type="mouse_move",
-                        position=(position.x(), position.y()),
+                        position=[position.x(), position.y()],
                     )
 
                 case QEvent.Type.MouseButtonPress:
@@ -106,8 +106,8 @@ class WebMission(BaseSurvey):
 
                     self._save_event(
                         type="mouse_press",
-                        position=(position.x(), position.y()),
-                        button=event.button(),
+                        position=[position.x(), position.y()],
+                        button=event.button().value,
                     )
 
                 case QEvent.Type.MouseButtonRelease:
@@ -117,8 +117,8 @@ class WebMission(BaseSurvey):
 
                     self._save_event(
                         type="mouse_release",
-                        position=(position.x(), position.y()),
-                        button=event.button(),
+                        position=[position.x(), position.y()],
+                        button=event.button().value,
                     )
 
                 case QEvent.Type.MouseButtonDblClick:
@@ -128,7 +128,7 @@ class WebMission(BaseSurvey):
 
                     self._save_event(
                         type="mouse_double_click",
-                        position=(position.x(), position.y()),
+                        position=[position.x(), position.y()],
                     )
 
                 case QEvent.Type.KeyPress:
@@ -156,7 +156,7 @@ class WebMission(BaseSurvey):
 
                     self._save_event(
                         type="resize",
-                        size=(size.width(), size.height()),
+                        size=[size.width(), size.height()],
                     )
 
         return super().eventFilter(obj, event)
@@ -197,15 +197,15 @@ class WebMission(BaseSurvey):
         if self._finished:
             return
 
-        # mark the mission as finished
-        self._finished = True
-
         # mark the success in the events
         self._save_event(type="check")
 
         # emit on the success signal
         if "success" in self.signals:
             self.signals["success"].emit()  # NOQA: emit exist
+
+        # mark the mission as finished
+        self._finished = True
 
         # change the content of the page to the success message
         self.browser.web.load(QUrl.fromLocalFile(str(page_success_path.absolute())))
@@ -232,6 +232,10 @@ class WebMission(BaseSurvey):
     # data collection
 
     def _save_event(self, **data) -> None:
+        # if the mission is already finished, ignore
+        if self._finished:
+            return
+
         # save the data of the event and add the current time
         data["time"] = round(time.time() - self.start_time, 3)
         self._collected_events.append(data)

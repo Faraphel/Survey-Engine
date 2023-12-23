@@ -1,4 +1,6 @@
 import json
+import time
+import uuid
 from pathlib import Path
 
 from PyQt6.QtCore import pyqtSignal
@@ -6,6 +8,10 @@ from PyQt6.QtWidgets import QFrame, QVBoxLayout, QHBoxLayout, QPushButton
 
 from source.survey.base import BaseSurvey
 from source.survey import Empty, survey_get
+
+
+result_path = Path("./result/")
+result_path.mkdir(parents=True, exist_ok=True)
 
 
 class FrameSurvey(QFrame):
@@ -22,12 +28,12 @@ class FrameSurvey(QFrame):
         self.signal_skip.connect(self._on_signal_skip)  # NOQA: connect exist
         self.signal_success.connect(self._on_signal_success)  # NOQA: connect exist
 
-        # prepare the survey screen data
+        # prepare the survey collected data
+        self.survey_name = None
+        self.collected_data_url = None
+        self.collected_datas: dict[str, dict] = {"time": time.time(), "surveys": {}}
         self.survey_screens: list[tuple[str, BaseSurvey]] = []
         self.current_survey_index = 0
-
-        # prepare the survey collected data
-        self.collected_datas: dict[str, dict] = {}
 
         # set the layout
         self._layout = QVBoxLayout()
@@ -85,6 +91,9 @@ class FrameSurvey(QFrame):
         with open(survey_path, encoding="utf-8") as file:
             surveys_data = json.load(file)
 
+        self.survey_name = surveys_data.get("name")
+        self.collected_data_url = surveys_data.get("collected_data_url")
+
         self.survey_screens = [
             (
                 survey_id,
@@ -97,7 +106,7 @@ class FrameSurvey(QFrame):
                     }
                 )
             )
-            for survey_id, survey_data in surveys_data.items()
+            for survey_id, survey_data in surveys_data["surveys"].items()
         ]
         self.current_survey_index = 0
 
@@ -108,7 +117,7 @@ class FrameSurvey(QFrame):
             # if there is data, get the current survey id
             survey_id, survey = self.survey_screens[self.current_survey_index]
             # save the response in the data
-            self.collected_datas[survey_id] = collected_data
+            self.collected_datas["surveys"][survey_id] = collected_data
 
         self.current_survey_index += 1
 
@@ -139,10 +148,11 @@ class FrameSurvey(QFrame):
         old_frame_survey.deleteLater()
 
     def finish_survey(self):
-        # TODO: send the collected data as a file somewhere
-        print(self.collected_datas)
+        # save the result in a json file
+        with open(result_path / f"{uuid.uuid4()}.json", "w", encoding="utf-8") as file:
+            json.dump(self.collected_datas, file, ensure_ascii=False)
 
-        self.window().close()
+        self.quit()
 
     def quit(self):
         # quit the application by closing and deleting the window
