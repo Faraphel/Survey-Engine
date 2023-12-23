@@ -2,7 +2,7 @@ from typing import Type
 
 from PyQt6.QtCore import pyqtSignal
 
-from . import Text, ChoiceQuestion, WebMission, Empty, TextQuestion
+from . import Text, SingleChoiceQuestion, MultipleChoiceQuestion, WebMission, Empty, TextQuestion, IntegerQuestion
 from .base import BaseSurvey
 
 
@@ -11,8 +11,10 @@ all_survey: dict[str, Type[BaseSurvey]] = {
     "empty": Empty,
     "text": Text,
     # questions
-    "question-choice": ChoiceQuestion,
+    "question-single-choice": SingleChoiceQuestion,
+    "question-multiple-choice": MultipleChoiceQuestion,
     "question-text": TextQuestion,
+    "question-integer": IntegerQuestion,
     # missions
     "mission-web": WebMission,
 }

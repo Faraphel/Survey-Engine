@@ -1,7 +1,4 @@
 {
-  "name": "steam-navigation",
-  "collected_data_url": "http://127.0.0.1:8000/rest/university/recherche/survey/",
-
   "surveys": {
     "text-welcome": {
       "type": "text",
@@ -11,7 +8,7 @@
     },
 
     "question-usage": {
-      "type": "question-choice",
+      "type": "question-single-choice",
       "title": "A quel point êtes-vous familier avec Steam ?",
       "choices": {
         "0": "Ne connait pas",

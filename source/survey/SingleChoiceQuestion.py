@@ -7,7 +7,7 @@ from PyQt6.QtWidgets import QFrame, QVBoxLayout, QLabel, QRadioButton, QButtonGr
 from source.survey.base import BaseSurvey
 
 
-class ChoiceQuestion(BaseSurvey):
+class SingleChoiceQuestion(BaseSurvey):
     def __init__(self, title: str, choices: dict[Any, str], signals: dict[str, pyqtSignal]):
         super().__init__()
 
@@ -51,7 +51,7 @@ class ChoiceQuestion(BaseSurvey):
             self.group_responses.addButton(button, int(choice_id))
 
     @classmethod
-    def from_dict(cls, data: dict[str, Any], signals: dict[str, pyqtSignal]) -> "ChoiceQuestion":
+    def from_dict(cls, data: dict[str, Any], signals: dict[str, pyqtSignal]) -> "SingleChoiceQuestion":
         return cls(
             title=data["title"],
             choices=data["choices"],

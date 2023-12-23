@@ -29,8 +29,6 @@ class FrameSurvey(QFrame):
         self.signal_success.connect(self._on_signal_success)  # NOQA: connect exist
 
         # prepare the survey collected data
-        self.survey_name = None
-        self.collected_data_url = None
         self.collected_datas: dict[str, dict] = {"time": time.time(), "surveys": {}}
         self.survey_screens: list[tuple[str, BaseSurvey]] = []
         self.current_survey_index = 0
@@ -90,9 +88,6 @@ class FrameSurvey(QFrame):
         # load the surveys screens
         with open(survey_path, encoding="utf-8") as file:
             surveys_data = json.load(file)
-
-        self.survey_name = surveys_data.get("name")
-        self.collected_data_url = surveys_data.get("collected_data_url")
 
         self.survey_screens = [
             (
