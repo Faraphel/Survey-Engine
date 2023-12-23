@@ -2,7 +2,7 @@ import time
 from typing import Optional, Any
 
 from PyQt6.QtCore import Qt, QTimer, pyqtSignal, QUrl, QEvent, QObject
-from PyQt6.QtGui import QFont, QMouseEvent, QResizeEvent
+from PyQt6.QtGui import QFont, QMouseEvent, QResizeEvent, QKeyEvent
 from PyQt6.QtWidgets import QLabel, QVBoxLayout, QSizePolicy
 
 from source.survey.base import BaseSurvey
@@ -73,7 +73,7 @@ class WebMission(BaseSurvey):
 
                     self._save_event(
                         type="mouse_move",
-                        position=(position.x(), position.y())
+                        position=(position.x(), position.y()),
                     )
 
                 case QEvent.Type.MouseButtonPress:
@@ -108,6 +108,24 @@ class WebMission(BaseSurvey):
                         position=(position.x(), position.y()),
                     )
 
+                case QEvent.Type.KeyPress:
+                    # when the keyboard is pressed
+                    event: QKeyEvent
+
+                    self._save_event(
+                        type="keyboard_press",
+                        key=event.key(),
+                    )
+
+                case QEvent.Type.KeyRelease:
+                    # when the keyboard is released
+                    event: QKeyEvent
+
+                    self._save_event(
+                        type="keyboard_release",
+                        key=event.key(),
+                    )
+
                 case QEvent.Type.Resize:
                     # if the window got resized
                     event: QResizeEvent
@@ -127,6 +145,9 @@ class WebMission(BaseSurvey):
         # set the web view to the default url
         self.browser.web.setUrl(QUrl(self.default_url))
 
+        # enable the full screen mode
+        self.window().showFullScreen()
+
         if self.check_condition is not None:
             # enable the timer
             self.timer_check.start()
@@ -135,6 +156,10 @@ class WebMission(BaseSurvey):
             self._success()  # call directly the success method
 
     def on_hide(self) -> None:
+        # disable full screen mode
+        self.window().showMinimized()
+
+        # stop the checking loop
         self.timer_check.stop()
 
     def _success(self):
