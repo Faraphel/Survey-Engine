@@ -10,12 +10,15 @@ from source.survey import Empty, survey_get
 
 class FrameSurvey(QFrame):
     signal_success = pyqtSignal()
+    signal_abandon = pyqtSignal()
 
     def __init__(self, survey_path: Path | str):
+        # TODO: translation support
         super().__init__()
 
         # signals
         self.signal_success.connect(self._on_signal_success)  # NOQA: connect exist
+        self.signal_abandon.connect(self._on_signal_abandon)  # NOQA: connect exist
 
         # prepare the survey screen data
         self.survey_screens: list[tuple[str, BaseSurvey]] = []
@@ -39,7 +42,13 @@ class FrameSurvey(QFrame):
         self._layout_navigation = QHBoxLayout()
         self.frame_navigation.setLayout(self._layout_navigation)
 
-        self._layout_navigation.addStretch(0)
+        self._layout_navigation.addStretch(0)  # add a stretch to put the buttons on the right
+
+        self.button_abandon = QPushButton()
+        self._layout_navigation.addWidget(self.button_abandon)
+        self.button_abandon.setText("Abandonner")
+        self.button_abandon.setStyleSheet("QPushButton { color : red; }")
+        self.button_abandon.clicked.connect(self.quit)  # NOQA: connect exist
 
         self.button_forward = QPushButton()
         self._layout_navigation.addWidget(self.button_forward)
@@ -56,6 +65,10 @@ class FrameSurvey(QFrame):
         # on success, show the button to go forward
         self.button_forward.show()
 
+    def _on_signal_abandon(self):
+        # on success, show the button to give up
+        self.button_abandon.show()
+
     def load_file(self, survey_path: Path | str):
         # load the surveys screens
         with open(survey_path, encoding="utf-8") as file:
@@ -66,7 +79,10 @@ class FrameSurvey(QFrame):
                 survey_id,
                 survey_get(
                     survey_data,
-                    signals={"success": self.signal_success}
+                    signals={
+                        "success": self.signal_success,
+                        "abandon": self.signal_abandon,
+                    }
                 )
             )
             for survey_id, survey_data in surveys_data.items()
@@ -82,8 +98,6 @@ class FrameSurvey(QFrame):
             # save the response in the data
             self.collected_datas[survey_id] = collected_data
 
-            print(collected_data)
-
         self.current_survey_index += 1
 
         if self.current_survey_index < len(self.survey_screens):
@@ -92,7 +106,8 @@ class FrameSurvey(QFrame):
             self.finish_survey()
 
     def update_survey(self):
-        # disable the forward button
+        # disable the buttons
+        self.button_abandon.hide()
         self.button_forward.hide()
 
         # mark the actual survey as the old one
@@ -115,3 +130,8 @@ class FrameSurvey(QFrame):
         print(self.collected_datas)
 
         self.window().close()
+
+    def quit(self):
+        # quit the application by closing and deleting the window
+        self.window().close()
+        self.window().deleteLater()

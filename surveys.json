@@ -2,7 +2,8 @@
   "text-welcome": {
     "type": "text",
     "title": "Bienvenue !",
-    "description": "Nous réalisons une étude sur le logiciel Steam afin de déterminer son ergonomie.\nVous serez invité à naviguer sur la plateforme Steam d'une page à l'autre."
+    "description": "Nous réalisons une étude sur le logiciel Steam afin de déterminer son ergonomie.\nVous serez invité à naviguer sur la plateforme Steam d'une page à l'autre.",
+    "abandonable": true
   },
 
   "question-usage": {

@@ -8,10 +8,17 @@ from source.survey.base import BaseSurvey
 
 
 class Text(BaseSurvey):
-    def __init__(self, title: str, description: Optional[str], signals: dict[str, pyqtSignal]):
+    def __init__(
+            self,
+            title: str,
+            description: Optional[str],
+            abandonable: bool = None,
+            signals: dict[str, pyqtSignal] = None
+    ):
         super().__init__()
 
-        self.signals = signals
+        self.abandonable = abandonable if abandonable is not None else False
+        self.signals = signals if signals is not None else {}
 
         # set the layout
         self._layout = QVBoxLayout()
@@ -40,6 +47,7 @@ class Text(BaseSurvey):
         return cls(
             title=data["title"],
             description=data.get("description"),
+            abandonable=data.get("abandonable", False),
 
             signals=signals
         )
@@ -49,4 +57,6 @@ class Text(BaseSurvey):
             # the user can skip a text whenever he wants to, directly signal a success
             self.signals["success"].emit()  # NOQA: emit exist
 
-
+        # if abandon is enabled, emit on the corresponding signal
+        if self.abandonable and "abandon" in self.signals:
+            self.signals["abandon"].emit()  # NOQA: emit exist

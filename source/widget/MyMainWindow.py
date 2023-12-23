@@ -12,4 +12,6 @@ class MyMainWindow(QMainWindow):
         super().__init__()
 
         self.setWindowIcon(QIcon(str(icon_path.resolve())))
+        self.setWindowTitle("Sondage - Steam")
+
         self.setCentralWidget(widget.FrameSurvey("./surveys.json"))

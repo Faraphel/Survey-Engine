@@ -15,6 +15,7 @@ page_success_path: Path = assets_path / "web/success.html"
 
 class WebMission(BaseSurvey):
     def __init__(self, title: str, url: str, signals: dict[str, pyqtSignal], check_condition: Optional[str] = None):
+        # TODO: timeout
         super().__init__()
 
         self.check_condition = check_condition
@@ -53,7 +54,7 @@ class WebMission(BaseSurvey):
         # setup the timer for the check
         if self.check_condition is not None:
             self.timer_check = QTimer()
-            self.timer_check.setInterval(1000)
+            self.timer_check.setInterval(100)
             self.timer_check.timeout.connect(self.check)  # NOQA: connect exist
 
     @classmethod
@@ -72,6 +73,8 @@ class WebMission(BaseSurvey):
         if obj is self.browser.web.focusProxy() and not self._finished:
             # if the object is the content of the web engine widget
             match event.type():
+                # TODO: record back and forward and reload
+
                 case QEvent.Type.MouseMove:
                     # if this is a mouse movement
                     event: QMouseEvent

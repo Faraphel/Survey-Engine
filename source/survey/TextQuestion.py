@@ -2,16 +2,16 @@ from typing import Any
 
 from PyQt6.QtCore import Qt, pyqtSignal
 from PyQt6.QtGui import QFont
-from PyQt6.QtWidgets import QFrame, QVBoxLayout, QLabel, QRadioButton, QButtonGroup, QTextEdit
+from PyQt6.QtWidgets import QVBoxLayout, QLabel, QTextEdit
 
 from source.survey.base import BaseSurvey
 
 
 class TextQuestion(BaseSurvey):
-    def __init__(self, title: str, signals: dict[str, pyqtSignal]):
+    def __init__(self, title: str, signals: dict[str, pyqtSignal] = None):
         super().__init__()
 
-        self.signals = signals
+        self.signals = signals if signals is not None else {}
 
         # set layout
         self._layout = QVBoxLayout()
