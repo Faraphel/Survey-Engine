@@ -1,7 +1,6 @@
 from typing import Optional
 
-from PyQt6.QtCore import QUrl, QObject, QEvent
-from PyQt6.QtGui import QMouseEvent
+from PyQt6.QtCore import QUrl
 from PyQt6.QtWebEngineWidgets import QWebEngineView
 from PyQt6.QtWidgets import QVBoxLayout, QWidget, QProgressBar, QStyle, QToolBar
 

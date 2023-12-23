@@ -1,12 +1,17 @@
 import time
+from pathlib import Path
 from typing import Optional, Any
 
 from PyQt6.QtCore import Qt, QTimer, pyqtSignal, QUrl, QEvent, QObject
 from PyQt6.QtGui import QFont, QMouseEvent, QResizeEvent, QKeyEvent
 from PyQt6.QtWidgets import QLabel, QVBoxLayout, QSizePolicy
 
+from source import assets_path
 from source.survey.base import BaseSurvey
 from source.widget import Browser
+
+
+page_success_path: Path = assets_path / "web/success.html"
 
 
 class WebMission(BaseSurvey):
@@ -16,6 +21,8 @@ class WebMission(BaseSurvey):
         self.check_condition = check_condition
         self.default_url = url
         self.signals = signals if signals is not None else {}
+
+        self._finished = False
 
         # set layout
         self._layout = QVBoxLayout()
@@ -63,7 +70,7 @@ class WebMission(BaseSurvey):
     # events
 
     def eventFilter(self, obj: QObject, event: QEvent) -> bool:
-        if obj is self.browser.web.focusProxy():
+        if obj is self.browser.web.focusProxy() and not self._finished:
             # if the object is the content of the web engine widget
             match event.type():
                 case QEvent.Type.MouseMove:
@@ -163,14 +170,19 @@ class WebMission(BaseSurvey):
         self.timer_check.stop()
 
     def _success(self):
-        # TODO: animation or notification to clearly mark mission as succeeded
+        if not self._finished:
+            # mark the success in the events
+            self._save_event(type="check")
 
-        # mark the success in the events
-        self._save_event(type="check")
+            # emit on the success signal
+            if "success" in self.signals:
+                self.signals["success"].emit()  # NOQA: emit exist
 
-        # emit on the success signal
-        if "success" in self.signals:
-            self.signals["success"].emit()  # NOQA: emit exist
+            # change the content of the page to the success message
+            self.browser.web.load(QUrl.fromLocalFile(str(page_success_path.absolute())))
+
+        # mark the mission as finished
+        self._finished = True
 
     # condition
 
