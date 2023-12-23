@@ -89,8 +89,6 @@ class WebMission(BaseSurvey):
         if obj is self.browser.web.focusProxy() and not self._finished:
             # if the object is the content of the web engine widget
             match event.type():
-                # TODO: record back and forward and reload
-
                 case QEvent.Type.MouseMove:
                     # if this is a mouse movement
                     event: QMouseEvent
