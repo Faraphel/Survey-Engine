@@ -9,16 +9,18 @@ from source.survey import Empty, survey_get
 
 
 class FrameSurvey(QFrame):
-    signal_success = pyqtSignal()
     signal_abandon = pyqtSignal()
+    signal_skip = pyqtSignal()
+    signal_success = pyqtSignal()
 
     def __init__(self, survey_path: Path | str):
         # TODO: translation support
         super().__init__()
 
         # signals
-        self.signal_success.connect(self._on_signal_success)  # NOQA: connect exist
         self.signal_abandon.connect(self._on_signal_abandon)  # NOQA: connect exist
+        self.signal_skip.connect(self._on_signal_skip)  # NOQA: connect exist
+        self.signal_success.connect(self._on_signal_success)  # NOQA: connect exist
 
         # prepare the survey screen data
         self.survey_screens: list[tuple[str, BaseSurvey]] = []
@@ -50,6 +52,11 @@ class FrameSurvey(QFrame):
         self.button_abandon.setStyleSheet("QPushButton { color : red; }")
         self.button_abandon.clicked.connect(self.quit)  # NOQA: connect exist
 
+        self.button_skip = QPushButton()
+        self._layout_navigation.addWidget(self.button_skip)
+        self.button_skip.setText("Passer")
+        self.button_skip.clicked.connect(self.next_survey)  # NOQA: connect exist
+
         self.button_forward = QPushButton()
         self._layout_navigation.addWidget(self.button_forward)
         self.button_forward.setText("Suivant")
@@ -61,13 +68,17 @@ class FrameSurvey(QFrame):
         # finalize the initialisation
         self.update_survey()
 
-    def _on_signal_success(self):
-        # on success, show the button to go forward
-        self.button_forward.show()
-
     def _on_signal_abandon(self):
         # on success, show the button to give up
         self.button_abandon.show()
+
+    def _on_signal_skip(self):
+        # on success, show the button to skip
+        self.button_skip.show()
+
+    def _on_signal_success(self):
+        # on success, show the button to go forward
+        self.button_forward.show()
 
     def load_file(self, survey_path: Path | str):
         # load the surveys screens
@@ -80,8 +91,9 @@ class FrameSurvey(QFrame):
                 survey_get(
                     survey_data,
                     signals={
-                        "success": self.signal_success,
                         "abandon": self.signal_abandon,
+                        "skip": self.signal_skip,
+                        "success": self.signal_success,
                     }
                 )
             )
@@ -108,6 +120,7 @@ class FrameSurvey(QFrame):
     def update_survey(self):
         # disable the buttons
         self.button_abandon.hide()
+        self.button_skip.hide()
         self.button_forward.hide()
 
         # mark the actual survey as the old one

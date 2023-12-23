@@ -47,7 +47,7 @@ class Text(BaseSurvey):
         return cls(
             title=data["title"],
             description=data.get("description"),
-            abandonable=data.get("abandonable", False),
+            abandonable=data.get("abandonable"),
 
             signals=signals
         )

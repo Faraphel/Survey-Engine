@@ -22,14 +22,16 @@
     "type": "mission-web",
     "title": "Changer la langue en français.",
     "url": "https://steampowered.com/",
-    "check": "document.getElementsByTagName('html')[0].lang == 'fr'"
+    "check": "document.getElementsByTagName('html')[0].lang == 'fr'",
+    "skip_time": 60
   },
 
   "web-point-shop": {
     "type": "mission-web",
     "title": "Rendez-vous sur la boutique des points.",
     "url": "https://steampowered.com/",
-    "check": "true"
+    "check": "true",
+    "skip_time": 90
   },
 
   "question-experience": {

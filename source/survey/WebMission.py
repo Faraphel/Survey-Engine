@@ -14,12 +14,19 @@ page_success_path: Path = assets_path / "web/success.html"
 
 
 class WebMission(BaseSurvey):
-    def __init__(self, title: str, url: str, signals: dict[str, pyqtSignal], check_condition: Optional[str] = None):
-        # TODO: timeout
+    def __init__(
+            self,
+            title: str,
+            url: str,
+            check_condition: Optional[str] = None,
+            skip_time: Optional[float] = None,
+            signals: dict[str, pyqtSignal] = None
+    ):
         super().__init__()
 
         self.check_condition = check_condition
         self.default_url = url
+        self.skip_time = skip_time
         self.signals = signals if signals is not None else {}
 
         self._finished = False
@@ -52,10 +59,18 @@ class WebMission(BaseSurvey):
         self.browser.web.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
 
         # setup the timer for the check
+        self.timer_check = None
         if self.check_condition is not None:
             self.timer_check = QTimer()
             self.timer_check.setInterval(100)
             self.timer_check.timeout.connect(self.check)  # NOQA: connect exist
+
+        # setup the timer for skipping the mission
+        self.timer_skip = None
+        if self.skip_time is not None:
+            self.timer_skip = QTimer()
+            self.timer_skip.setInterval(self.skip_time * 1000)
+            self.timer_skip.timeout.connect(self._on_time_skip)  # NOQA: connect exist
 
     @classmethod
     def from_dict(cls, data: dict[str, Any], signals: dict[str, pyqtSignal]) -> "WebMission":
@@ -63,6 +78,7 @@ class WebMission(BaseSurvey):
             title=data["title"],
             url=data.get("url"),
             check_condition=data.get("check"),
+            skip_time=data.get("skip_time"),
 
             signals=signals
         )
@@ -157,19 +173,27 @@ class WebMission(BaseSurvey):
         # enable the full screen mode
         self.window().showFullScreen()
 
-        if self.check_condition is not None:
+        if self.timer_check is not None:
             # enable the timer
             self.timer_check.start()
-
         else:
             self._success()  # call directly the success method
+
+        if self.timer_skip is not None:
+            # enable the timer for skipping the question
+            self.timer_skip.start()
 
     def on_hide(self) -> None:
         # disable full screen mode
         self.window().showNormal()
 
-        # stop the checking loop
-        self.timer_check.stop()
+        # stop the checking loop timer
+        if self.timer_check is not None:
+            self.timer_check.stop()
+
+        # stop the timer skip
+        if self.timer_skip is not None:
+            self.timer_skip.stop()
 
     def _success(self):
         if self._finished:
@@ -187,6 +211,11 @@ class WebMission(BaseSurvey):
 
         # change the content of the page to the success message
         self.browser.web.load(QUrl.fromLocalFile(str(page_success_path.absolute())))
+
+    def _on_time_skip(self):
+        # when the timer to allow skip have run out
+        if "skip" in self.signals:
+            self.signals["skip"].emit()  # NOQA: emit exist
 
     # condition
 
