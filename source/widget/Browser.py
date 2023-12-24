@@ -1,6 +1,7 @@
 from typing import Optional
 
 from PyQt6.QtCore import QUrl
+from PyQt6.QtWebEngineCore import QWebEngineNewWindowRequest
 from PyQt6.QtWebEngineWidgets import QWebEngineView
 from PyQt6.QtWidgets import QVBoxLayout, QWidget, QProgressBar, QStyle, QToolBar
 
@@ -60,6 +61,8 @@ class Browser(QWidget):
         self._action_reload.triggered.connect(self.web.reload)  # NOQA: connect exist
         self._action_forward.triggered.connect(self.web.forward)  # NOQA: connect exist
 
+        self.web.page().newWindowRequested.connect(self._on_web_new_window_request)  # NOQA: connect exist
+
         # finalize the initialisation
         self.refresh_navigation_actions()
 
@@ -85,3 +88,8 @@ class Browser(QWidget):
         # enable the navigation button depending on the history
         self._action_back.setEnabled(history.canGoBack())
         self._action_forward.setEnabled(history.canGoForward())
+
+    def _on_web_new_window_request(self, request: QWebEngineNewWindowRequest):
+        # by default, the WebEngineView will ignore new window request
+        # instead the link that should be in a new window will be opened in the current one
+        self.web.setUrl(request.requestedUrl())
