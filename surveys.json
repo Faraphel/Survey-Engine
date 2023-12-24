@@ -85,7 +85,7 @@
 
     "mission-community-hub": {
       "type": "mission-web",
-      "title": "Rendez-vous sur le Hub de la Communauté du jeu \",Stray\".",
+      "title": "Rendez-vous sur le Hub de la Communauté du jeu \"Stray\".",
       "url": "https://store.steampowered.com/",
       "check": "document.documentURI == 'https://steamcommunity.com/app/1332010'",
       "skip_time": 90
@@ -125,7 +125,7 @@
 
     "mission-game-discussion": {
       "type": "mission-web",
-      "title": "Trouver la page de Discussions du jeu \"Sid Meier's Civilization V\".",
+      "title": "Trouver la page de discussions du jeu \"Sid Meier's Civilization V\".",
       "url": "https://store.steampowered.com/",
       "check": "document.documentURI == 'https://steamcommunity.com/app/8930/discussions/'",
       "skip_time": 180
@@ -152,7 +152,16 @@
       "type": "question-single-choice",
       "title": "Parmi les tâches, laquelle avez-vous trouvée la plus difficile ?",
       "choices": {
-        "mission-language": "Changer la langue"
+        "mission-language": "Changer la langue",
+        "mission-price": "Filtrer les jeux par leur prix",
+        "mission-community-hub": "Se rendre sur le hub de la communauté",
+        "mission-game-page": "Se rendre sur la page d'un jeu",
+        "mission-game-dlc": "Se rendre sur la page du contenu additionnel (DLC) d'un jeu",
+        "mission-actuality-new": "Se rendre sur la page des actualités",
+        "mission-profile": "Se rendre sur le profil d'un utilisateur",
+        "mission-game-discussion": "Se rendre sur la page de discussion d'un jeu",
+        "mission-gift-card": "Se rendre sur la page des cartes cadeaux",
+        "mission-workshop": "Se rendre sur la page de la modification d'un jeu"
       }
     },
 
