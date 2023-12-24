@@ -20,7 +20,6 @@ class FrameSurvey(QFrame):
     signal_success = pyqtSignal()
 
     def __init__(self, survey_path: Path | str):
-        # TODO: translation support
         super().__init__()
 
         # signals
@@ -52,18 +51,18 @@ class FrameSurvey(QFrame):
 
         self.button_abandon = QPushButton()
         self._layout_navigation.addWidget(self.button_abandon)
-        self.button_abandon.setText("Abandonner")
+        self.button_abandon.setText(self.tr("ABANDON"))
         self.button_abandon.setStyleSheet("QPushButton { color : red; }")
         self.button_abandon.clicked.connect(self.quit)  # NOQA: connect exist
 
         self.button_skip = QPushButton()
         self._layout_navigation.addWidget(self.button_skip)
-        self.button_skip.setText("Passer")
+        self.button_skip.setText(self.tr("SKIP"))
         self.button_skip.clicked.connect(self.next_survey)  # NOQA: connect exist
 
         self.button_forward = QPushButton()
         self._layout_navigation.addWidget(self.button_forward)
-        self.button_forward.setText("Suivant")
+        self.button_forward.setText(self.tr("NEXT"))
         self.button_forward.clicked.connect(self.next_survey)  # NOQA: connect exist
 
         # progress bar
