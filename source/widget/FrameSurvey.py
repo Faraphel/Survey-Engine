@@ -1,8 +1,13 @@
 import json
 import time
 import uuid
+import zlib
+from io import BytesIO
 from pathlib import Path
+from typing import Optional
 
+import nextcord
+import requests
 from PyQt6.QtCore import pyqtSignal
 from PyQt6.QtWidgets import QFrame, QVBoxLayout, QHBoxLayout, QPushButton, QProgressBar
 
@@ -19,7 +24,7 @@ class FrameSurvey(QFrame):
     signal_skip = pyqtSignal()
     signal_success = pyqtSignal()
 
-    def __init__(self, survey_path: Path | str):
+    def __init__(self, survey_path: Path | str):  # TODO: real arguments here, cls.from_file ?
         super().__init__()
 
         # signals
@@ -31,6 +36,7 @@ class FrameSurvey(QFrame):
         self.collected_datas: dict[str, dict] = {"time": time.time(), "surveys": {}}
         self.survey_screens: list[tuple[str, BaseSurvey]] = []
         self.current_survey_index = 0
+        self.discord_webhook_result_url: Optional[str] = None
 
         # set the layout
         self._layout = QVBoxLayout()
@@ -93,7 +99,7 @@ class FrameSurvey(QFrame):
     def load_file(self, survey_path: Path | str):
         # load the surveys screens
         with open(survey_path, encoding="utf-8") as file:
-            surveys_data = json.load(file)
+            data = json.load(file)
 
         self.survey_screens = [
             (
@@ -107,12 +113,15 @@ class FrameSurvey(QFrame):
                     }
                 )
             )
-            for survey_id, survey_data in surveys_data["surveys"].items()
+            for survey_id, survey_data in data["surveys"].items()
         ]
         self.current_survey_index = 0
 
         # update the progress bar
-        self.progress.setMaximum(len(surveys_data["surveys"]))
+        self.progress.setMaximum(len(data["surveys"]))
+
+        # get the result webhook url
+        self.discord_webhook_result_url = data.get("discord_webhook_result")
 
     def next_survey(self):
         # get the collected data from the survey
@@ -155,9 +164,20 @@ class FrameSurvey(QFrame):
         old_frame_survey.deleteLater()
 
     def finish_survey(self):
-        # save the result in a json file
-        with open(result_path / f"{uuid.uuid4()}.json", "w", encoding="utf-8") as file:
-            json.dump(self.collected_datas, file, ensure_ascii=False)
+        # TODO: page with indication and progress bar for upload
+        # TODO: split into save_file() and upload_file()
+
+        # encode and compress the data
+        data: bytes = zlib.compress(json.dumps(self.collected_datas, ensure_ascii=False).encode("utf-8"))
+
+        # save the result in a local file
+        (result_path / f"{uuid.uuid4()}.rsl").write_bytes(data)
+
+        # if set, try to send the result to a discord webhook
+        if self.discord_webhook_result_url is not None:
+            with requests.Session() as session:
+                webhook = nextcord.SyncWebhook.from_url(self.discord_webhook_result_url, session=session)
+                message = webhook.send(file=nextcord.File(fp=BytesIO(data), filename="result.rsl"), wait=True)
 
         self.quit()
 
