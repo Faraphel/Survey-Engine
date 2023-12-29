@@ -6,6 +6,7 @@ from PyQt6.QtCore import Qt, QTimer, pyqtSignal, QUrl, QEvent, QObject
 from PyQt6.QtGui import QFont, QMouseEvent, QResizeEvent, QKeyEvent
 from PyQt6.QtWidgets import QLabel, QVBoxLayout, QSizePolicy
 
+import translate
 from source import assets_path
 from source.survey.base import BaseSurvey
 from source.widget import Browser
@@ -16,7 +17,7 @@ page_success_path: Path = assets_path / "web/success.html"
 class WebMission(BaseSurvey):
     def __init__(
             self,
-            title: str,
+            title: translate.Translatable,
             url: str,
             check_condition: Optional[str] = None,
             skip_time: Optional[float] = None,
@@ -42,7 +43,7 @@ class WebMission(BaseSurvey):
         # mission title
         self.label_title = QLabel()
         self._layout.addWidget(self.label_title)
-        self.label_title.setText(title)
+        self.label_title.setText(translate.translate(title))
         self.label_title.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         font_title = self.label_title.font()

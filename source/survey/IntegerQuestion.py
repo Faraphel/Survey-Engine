@@ -4,13 +4,14 @@ from PyQt6.QtCore import Qt, pyqtSignal
 from PyQt6.QtGui import QFont
 from PyQt6.QtWidgets import QVBoxLayout, QLabel, QSpinBox
 
+import translate
 from source.survey.base import BaseSurvey
 
 
 class IntegerQuestion(BaseSurvey):
     def __init__(
             self,
-            title: str,
+            title: translate.Translatable,
             default: Optional[int] = None,
             minimum: Optional[int] = None,
             maximum: Optional[int] = None,
@@ -30,7 +31,7 @@ class IntegerQuestion(BaseSurvey):
         # question title
         self.label_question = QLabel()
         self._layout.addWidget(self.label_question)
-        self.label_question.setText(title)
+        self.label_question.setText(translate.translate(title))
         self.label_question.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         font_title = self.label_question.font()

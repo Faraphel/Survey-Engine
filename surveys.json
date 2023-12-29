@@ -3,20 +3,20 @@
 
     "text-welcome": {
       "type": "text",
-      "title": "Bienvenue dans nôtre enquête !",
-      "description": "Nous somme des étudiants en Informatique à l'UPJV.\nNous réalisons une étude sur l'ergonomie des interfaces graphique.\nCette étude concerne la plateforme de jeu vidéo \"Steam\"."
+      "title": {"fr": "Bienvenue dans nôtre enquête !"},
+      "description": {"fr": "Nous somme des étudiants en Informatique à l'UPJV.\nNous réalisons une étude sur l'ergonomie des interfaces graphique.\nCette étude concerne la plateforme de jeu vidéo \"Steam\"."}
     },
 
     "text-data-collection": {
       "type": "text",
-      "title": "Collection des données",
-      "description": "Notre étude demande de collecter des données comme vos mouvements de souris et votre clavier lorsque vous naviguerez sur cette application.\nAucune autre donnée ne sera collecté en dehors de cette application.\nCes données sont anonyme et ne seront destiné exclusivement qu'à notre recherche.\nSi vous ne souhaitez pas continuer ce questionnaire, appuyez sur \"Abandonner\"",
+      "title": {"fr": "Collection des données"},
+      "description": {"fr": "Notre étude demande de collecter des données comme vos mouvements de souris et votre clavier lorsque vous naviguerez sur cette application.\nAucune autre donnée ne sera collecté en dehors de cette application.\nCes données sont anonyme et ne seront destiné exclusivement qu'à notre recherche.\nSi vous ne souhaitez pas continuer ce questionnaire, appuyez sur \"Abandonner\""},
       "abandonable": true
     },
 
     "question-age": {
       "type": "question-integer",
-      "title": "Quel est votre âge ?",
+      "title": {"fr": "Quel est votre âge ?"},
       "default": 30,
       "minimum": 13,
       "maximum": 150
@@ -24,52 +24,52 @@
 
     "question-usage-steam": {
       "type": "question-single-choice",
-      "title": "Utilisez-vous Steam ?",
+      "title": {"fr": "Utilisez-vous Steam ?"},
       "choices": {
-        "always": "Tout le temps",
-        "often": "Souvent",
-        "sometime": "De temps en temps",
-        "rarely": "Rarement",
-        "never": "Jamais"
+        "always": {"fr": "Tout le temps"},
+        "often": {"fr": "Souvent"},
+        "sometime": {"fr": "De temps en temps"},
+        "rarely": {"fr": "Rarement"},
+        "never": {"fr": "Jamais"}
       }
     },
 
     "question-usage-concurrent": {
       "type": "question-multiple-choice",
-      "title": "Quel autre plateforme de jeu en ligne utilisez-vous ?",
+      "title": {"fr": "Quel autre plateforme de jeu en ligne utilisez-vous ?"},
       "choices": {
-        "epic": "Epic Games Store",
-        "gog": "GOG",
-        "origin": "Origin",
-        "uplay": "Uplay",
-        "battle": "Battle.net"
+        "epic": {"fr": "Epic Games Store"},
+        "gog": {"fr": "GOG"},
+        "origin": {"fr": "Origin"},
+        "uplay": {"fr": "Uplay"},
+        "battle": {"fr": "Battle.net"}
       },
       "details_choice_enabled": true,
       "details_choice_id": "other",
-      "details_choice_text": "Autre"
+      "details_choice_text": {"fr": "Autre"}
     },
 
     "question-difficulty-before": {
       "type": "question-single-choice",
-      "title": "Avez-vous déjà rencontré des difficultés particulières lors de votre utilisation de Steam ?",
+      "title": {"fr": "Avez-vous déjà rencontré des difficultés particulières lors de votre utilisation de Steam ?"},
       "choices": {
-        "no": "Non"
+        "no": {"fr": "Non"}
       },
       "details_choice_enabled": true,
       "details_choice_id": "yes",
-      "details_choice_text": "Oui"
+      "details_choice_text": {"fr": "Oui"}
     },
 
     "mission-explanation": {
       "type": "text",
-      "title": "Explication de l'Evaluation",
-      "description": "Nous allons vous demander de naviguer dans Steam.\nUn message en haut vous indiquera une tâche à réaliser dans la plateforme.\n\nSi la tâche vous semble trop difficile, un bouton pour passer la tâche\ns'affichera au bout d'un certain temps en bas à droite.\n\nRappel : Votre clavier et votre souris sont enregistré.\nNe tapez aucune information personnel dans l'écran qui va suivre !"
+      "title": {"fr": "Explication de l'Evaluation"},
+      "description": {"fr": "Nous allons vous demander de naviguer dans Steam.\nUn message en haut vous indiquera une tâche à réaliser dans la plateforme.\n\nSi la tâche vous semble trop difficile, un bouton pour passer la tâche\ns'affichera au bout d'un certain temps en bas à droite.\n\nRappel : Votre clavier et votre souris sont enregistré.\nNe tapez aucune information personnel dans l'écran qui va suivre !"}
     },
 
 
     "mission-language": {
       "type": "mission-web",
-      "title": "Changer la langue en français.",
+      "title": {"fr": "Changer la langue en français."},
       "url": "https://store.steampowered.com/",
       "check": "document.getElementsByTagName('html')[0].lang == 'fr'",
       "skip_time": 60
@@ -77,7 +77,7 @@
 
     "mission-price": {
       "type": "mission-web",
-      "title": "Afficher tous les jeux coutant moins de 20€.",
+      "title": {"fr": "Afficher tous les jeux coutant moins de 20€."},
       "url": "https://store.steampowered.com/",
       "check": "document.getElementById('maxprice_input').value == '20'",
       "skip_time": 90
@@ -85,7 +85,7 @@
 
     "mission-community-hub": {
       "type": "mission-web",
-      "title": "Rendez-vous sur le Hub de la Communauté du jeu \"Stray\".",
+      "title": {"fr": "Rendez-vous sur le Hub de la Communauté du jeu \"Stray\"."},
       "url": "https://store.steampowered.com/",
       "check": "document.documentURI == 'https://steamcommunity.com/app/1332010'",
       "skip_time": 90
@@ -93,7 +93,7 @@
 
     "mission-game-page": {
       "type": "mission-web",
-      "title": "Rendez-vous sur la page du jeu \"Outer Wilds\".",
+      "title": {"fr": "Rendez-vous sur la page du jeu \"Outer Wilds\"."},
       "url": "https://store.steampowered.com/",
       "check": "document.documentURI == 'https://store.steampowered.com/app/753640/Outer_Wilds/'",
       "skip_time": 90
@@ -101,7 +101,7 @@
 
     "mission-game-dlc": {
       "type": "mission-web",
-      "title": "Rendez-vous sur la page du contenu additionnel \"Echoes of the Eye\" du jeu \"Outer Wilds\".",
+      "title": {"fr": "Rendez-vous sur la page du contenu additionnel \"Echoes of the Eye\" du jeu \"Outer Wilds\"."},
       "url": "https://store.steampowered.com/app/753640/Outer_Wilds/",
       "check": "document.documentURI == 'https://store.steampowered.com/app/1622100/Outer_Wilds__Echoes_of_the_Eye/'",
       "skip_time": 90
@@ -109,7 +109,7 @@
 
     "mission-actuality-new": {
       "type": "mission-web",
-      "title": "Aller sur la page des Actualités \"À la une\".",
+      "title": {"fr": "Aller sur la page des Actualités \"À la une\"."},
       "url": "https://store.steampowered.com/",
       "check": "document.documentURI == 'https://store.steampowered.com/news/collection/featured/'",
       "skip_time": 120
@@ -117,7 +117,7 @@
 
     "mission-profile": {
       "type": "mission-web",
-      "title": "Trouver la page de profil de \"Faraphel\".",
+      "title": {"fr": "Trouver la page de profil de \"Faraphel\"."},
       "url": "https://store.steampowered.com/",
       "check": "document.documentURI == 'https://steamcommunity.com/id/Faraphel'",
       "skip_time": 240
@@ -125,7 +125,7 @@
 
     "mission-game-discussion": {
       "type": "mission-web",
-      "title": "Trouver la page de discussions du jeu \"Sid Meier's Civilization V\".",
+      "title": {"fr": "Trouver la page de discussions du jeu \"Sid Meier's Civilization V\"."},
       "url": "https://store.steampowered.com/",
       "check": "document.documentURI == 'https://steamcommunity.com/app/8930/discussions/'",
       "skip_time": 180
@@ -133,7 +133,7 @@
 
     "mission-gift-card": {
       "type": "mission-web",
-      "title": "Trouver la page des cartes-cadeaux.",
+      "title": {"fr": "Trouver la page des cartes-cadeaux."},
       "url": "https://store.steampowered.com/",
       "check": "document.documentURI == 'https://store.steampowered.com/digitalgiftcards'",
       "skip_time": 240
@@ -141,7 +141,7 @@
 
     "mission-workshop": {
       "type": "mission-web",
-      "title": "Trouver la page de communauté de la modification \"Animated Hair\" du jeu \"Terraria\" sur le Workshop.",
+      "title": {"fr": "Trouver la page de communauté de la modification \"Animated Hair\" du jeu \"Terraria\" sur le Workshop."},
       "url": "https://store.steampowered.com/",
       "check": "publishedfileid == '2871109853'",
       "skip_time": 240
@@ -150,46 +150,45 @@
 
     "question-hardest-mission": {
       "type": "question-single-choice",
-      "title": "Parmi les tâches, laquelle avez-vous trouvée la plus difficile ?",
+      "title": {"fr": "Parmi les tâches, laquelle avez-vous trouvée la plus difficile ?"},
       "choices": {
-        "mission-language": "Changer la langue",
-        "mission-price": "Filtrer les jeux par leur prix",
-        "mission-community-hub": "Se rendre sur le hub de la communauté",
-        "mission-game-page": "Se rendre sur la page d'un jeu",
-        "mission-game-dlc": "Se rendre sur la page du contenu additionnel (DLC) d'un jeu",
-        "mission-actuality-new": "Se rendre sur la page des actualités",
-        "mission-profile": "Se rendre sur le profil d'un utilisateur",
-        "mission-game-discussion": "Se rendre sur la page de discussion d'un jeu",
-        "mission-gift-card": "Se rendre sur la page des cartes cadeaux",
-        "mission-workshop": "Se rendre sur la page de la modification d'un jeu"
+        "mission-language": {"fr": "Changer la langue"},
+        "mission-price": {"fr": "Filtrer les jeux par leur prix"},
+        "mission-community-hub": {"fr": "Se rendre sur le hub de la communauté"},
+        "mission-game-page": {"fr": "Se rendre sur la page d'un jeu"},
+        "mission-game-dlc": {"fr": "Se rendre sur la page du contenu additionnel (DLC) d'un jeu"},
+        "mission-actuality-new": {"fr": "Se rendre sur la page des actualités"},
+        "mission-profile": {"fr": "Se rendre sur le profil d'un utilisateur"},
+        "mission-game-discussion": {"fr": "Se rendre sur la page de discussion d'un jeu"},
+        "mission-gift-card": {"fr": "Se rendre sur la page des cartes cadeaux"},
+        "mission-workshop": {"fr": "Se rendre sur la page de la modification d'un jeu"}
       }
     },
 
     "question-experience": {
       "type": "question-single-choice",
-      "title": "Avez-vous trouvé l'interface de Steam ergonomique ?",
+      "title": {"fr": "Avez-vous trouvé l'interface de Steam ergonomique ?"},
       "choices": {
-        "yes": "Oui",
-        "mixed": "Mitigé",
-        "no": "Non"
+        "yes": {"fr": "Oui"},
+        "mixed": {"fr": "Mitigé"},
+        "no": {"fr": "Non"}
       }
     },
 
     "question-experience-details": {
       "type": "question-text",
-      "title": "Qu'avez-vous pensé de l'ergonomie de Steam ?"
+      "title": {"fr": "Qu'avez-vous pensé de l'ergonomie de Steam ?"}
     },
 
     "question-comment": {
       "type": "question-text",
-      "title": "Vous pouvez laisser un commentaire sur votre ressenti général (optionnel)"
+      "title": {"fr": "Vous pouvez laisser un commentaire sur votre ressenti général (optionnel)"}
     },
 
     "text-thanking": {
       "type": "text",
-      "title": "Remerciement",
-      "description": "Nous vous remercions grandement pour votre contribution à notre questionnaire et pour votre temps.\n\nVos données collectées sont situés dans le dossier \"result\".",
-      "abandonable": true
+      "title": {"fr": "Remerciement"},
+      "description": {"fr": "Nous vous remercions grandement pour votre contribution à notre questionnaire et pour votre temps.\n\nVos données collectées sont situés dans le dossier \"result\"."}
     }
 
   }

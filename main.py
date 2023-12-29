@@ -3,6 +3,7 @@ import sys
 from PyQt6.QtCore import QTranslator, QLocale
 from PyQt6.QtWidgets import QApplication
 
+import translate
 from source import assets_path
 from source.widget import MyMainWindow
 
@@ -13,7 +14,10 @@ if __name__ == "__main__":
 
     # get the user language
     local = QLocale()
-    language_code: str = local.languageToCode(local.language())
+    language_code: str = local.languageToCode(local.language(), QLocale.LanguageCodeType.ISO639)
+
+    # apply the language on the translator
+    translate.set_language(language_code)
 
     # load the translator to support multiple languages
     translator = QTranslator()

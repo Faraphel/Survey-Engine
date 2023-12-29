@@ -4,17 +4,18 @@ from PyQt6.QtCore import Qt, pyqtSignal
 from PyQt6.QtGui import QFont
 from PyQt6.QtWidgets import QFrame, QVBoxLayout, QLabel, QCheckBox, QLineEdit
 
+import translate
 from source.survey.base import BaseSurvey
 
 
 class MultipleChoiceQuestion(BaseSurvey):
     def __init__(
             self,
-            title: str,
-            choices: dict[Any, str],
+            title: translate.Translatable,
+            choices: dict[Any, translate.Translatable],
             details_choice_enabled: bool = None,
             details_choice_id: str = None,
-            details_choice_text: str = None,
+            details_choice_text: translate.Translatable = None,
             signals: dict[str, pyqtSignal] = None
     ):
         super().__init__()
@@ -31,7 +32,7 @@ class MultipleChoiceQuestion(BaseSurvey):
         # question title
         self.label_question = QLabel()
         self._layout.addWidget(self.label_question)
-        self.label_question.setText(title)
+        self.label_question.setText(translate.translate(title))
         self.label_question.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         font_title = self.label_question.font()
@@ -51,7 +52,7 @@ class MultipleChoiceQuestion(BaseSurvey):
         for choice_id, choice_text in choices.items():
             # create a radio button for that choice
             button = QCheckBox()
-            button.setText(choice_text)
+            button.setText(translate.translate(choice_text))
 
             # add the button to the frame
             self._layout_responses.addWidget(button)
@@ -62,7 +63,7 @@ class MultipleChoiceQuestion(BaseSurvey):
         if self.details_choice_enabled:
             self.button_response_other = QCheckBox()
             self._layout_responses.addWidget(self.button_response_other)
-            self.button_response_other.setText(self.details_choice_text)
+            self.button_response_other.setText(translate.translate(self.details_choice_text))
             self.button_response_other.toggled.connect(self._on_response_other_check)  # NOQA: connect exist
 
             self.entry_response_other = QLineEdit()

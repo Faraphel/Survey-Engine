@@ -4,17 +4,18 @@ from PyQt6.QtCore import Qt, pyqtSignal
 from PyQt6.QtGui import QFont
 from PyQt6.QtWidgets import QFrame, QVBoxLayout, QLabel, QRadioButton, QButtonGroup, QLineEdit, QAbstractButton
 
+import translate
 from source.survey.base import BaseSurvey
 
 
 class SingleChoiceQuestion(BaseSurvey):
     def __init__(
             self,
-            title: str,
+            title: translate.Translatable,
             details_choice_enabled: bool = None,
             details_choice_id: str = None,
-            details_choice_text: str = None,
-            choices: dict[Any, str] = None,
+            details_choice_text: translate.Translatable = None,
+            choices: dict[Any, translate.Translatable] = None,
             signals: dict[str, pyqtSignal] = None
     ):
         super().__init__()
@@ -33,7 +34,7 @@ class SingleChoiceQuestion(BaseSurvey):
         # question title
         self.label_question = QLabel()
         self._layout.addWidget(self.label_question)
-        self.label_question.setText(title)
+        self.label_question.setText(translate.translate(title))
         self.label_question.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         font_title = self.label_question.font()
@@ -59,7 +60,7 @@ class SingleChoiceQuestion(BaseSurvey):
         for choice_id, choice_text in choices.items():
             # create a radio button for that choice
             button = QRadioButton()
-            button.setText(choice_text)
+            button.setText(translate.translate(choice_text))
 
             # add the button to the frame
             self._layout_responses.addWidget(button)
@@ -73,7 +74,7 @@ class SingleChoiceQuestion(BaseSurvey):
             self._layout_responses.addWidget(self.button_response_other)
             self.button_responses_id[self.button_response_other] = self.details_choice_id
 
-            self.button_response_other.setText(self.details_choice_text)
+            self.button_response_other.setText(translate.translate(self.details_choice_text))
             self.group_responses.addButton(self.button_response_other)
             self.button_response_other.toggled.connect(self._on_response_other_check)  # NOQA: connect exist
 

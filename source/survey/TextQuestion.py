@@ -4,11 +4,12 @@ from PyQt6.QtCore import Qt, pyqtSignal
 from PyQt6.QtGui import QFont
 from PyQt6.QtWidgets import QVBoxLayout, QLabel, QTextEdit
 
+import translate
 from source.survey.base import BaseSurvey
 
 
 class TextQuestion(BaseSurvey):
-    def __init__(self, title: str, signals: dict[str, pyqtSignal] = None):
+    def __init__(self, title: translate.Translatable, signals: dict[str, pyqtSignal] = None):
         super().__init__()
 
         self.signals = signals if signals is not None else {}
@@ -20,7 +21,7 @@ class TextQuestion(BaseSurvey):
         # question title
         self.label_question = QLabel()
         self._layout.addWidget(self.label_question)
-        self.label_question.setText(title)
+        self.label_question.setText(translate.translate(title))
         self.label_question.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         font_title = self.label_question.font()
