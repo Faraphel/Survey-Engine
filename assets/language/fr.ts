@@ -4,17 +4,17 @@
 <context>
     <name>FrameSurvey</name>
     <message>
-        <location filename="source/widget/FrameSurvey.py" line="54"/>
+        <location filename="source/widget/SurveyEngine.py" line="54"/>
         <source>ABANDON</source>
         <translation>Abandonner</translation>
     </message>
     <message>
-        <location filename="source/widget/FrameSurvey.py" line="60"/>
+        <location filename="source/widget/SurveyEngine.py" line="60"/>
         <source>SKIP</source>
         <translation>Passer</translation>
     </message>
     <message>
-        <location filename="source/widget/FrameSurvey.py" line="65"/>
+        <location filename="source/widget/SurveyEngine.py" line="65"/>
         <source>NEXT</source>
         <translation>Suivant</translation>
     </message>

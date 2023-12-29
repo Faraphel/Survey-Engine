@@ -1,3 +1,3 @@
 from .Browser import Browser
-from .FrameSurvey import FrameSurvey
-from .MyMainWindow import MyMainWindow
+from .SurveyEngine import SurveyEngine
+from .SurveyWindow import SurveyWindow

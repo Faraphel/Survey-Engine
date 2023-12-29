@@ -9,7 +9,7 @@ from typing import Optional
 import nextcord
 import requests
 from PyQt6.QtCore import pyqtSignal
-from PyQt6.QtWidgets import QFrame, QVBoxLayout, QHBoxLayout, QPushButton, QProgressBar
+from PyQt6.QtWidgets import QFrame, QVBoxLayout, QHBoxLayout, QPushButton, QProgressBar, QWidget
 
 from source.survey.base import BaseSurvey
 from source.survey import Empty, survey_get
@@ -19,7 +19,7 @@ result_path = Path("./result/")
 result_path.mkdir(parents=True, exist_ok=True)
 
 
-class FrameSurvey(QFrame):
+class SurveyEngine(QWidget):
     signal_abandon = pyqtSignal()
     signal_skip = pyqtSignal()
     signal_success = pyqtSignal()
