@@ -81,9 +81,9 @@
     "question-usage-concurrent": {
       "type": "question-multiple-choice",
       "title": {
-        "en": "TODO",
+        "en": "Which other online gaming platform do you use?",
         "fr": "Quel autre plateforme de jeu en ligne utilisez-vous ?",
-        "sp": "TODO"
+        "sp": "¿Qué otra plataforma de juegos en línea utilizas?"
       },
       "choices": {
         "epic": {
@@ -289,14 +289,14 @@
       },
       "choices": {
         "mission-language": {
-          "en": "TODO",
+          "en": "Change the language",
           "fr": "Changer la langue",
-          "sp": "TODO"
+          "sp": "Cambiar el idioma"
         },
         "mission-price": {
-          "en": "Change the language",
+          "en": "Filter games by their price",
           "fr": "Filtrer les jeux par leur prix",
-          "sp": "Cambiar el idioma"
+          "sp": "Filtrar juegos por su precio"
         },
         "mission-community-hub": {
           "en": "Visit the community hub",
