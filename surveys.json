@@ -3,20 +3,40 @@
 
     "text-welcome": {
       "type": "text",
-      "title": {"fr": "Bienvenue dans nôtre enquête !", "en": "Welcome to our survey!", "sp": "¡Bienvenido a nuestra encuesta!"},
-      "description": {"fr": "Nous somme des étudiants en Informatique à l'UPJV.\nNous réalisons une étude sur l'ergonomie des interfaces graphique.\nCette étude concerne la plateforme de jeu vidéo \"Steam\".", "en": "We are computer science students at UPJV.\nWe are conducting a study on the ergonomics of graphical interfaces.\nThis study focuses on the video game platform \"Steam\".", "sp": "Somos estudiantes de informática de la UPJV.\nEstamos llevando a cabo un estudio sobre la ergonomía de las interfaces gráficas.\nEste estudio se centra en la plataforma de videojuegos \"Steam\"."}
+      "title": {
+        "en": "Welcome to our survey!",
+        "fr": "Bienvenue dans nôtre enquête !",
+        "sp": "¡Bienvenido a nuestra encuesta!"
+      },
+      "description": {
+        "en": "We are computer science students at UPJV.\nWe are conducting a study on the ergonomics of graphical interfaces.\nThis study focuses on the video game platform \"Steam\".",
+        "fr": "Nous somme des étudiants en Informatique à l'UPJV.\nNous réalisons une étude sur l'ergonomie des interfaces graphique.\nCette étude concerne la plateforme de jeu vidéo \"Steam\".",
+        "sp": "Somos estudiantes de informática de la UPJV.\nEstamos llevando a cabo un estudio sobre la ergonomía de las interfaces gráficas.\nEste estudio se centra en la plataforma de videojuegos \"Steam\"."
+      }
     },
 
     "text-data-collection": {
       "type": "text",
-      "title": {"fr": "Collection des données", "en": "Data Collection", "sp": "Recopilación de datos"},
-      "description": {"fr": "Notre étude demande de collecter des données comme vos mouvements de souris et votre clavier lorsque vous naviguerez sur cette application.\nAucune autre donnée ne sera collecté en dehors de cette application.\nCes données sont anonyme et ne seront destiné exclusivement qu'à notre recherche.\nSi vous ne souhaitez pas continuer ce questionnaire, appuyez sur \"Abandonner\"", "en": "Our study requires collecting data such as your mouse movements and keyboard input when you navigate within this application.\nNo other data will be collected outside of this application.\nThese data are anonymous and will be exclusively used for our research.\nIf you do not wish to continue with this questionnaire, press \"Exit\"", "sp": "Nuestro estudio requiere recopilar datos como los movimientos de su ratón y la entrada de su teclado cuando navegue en esta aplicación.\nNo se recopilará ningún otro dato fuera de esta aplicación.\nEstos datos son anónimos y se utilizarán exclusivamente para nuestra investigación.\nSi no desea continuar con este cuestionario, presione \"Salir\"."},
+      "title": {
+        "fr": "Collection des données",
+        "en": "Data Collection",
+        "sp": "Recopilación de datos"
+      },
+      "description": {
+        "en": "Our study requires collecting data such as your mouse movements and keyboard input when you navigate within this application.\nNo other data will be collected outside of this application.\nThese data are anonymous and will be exclusively used for our research.\nIf you do not wish to continue with this questionnaire, press \"Exit\"",
+        "fr": "Notre étude demande de collecter des données comme vos mouvements de souris et votre clavier lorsque vous naviguerez sur cette application.\nAucune autre donnée ne sera collecté en dehors de cette application.\nCes données sont anonyme et ne seront destiné exclusivement qu'à notre recherche.\nSi vous ne souhaitez pas continuer ce questionnaire, appuyez sur \"Abandonner\"",
+        "sp": "Nuestro estudio requiere recopilar datos como los movimientos de su ratón y la entrada de su teclado cuando navegue en esta aplicación.\nNo se recopilará ningún otro dato fuera de esta aplicación.\nEstos datos son anónimos y se utilizarán exclusivamente para nuestra investigación.\nSi no desea continuar con este cuestionario, presione \"Salir\"."
+      },
       "abandonable": true
     },
 
     "question-age": {
       "type": "question-integer",
-      "title": {"fr": "Quel est votre âge ?", "en": "What is your age?", "sp": "¿Cuál es tu edad?"},
+      "title": {
+        "en": "What is your age?",
+        "fr": "Quel est votre âge ?",
+        "sp": "¿Cuál es tu edad?"
+      },
       "default": 30,
       "minimum": 13,
       "maximum": 150
@@ -24,53 +44,128 @@
 
     "question-usage-steam": {
       "type": "question-single-choice",
-      "title": {"fr": "Utilisez-vous Steam ?", "en": "Do you use Steam?", "sp": "¿Utilizas Steam?"},
+      "title": {
+        "fr": "Utilisez-vous Steam ?",
+        "en": "Do you use Steam?",
+        "sp": "¿Utilizas Steam?"
+      },
       "choices": {
-        "always": {"fr": "Tout le temps", "en": "Always", "sp": "Siempre"},
-        "often": {"fr": "Souvent", "en": "Often", "sp": "A menudo"},
-        "sometime": {"fr": "De temps en temps", "en": "Sometimes", "sp": "De vez en cuando"},
-        "rarely": {"fr": "Rarement", "en": "Rarely", "sp": "Raramente"},
-        "never": {"fr": "Jamais", "en": "Never", "sp": "Nunca"}
+        "always": {
+          "en": "Always",
+          "fr": "Tout le temps",
+          "sp": "Siempre"
+        },
+        "often": {
+          "en": "Often",
+          "fr": "Souvent",
+          "sp": "A menudo"
+        },
+        "sometime": {
+          "en": "Sometimes",
+          "fr": "De temps en temps",
+          "sp": "De vez en cuando"
+        },
+        "rarely": {
+          "en": "Rarely",
+          "fr": "Rarement",
+          "sp": "Raramente"
+        },
+        "never": {
+          "en": "Never",
+          "fr": "Jamais",
+          "sp": "Nunca"
+        }
       }
     },
 
     "question-usage-concurrent": {
       "type": "question-multiple-choice",
-      "title": {"fr": "Quel autre plateforme de jeu en ligne utilisez-vous ?", "en": "", "sp": ""},
+      "title": {
+        "en": "TODO",
+        "fr": "Quel autre plateforme de jeu en ligne utilisez-vous ?",
+        "sp": "TODO"
+      },
       "choices": {
-        "epic": {"fr": "Epic Games Store", "en": "Epic Games Store", "sp": "Epic Games Store"},
-        "gog": {"fr": "GOG", "en": "GOG", "sp": "GOG"},
-        "origin": {"fr": "Origin", "en": "Origin", "sp": "Origin"},
-        "uplay": {"fr": "Uplay", "en": "Uplay", "sp": "Uplay"},
-        "battle": {"fr": "Battle.net", "en": "Battle.net", "sp": "Battle.net"}
+        "epic": {
+          "en": "Epic Games Store",
+          "fr": "Epic Games Store",
+          "sp": "Epic Games Store"
+        },
+        "gog": {
+          "en": "GOG",
+          "fr": "GOG",
+          "sp": "GOG"
+        },
+        "origin": {
+          "en": "Origin",
+          "fr": "Origin",
+          "sp": "Origin"
+        },
+        "uplay": {
+          "en": "Uplay",
+          "fr": "Uplay",
+          "sp": "Uplay"
+        },
+        "battle": {
+          "en": "Battle.net",
+          "fr": "Battle.net",
+          "sp": "Battle.net"
+        }
       },
       "details_choice_enabled": true,
       "details_choice_id": "other",
-      "details_choice_text": {"fr": "Autre", "en": "Other", "sp": "Otro"}
+      "details_choice_text": {
+        "en": "Other",
+        "fr": "Autre",
+        "sp": "Otro"
+      }
     },
 
     "question-difficulty-before": {
       "type": "question-single-choice",
-      "title": {"fr": "Avez-vous déjà rencontré des difficultés particulières lors de votre utilisation de Steam ?", "en": "Have you ever encountered any specific difficulties while using Steam?", "sp": "¿Alguna vez has enfrentado alguna dificultad específica al usar Steam?"},
+      "title": {
+        "en": "Have you ever encountered any specific difficulties while using Steam?",
+        "fr": "Avez-vous déjà rencontré des difficultés particulières lors de votre utilisation de Steam ?",
+        "sp": "¿Alguna vez has enfrentado alguna dificultad específica al usar Steam?"
+      },
       "choices": {
-        "no": {"fr": "Non", "en": "No", "sp": "No"}
+        "no": {
+          "en": "No",
+          "fr": "Non",
+          "sp": "No"
+        }
       },
       "details_choice_enabled": true,
       "details_choice_id": "yes",
-      "details_choice_text": {"fr": "Oui", "en": "Yes", "sp": "Sí"}
+      "details_choice_text": {
+        "en": "Yes",
+        "fr": "Oui",
+        "sp": "Sí"
+      }
     },
 
     "mission-explanation": {
       "type": "text",
-      "title": {"fr": "Explication de l'Evaluation", "en": "Explanation of the Evaluation",
-      "sp": "Instrucciones sobre la Evaluación"},
-      "description": {"fr": "Nous allons vous demander de naviguer dans Steam.\nUn message en haut vous indiquera une tâche à réaliser dans la plateforme.\n\nSi la tâche vous semble trop difficile, un bouton pour passer la tâche\ns'affichera au bout d'un certain temps en bas à droite.\n\nRappel : Votre clavier et votre souris sont enregistré.\nNe tapez aucune information personnel dans l'écran qui va suivre !", "en": "We will ask you to navigate through Steam.\nA message at the top will indicate a task to be performed on the platform.\n\nIf the task seems too difficult, a button to skip the task will\nappear after a certain time at the bottom right.\n\nReminder: Your keyboard and mouse actions are recorded.\nDo not type any personal information on the following screen!", "sp": "Le pediremos que navegue por Steam.\nUn mensaje en la parte superior indicará una tarea que debe realizar en la plataforma.\n\nSi la tarea le parece demasiado difícil, aparecerá un botón para omitir la tarea\ndespués de cierto tiempo en la parte inferior derecha.\n\nRecordatorio: Se registran sus acciones de teclado y ratón.\n¡No escriba información personal en la pantalla siguiente!"}
+      "title": {
+        "en": "Explanation of the Evaluation",
+        "fr": "Explication de l'Evaluation",
+        "sp": "Instrucciones sobre la Evaluación"
+      },
+      "description": {
+        "en": "We will ask you to navigate through Steam.\nA message at the top will indicate a task to be performed on the platform.\n\nIf the task seems too difficult, a button to skip the task will\nappear after a certain time at the bottom right.\n\nReminder: Your keyboard and mouse actions are recorded.\nDo not type any personal information on the following screen!",
+        "fr": "Nous allons vous demander de naviguer dans Steam.\nUn message en haut vous indiquera une tâche à réaliser dans la plateforme.\n\nSi la tâche vous semble trop difficile, un bouton pour passer la tâche\ns'affichera au bout d'un certain temps en bas à droite.\n\nRappel : Votre clavier et votre souris sont enregistré.\nNe tapez aucune information personnel dans l'écran qui va suivre !",
+        "sp": "Le pediremos que navegue por Steam.\nUn mensaje en la parte superior indicará una tarea que debe realizar en la plataforma.\n\nSi la tarea le parece demasiado difícil, aparecerá un botón para omitir la tarea\ndespués de cierto tiempo en la parte inferior derecha.\n\nRecordatorio: Se registran sus acciones de teclado y ratón.\n¡No escriba información personal en la pantalla siguiente!"
+      }
     },
 
 
     "mission-language": {
       "type": "mission-web",
-      "title": {"fr": "Changer la langue en français.", "en": "Change the language to French.", "sp": "Cambiar el idioma a francés."},
+      "title": {
+        "en": "Change the language to English.",
+        "fr": "Changer la langue en Français.",
+        "sp": "Cambiar el idioma a Español."
+      },
       "url": "https://store.steampowered.com/",
       "check": "document.getElementsByTagName('html')[0].lang == 'fr'",
       "skip_time": 60
@@ -78,7 +173,11 @@
 
     "mission-price": {
       "type": "mission-web",
-      "title": {"fr": "Afficher tous les jeux coutant moins de 20€.", "en": "Display all games costing less than €20.", "sp": "Mostrar todos los juegos que cuesten menos de 20€."},
+      "title": {
+        "en": "Display all games costing less than €20.",
+        "fr": "Afficher tous les jeux coutant moins de 20€.",
+        "sp": "Mostrar todos los juegos que cuesten menos de 20€."
+      },
       "url": "https://store.steampowered.com/",
       "check": "document.getElementById('maxprice_input').value == '20'",
       "skip_time": 90
@@ -86,7 +185,11 @@
 
     "mission-community-hub": {
       "type": "mission-web",
-      "title": {"fr": "Rendez-vous sur le Hub de la Communauté du jeu \"Stray\".", "en": "Visit the Community Hub for the game \"Stray\".", "sp": "Visita el Hub de la Comunidad del juego \"Stray\"."},
+      "title": {
+        "en": "Visit the Community Hub for the game \"Stray\".",
+        "fr": "Rendez-vous sur le Hub de la Communauté du jeu \"Stray\".",
+        "sp": "Visita el Hub de la Comunidad del juego \"Stray\"."
+      },
       "url": "https://store.steampowered.com/",
       "check": "document.documentURI == 'https://steamcommunity.com/app/1332010'",
       "skip_time": 90
@@ -94,7 +197,11 @@
 
     "mission-game-page": {
       "type": "mission-web",
-      "title": {"fr": "Rendez-vous sur la page du jeu \"Outer Wilds\".", "en": "Visit the page for the game \"Outer Wilds\".", "sp": "Ve a la página del juego \"Outer Wilds\"."},
+      "title": {
+        "en": "Visit the page for the game \"Outer Wilds\".",
+        "fr": "Rendez-vous sur la page du jeu \"Outer Wilds\".",
+        "sp": "Ve a la página del juego \"Outer Wilds\"."
+      },
       "url": "https://store.steampowered.com/",
       "check": "document.documentURI == 'https://store.steampowered.com/app/753640/Outer_Wilds/'",
       "skip_time": 90
@@ -102,8 +209,11 @@
 
     "mission-game-dlc": {
       "type": "mission-web",
-      "title": {"fr": "Rendez-vous sur la page du contenu additionnel (DLC) \"Echoes of the Eye\" du jeu \"Outer Wilds\".", "en": "Visit the 'Echoes of the Eye' add-on (DLC) page for the game 'Outer Wilds'.",
-      "sp": "Ve a la página del contenido adicional (DLC) 'Echoes of the Eye' del juego 'Outer Wilds'."},
+      "title": {
+        "en": "Visit the 'Echoes of the Eye' add-on (DLC) page for the game 'Outer Wilds'.",
+        "fr": "Rendez-vous sur la page du contenu additionnel (DLC) \"Echoes of the Eye\" du jeu \"Outer Wilds\".",
+        "sp": "Ve a la página del contenido adicional (DLC) 'Echoes of the Eye' del juego 'Outer Wilds'."
+      },
       "url": "https://store.steampowered.com/app/753640/Outer_Wilds/",
       "check": "document.documentURI == 'https://store.steampowered.com/app/1622100/Outer_Wilds__Echoes_of_the_Eye/'",
       "skip_time": 90
@@ -111,7 +221,11 @@
 
     "mission-actuality-new": {
       "type": "mission-web",
-      "title": {"fr": "Aller sur la page des Actualités \"À la une\".", "en": "Go to the \"Featured\" News page.", "sp": "Ir a la página de Noticias \"Destacados\"."},
+      "title": {
+        "en": "Go to the \"Featured\" News page.",
+        "fr": "Aller sur la page des Actualités \"À la une\".",
+        "sp": "Ir a la página de Noticias \"Destacados\"."
+      },
       "url": "https://store.steampowered.com/",
       "check": "document.documentURI == 'https://store.steampowered.com/news/collection/featured/'",
       "skip_time": 120
@@ -119,7 +233,11 @@
 
     "mission-profile": {
       "type": "mission-web",
-      "title": {"fr": "Trouver la page de profil de \"Faraphel\".", "en": "Find the profile page of \"Faraphel\".", "sp": "Encuentra la página de perfil de \"Faraphel\"."},
+      "title": {
+        "en": "Find the profile page of \"Faraphel\".",
+        "fr": "Trouver la page de profil de \"Faraphel\".",
+        "sp": "Encuentra la página de perfil de \"Faraphel\"."
+      },
       "url": "https://store.steampowered.com/",
       "check": "document.documentURI == 'https://steamcommunity.com/id/Faraphel'",
       "skip_time": 240
@@ -127,7 +245,11 @@
 
     "mission-game-discussion": {
       "type": "mission-web",
-      "title": {"fr": "Trouver la page de discussions du jeu \"Sid Meier's Civilization V\".", "en": "Find the discussion page for the game \"Sid Meier's Civilization V\".", "sp": "Encuentra la página de discusiones del juego \"Sid Meier's Civilization V\"."},
+      "title": {
+        "en": "Find the discussion page for the game \"Sid Meier's Civilization V\".",
+        "fr": "Trouver la page de discussions du jeu \"Sid Meier's Civilization V\".",
+        "sp": "Encuentra la página de discusiones del juego \"Sid Meier's Civilization V\"."
+      },
       "url": "https://store.steampowered.com/",
       "check": "document.documentURI == 'https://steamcommunity.com/app/8930/discussions/'",
       "skip_time": 180
@@ -135,7 +257,11 @@
 
     "mission-gift-card": {
       "type": "mission-web",
-      "title": {"fr": "Trouver la page des cartes-cadeaux de Steam.", "en": "Find the Steam gift cards page.", "sp": "Encuentra la página de las tarjetas de regalo de Steam."},
+      "title": {
+        "en": "Find the Steam gift cards page.",
+        "fr": "Trouver la page des cartes-cadeaux de Steam.",
+        "sp": "Encuentra la página de las tarjetas de regalo de Steam."
+      },
       "url": "https://store.steampowered.com/",
       "check": "document.documentURI == 'https://store.steampowered.com/digitalgiftcards'",
       "skip_time": 240
@@ -143,7 +269,11 @@
 
     "mission-workshop": {
       "type": "mission-web",
-      "title": {"fr": "Trouver la page de communauté de la modification \"Animated Hair\" du jeu \"Terraria\" sur le Workshop.", "en": "Find the community page for the \"Animated Hair\" modification for the game \"Terraria\" on the Workshop.", "sp": "Encuentra la página de la comunidad para la modificación \"Animated Hair\" del juego \"Terraria\" en el Workshop."},
+      "title": {
+        "en": "Find the community page for the \"Animated Hair\" modification for the game \"Terraria\" on the Workshop.",
+        "fr": "Trouver la page de communauté de la modification \"Animated Hair\" du jeu \"Terraria\" sur le Workshop.",
+        "sp": "Encuentra la página de la comunidad para la modificación \"Animated Hair\" del juego \"Terraria\" en el Workshop."
+      },
       "url": "https://store.steampowered.com/",
       "check": "publishedfileid == '2871109853'",
       "skip_time": 240
@@ -152,45 +282,121 @@
 
     "question-hardest-mission": {
       "type": "question-single-choice",
-      "title": {"fr": "Parmi les tâches, laquelle avez-vous trouvée la plus difficile ?", "en": "Among the tasks, which one did you find the most difficult?", "sp": "Entre las tareas que realizaste, ¿cuál es la que encontraste más difícil?"},
+      "title": {
+        "en": "Among the tasks, which one did you find the most difficult?",
+        "fr": "Parmi les tâches, laquelle avez-vous trouvée la plus difficile ?",
+        "sp": "Entre las tareas que realizaste, ¿cuál es la que encontraste más difícil?"
+      },
       "choices": {
-        "mission-language": {"fr": "Changer la langue", "en": "", "sp": ""},
-        "mission-price": {"fr": "Filtrer les jeux par leur prix", "en": "Change the language", "sp": "Cambiar el idioma"},
-        "mission-community-hub": {"fr": "Se rendre sur le hub de la communauté", "en": "Visit the community hub", "sp": "Ir al hub de la comunidad"},
-        "mission-game-page": {"fr": "Se rendre sur la page d'un jeu", "en": "Visit a game page", "sp": "Visitar la página de un juego"},
-        "mission-game-dlc": {"fr": "Se rendre sur la page du contenu additionnel (DLC) d'un jeu", "en": "Visit the downloadable content (DLC) page of a game", "sp": "Visitar la página del contenido adicional descargable (DLC) de un juego"},
-        "mission-actuality-new": {"fr": "Se rendre sur la page des actualités \"À la une\"", "en": "Visit the \"Featured\" news page", "sp": "Visitar la página de noticias \"Destacadas\""},
-        "mission-profile": {"fr": "Se rendre sur le profil d'un utilisateur", "en": "Visit a user's profile", "sp": "Visitar el perfil de un usuario"},
-        "mission-game-discussion": {"fr": "Se rendre sur la page de discussion d'un jeu", "en": "Visit the discussion page of a game", "sp": "Visitar la página de discusión de un juego"},
-        "mission-gift-card": {"fr": "Se rendre sur la page des cartes cadeaux", "en": "Visit the gift cards page", "sp": "Ir a la página de tarjetas de regalo"},
-        "mission-workshop": {"fr": "Se rendre sur la page de la modification (mods) d'un jeu", "en": "Visit the modification (mods) page of a game", "sp": "Visitar la página de modificación (mods) de un juego"}
+        "mission-language": {
+          "en": "TODO",
+          "fr": "Changer la langue",
+          "sp": "TODO"
+        },
+        "mission-price": {
+          "en": "Change the language",
+          "fr": "Filtrer les jeux par leur prix",
+          "sp": "Cambiar el idioma"
+        },
+        "mission-community-hub": {
+          "en": "Visit the community hub",
+          "fr": "Se rendre sur le hub de la communauté",
+          "sp": "Ir al hub de la comunidad"
+        },
+        "mission-game-page": {
+          "en": "Visit a game page",
+          "fr": "Se rendre sur la page d'un jeu",
+          "sp": "Visitar la página de un juego"
+        },
+        "mission-game-dlc": {
+          "en": "Visit the downloadable content (DLC) page of a game",
+          "fr": "Se rendre sur la page du contenu additionnel (DLC) d'un jeu",
+          "sp": "Visitar la página del contenido adicional descargable (DLC) de un juego"
+        },
+        "mission-actuality-new": {
+          "en": "Visit the \"Featured\" news page",
+          "fr": "Se rendre sur la page des actualités \"À la une\"",
+          "sp": "Visitar la página de noticias \"Destacadas\""
+        },
+        "mission-profile": {
+          "en": "Visit a user's profile",
+          "fr": "Se rendre sur le profil d'un utilisateur",
+          "sp": "Visitar el perfil de un usuario"
+        },
+        "mission-game-discussion": {
+          "en": "Visit the discussion page of a game",
+          "fr": "Se rendre sur la page de discussion d'un jeu",
+          "sp": "Visitar la página de discusión de un juego"
+        },
+        "mission-gift-card": {
+          "en": "Visit the gift cards page",
+          "fr": "Se rendre sur la page des cartes cadeaux",
+          "sp": "Ir a la página de tarjetas de regalo"
+        },
+        "mission-workshop": {
+          "en": "Visit the modification (mods) page of a game",
+          "fr": "Se rendre sur la page de la modification (mods) d'un jeu",
+          "sp": "Visitar la página de modificación (mods) de un juego"
+        }
       }
     },
 
     "question-experience": {
       "type": "question-single-choice",
-      "title": {"fr": "Avez-vous trouvé l'interface de Steam ergonomique ?", "en": "Did you find the Steam interface ergonomic?", "sp": "¿Consideras que la interfaz de Steam es ergonómica?"},
+      "title": {
+        "en": "Did you find the Steam interface ergonomic?",
+        "fr": "Avez-vous trouvé l'interface de Steam ergonomique ?",
+        "sp": "¿Consideras que la interfaz de Steam es ergonómica?"
+      },
       "choices": {
-        "yes": {"fr": "Oui", "en": "Yes", "sp": "Sí"},
-        "mixed": {"fr": "Mitigé", "en": "Partially", "sp": "Parcialmente"},
-        "no": {"fr": "Non", "en": "No", "sp": "No"}
+        "yes": {
+          "en": "Yes",
+          "fr": "Oui",
+          "sp": "Sí"
+        },
+        "mixed": {
+          "en": "Partially",
+          "fr": "Mitigé",
+          "sp": "Parcialmente"
+        },
+        "no": {
+          "en": "No",
+          "fr": "Non",
+          "sp": "No"
+        }
       }
     },
 
     "question-experience-details": {
       "type": "question-text",
-      "title": {"fr": "Qu'avez-vous pensé de l'ergonomie de Steam ?", "en": "What did you think of the Steam interface?", "sp": "¿Qué opinas sobre la ergonomía de Steam?"}
+      "title": {
+        "en": "What did you think of the Steam interface?",
+        "fr": "Qu'avez-vous pensé de l'ergonomie de Steam ?",
+        "sp": "¿Qué opinas sobre la ergonomía de Steam?"
+      }
     },
 
     "question-comment": {
       "type": "question-text",
-      "title": {"fr": "Vous pouvez laisser un commentaire sur votre ressenti général (optionnel)", "en": "You can leave a comment about your overall experience (optional)", "sp": "Puedes dejar un comentario sobre tu experiencia general (opcional)"}
+      "title": {
+        "en": "You can leave a comment about your overall experience (optional)",
+        "fr": "Vous pouvez laisser un commentaire sur votre ressenti général (optionnel)",
+        "sp": "Puedes dejar un comentario sobre tu experiencia general (opcional)"
+      }
     },
 
     "text-thanking": {
       "type": "text",
-      "title": {"fr": "Remerciements", "en": "Acknowledgments", "sp": "Agradecimientos"},
-      "description": { "fr": "Nous vous remercions grandement pour votre contribution à notre questionnaire et pour votre temps.\n\nVos données collectées sont situées dans le dossier \"resultat\".", "en": "We greatly appreciate your contribution to our survey and your time.\n\nYour collected data is located in the \"resultat\" folder.", "sp": "Agradecemos enormemente su contribución a nuestro cuestionario y su tiempo.\n\nSus datos recopilados se encuentran en la carpeta \"resultat\"."}
+      "title": {
+        "en": "Acknowledgments",
+        "fr": "Remerciements",
+        "sp": "Agradecimientos"
+      },
+      "description": {
+        "en": "We greatly appreciate your contribution to our survey and your time.\n\nYour collected data is located in the \"resultat\" folder.",
+        "fr": "Nous vous remercions grandement pour votre contribution à notre questionnaire et pour votre temps.\n\nVos données collectées sont situées dans le dossier \"resultat\".",
+        "sp": "Agradecemos enormemente su contribución a nuestro cuestionario y su tiempo.\n\nSus datos recopilados se encuentran en la carpeta \"resultat\"."
+      }
     }
   }
 }
