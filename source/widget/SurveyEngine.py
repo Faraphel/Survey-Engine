@@ -1,23 +1,15 @@
 import json
 import time
-import uuid
-import zlib
-from io import BytesIO
+import typing
 from pathlib import Path
 from typing import Optional
 
-import nextcord
-import requests
 from PyQt6.QtCore import pyqtSignal
 from PyQt6.QtWidgets import QVBoxLayout, QProgressBar, QWidget
 
-from source import translate
+from source import translate, widget
 from source.survey.base import BaseSurvey
 from source.survey import Empty, survey_get
-
-
-result_path = Path("./results/")
-result_path.mkdir(parents=True, exist_ok=True)
 
 
 class SurveyEngine(QWidget):
@@ -95,7 +87,8 @@ class SurveyEngine(QWidget):
 
     def _on_signal_abandon(self):
         # on abandon, quit the survey
-        self.quit()
+        window = typing.cast(widget.SurveyWindow, self.window())
+        window.quit()
 
     def _on_signal_skip(self):
         # on skip, skip to the next survey
@@ -152,61 +145,12 @@ class SurveyEngine(QWidget):
         self.survey.on_ready()
 
     def finish_survey(self):
-        # TODO: page with indication and progress bar for upload
+        saving_screen = widget.SavingScreen(
+            self.collected_datas,
+            self.discord_webhook_result_url
+        )
 
-        filename: str = f"{uuid.uuid4()}.rsl"
+        window = typing.cast(widget.SurveyWindow, self.window())
+        window.setCentralWidget(saving_screen)
 
-        # save the result in a local file
-        self.result_save_file(result_path / filename)
-
-        # if set, try to send the result to a discord webhook
-        if self.discord_webhook_result_url is not None:
-            try:
-                self.result_upload_discord(filename=filename)
-            except nextcord.HTTPException:
-                # TODO: say to send manually the local file
-                raise
-
-        self.quit()
-
-    def get_result_data(self) -> bytes:
-        """
-        Return the compressed result data
-        """
-
-        return zlib.compress(json.dumps(self.collected_datas, ensure_ascii=False).encode("utf-8"))
-
-    def result_save_file(self, destination: Path | str) -> None:
-        """
-        Save the result data to a file
-        :param destination: the path to the file
-        """
-
-        with open(destination, "wb") as file:
-            file.write(self.get_result_data())
-
-    def result_upload_discord(self, filename: str = "result.rsl") -> None:
-        """
-        Upload the result to a discord webhook
-        """
-
-        # create a session
-        with requests.Session() as session:
-            # load the configured webhook
-            webhook = nextcord.SyncWebhook.from_url(
-                self.discord_webhook_result_url,
-                session=session
-            )
-
-            # send the message to discord
-            message = webhook.send(
-                file=nextcord.File(
-                    fp=BytesIO(self.get_result_data()),
-                    filename=filename),
-                wait=True
-            )
-
-    def quit(self):
-        # quit the application by closing and deleting the window
-        self.window().close()
-        self.window().deleteLater()
+        self.deleteLater()

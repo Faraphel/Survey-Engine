@@ -17,3 +17,8 @@ class SurveyWindow(QMainWindow):
         self.setWindowTitle(self.tr("SURVEY"))
 
         self.setCentralWidget(widget.SurveyEngine.from_file(survey_path))
+
+    def quit(self):
+        # quit the application by closing and deleting the window
+        self.window().close()
+        self.window().deleteLater()

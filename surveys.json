@@ -445,9 +445,9 @@
         "sp": "Agradecimientos"
       },
       "description": {
-        "en": "We greatly appreciate your contribution to our survey and your time.\n\nYour collected data is located in the \"results\" folder.",
-        "fr": "Nous vous remercions grandement pour votre contribution à notre questionnaire et pour votre temps.\n\nVos données collectées sont situées dans le dossier \"results\".",
-        "sp": "Agradecemos enormemente su contribución a nuestro cuestionario y su tiempo.\n\nSus datos recopilados se encuentran en la carpeta \"results\"."
+        "en": "We greatly appreciate your contribution to our survey and your time.",
+        "fr": "Nous vous remercions grandement pour votre contribution à notre questionnaire et pour votre temps.",
+        "sp": "Agradecemos enormemente su contribución a nuestro cuestionario y su tiempo."
       }
     }
   }
