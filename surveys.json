@@ -167,7 +167,7 @@
         "sp": "Cambiar el idioma a Español."
       },
       "url": "https://store.steampowered.com/",
-      "check": "document.getElementsByTagName('html')[0].lang == 'fr'",
+      "check": "document.getElementsByTagName('html')[0].lang == '#LANGUAGE_CODE#'",
       "skip_time": 60
     },
 
