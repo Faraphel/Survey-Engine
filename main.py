@@ -3,7 +3,7 @@ import sys
 from PyQt6.QtCore import QTranslator, QLocale
 from PyQt6.QtWidgets import QApplication
 
-import translate
+from source import translate
 from source import assets_path
 from source.widget import SurveyWindow
 
@@ -25,7 +25,7 @@ if __name__ == "__main__":
     translator.load(str(assets_path / f"language/{language_code}.qm"))
 
     # create the window
-    window = SurveyWindow()
+    window = SurveyWindow("./surveys.json")
     window.show()
 
     # start the application

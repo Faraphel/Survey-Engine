@@ -15,7 +15,7 @@ from source.survey.base import BaseSurvey
 from source.survey import Empty, survey_get
 
 
-result_path = Path("./result/")
+result_path = Path("./results/")
 result_path.mkdir(parents=True, exist_ok=True)
 
 
@@ -24,7 +24,7 @@ class SurveyEngine(QWidget):
     signal_skip = pyqtSignal()
     signal_success = pyqtSignal()
 
-    def __init__(self, survey_path: Path | str):  # TODO: real arguments here, cls.from_file ?
+    def __init__(self, surveys_data: dict, discord_webhook_result_url: Optional[str] = None):
         super().__init__()
 
         # signals
@@ -34,9 +34,8 @@ class SurveyEngine(QWidget):
 
         # prepare the survey collected data
         self.collected_datas: dict[str, dict] = {"time": time.time(), "surveys": {}}
-        self.survey_screens: list[tuple[str, BaseSurvey]] = []
+        self.discord_webhook_result_url = discord_webhook_result_url
         self.current_survey_index = 0
-        self.discord_webhook_result_url: Optional[str] = None
 
         # set the layout
         self._layout = QVBoxLayout()
@@ -78,29 +77,7 @@ class SurveyEngine(QWidget):
         self.progress.setTextVisible(False)
         self.progress.setFixedHeight(8)
 
-        # load the survey configuration file
-        self.load_file(survey_path)
-
-        # finalize the initialisation
-        self.update_survey()
-
-    def _on_signal_abandon(self):
-        # on success, show the button to give up
-        self.button_abandon.show()
-
-    def _on_signal_skip(self):
-        # on success, show the button to skip
-        self.button_skip.show()
-
-    def _on_signal_success(self):
-        # on success, show the button to go forward
-        self.button_forward.show()
-
-    def load_file(self, survey_path: Path | str):
-        # load the surveys screens
-        with open(survey_path, encoding="utf-8") as file:
-            data = json.load(file)
-
+        # load the survey screens
         self.survey_screens = [
             (
                 survey_id,
@@ -113,15 +90,42 @@ class SurveyEngine(QWidget):
                     }
                 )
             )
-            for survey_id, survey_data in data["surveys"].items()
+            for survey_id, survey_data in surveys_data.items()
         ]
-        self.current_survey_index = 0
 
         # update the progress bar
-        self.progress.setMaximum(len(data["surveys"]))
+        self.progress.setMaximum(len(self.survey_screens))
 
-        # get the result webhook url
-        self.discord_webhook_result_url = data.get("discord_webhook_result")
+        # finalize the initialisation
+        self.update_survey()
+
+    @classmethod
+    def from_dict(cls, data: dict) -> "SurveyEngine":
+        return cls(
+            surveys_data=data["surveys"],
+            discord_webhook_result_url=data.get("discord_webhook_result"),
+        )
+
+    @classmethod
+    def from_file(cls, path: Path | str) -> "SurveyEngine":
+        with open(path, encoding="utf-8") as file:
+            data = json.load(file)
+
+        return cls.from_dict(data)
+
+    # events
+
+    def _on_signal_abandon(self):
+        # on success, show the button to give up
+        self.button_abandon.show()
+
+    def _on_signal_skip(self):
+        # on success, show the button to skip
+        self.button_skip.show()
+
+    def _on_signal_success(self):
+        # on success, show the button to go forward
+        self.button_forward.show()
 
     def next_survey(self):
         # get the collected data from the survey
