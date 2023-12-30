@@ -51,29 +51,39 @@
       },
       "choices": {
         "always": {
-          "en": "Always",
-          "fr": "Tout le temps",
-          "sp": "Siempre"
+          "text": {
+            "en": "Always",
+            "fr": "Tout le temps",
+            "sp": "Siempre"
+          }
         },
         "often": {
-          "en": "Often",
-          "fr": "Souvent",
-          "sp": "A menudo"
+          "text": {
+            "en": "Often",
+            "fr": "Souvent",
+            "sp": "A menudo"
+          }
         },
         "sometime": {
-          "en": "Sometimes",
-          "fr": "De temps en temps",
-          "sp": "De vez en cuando"
+          "text": {
+            "en": "Sometimes",
+            "fr": "De temps en temps",
+            "sp": "De vez en cuando"
+          }
         },
         "rarely": {
-          "en": "Rarely",
-          "fr": "Rarement",
-          "sp": "Raramente"
+          "text": {
+            "en": "Rarely",
+            "fr": "Rarement",
+            "sp": "Raramente"
+          }
         },
         "never": {
-          "en": "Never",
-          "fr": "Jamais",
-          "sp": "Nunca"
+          "text": {
+            "en": "Never",
+            "fr": "Jamais",
+            "sp": "Nunca"
+          }
         }
       }
     },
@@ -87,37 +97,48 @@
       },
       "choices": {
         "epic": {
-          "en": "Epic Games Store",
-          "fr": "Epic Games Store",
-          "sp": "Epic Games Store"
+          "text": {
+            "en": "Epic Games Store",
+            "fr": "Epic Games Store",
+            "sp": "Epic Games Store"
+          }
         },
         "gog": {
-          "en": "GOG",
-          "fr": "GOG",
-          "sp": "GOG"
+          "text": {
+            "en": "GOG",
+            "fr": "GOG",
+            "sp": "GOG"
+          }
         },
         "origin": {
-          "en": "Origin",
-          "fr": "Origin",
-          "sp": "Origin"
+          "text": {
+            "en": "Origin",
+            "fr": "Origin",
+            "sp": "Origin"
+          }
         },
         "uplay": {
-          "en": "Uplay",
-          "fr": "Uplay",
-          "sp": "Uplay"
+          "text": {
+            "en": "Uplay",
+            "fr": "Uplay",
+            "sp": "Uplay"
+          }
         },
         "battle": {
-          "en": "Battle.net",
-          "fr": "Battle.net",
-          "sp": "Battle.net"
+          "text": {
+            "en": "Battle.net",
+            "fr": "Battle.net",
+            "sp": "Battle.net"
+          }
+        },
+        "other": {
+          "text": {
+            "en": "Other",
+            "fr": "Autre",
+            "sp": "Otro"
+          },
+          "ask_details": true
         }
-      },
-      "details_choice_enabled": true,
-      "details_choice_id": "other",
-      "details_choice_text": {
-        "en": "Other",
-        "fr": "Autre",
-        "sp": "Otro"
       }
     },
 
@@ -130,17 +151,20 @@
       },
       "choices": {
         "no": {
-          "en": "No",
-          "fr": "Non",
-          "sp": "No"
+          "text": {
+            "en": "No",
+            "fr": "Non",
+            "sp": "No"
+          }
+        },
+        "yes": {
+          "text": {
+            "en": "Yes",
+            "fr": "Oui",
+            "sp": "Sí"
+          },
+          "ask_details": true
         }
-      },
-      "details_choice_enabled": true,
-      "details_choice_id": "yes",
-      "details_choice_text": {
-        "en": "Yes",
-        "fr": "Oui",
-        "sp": "Sí"
       }
     },
 
@@ -289,54 +313,74 @@
       },
       "choices": {
         "mission-language": {
-          "en": "Change the language",
-          "fr": "Changer la langue",
-          "sp": "Cambiar el idioma"
+          "text": {
+            "en": "Change the language",
+            "fr": "Changer la langue",
+            "sp": "Cambiar el idioma"
+          }
         },
         "mission-price": {
-          "en": "Filter games by their price",
-          "fr": "Filtrer les jeux par leur prix",
-          "sp": "Filtrar juegos por su precio"
+          "text": {
+            "en": "Filter games by their price",
+            "fr": "Filtrer les jeux par leur prix",
+            "sp": "Filtrar juegos por su precio"
+          }
         },
         "mission-community-hub": {
-          "en": "Visit the community hub",
-          "fr": "Se rendre sur le hub de la communauté",
-          "sp": "Ir al hub de la comunidad"
+          "text": {
+            "en": "Visit the community hub",
+            "fr": "Se rendre sur le hub de la communauté",
+            "sp": "Ir al hub de la comunidad"
+          }
         },
         "mission-game-page": {
-          "en": "Visit a game page",
-          "fr": "Se rendre sur la page d'un jeu",
-          "sp": "Visitar la página de un juego"
+          "text": {
+            "en": "Visit a game page",
+            "fr": "Se rendre sur la page d'un jeu",
+            "sp": "Visitar la página de un juego"
+          }
         },
         "mission-game-dlc": {
-          "en": "Visit the downloadable content (DLC) page of a game",
-          "fr": "Se rendre sur la page du contenu additionnel (DLC) d'un jeu",
-          "sp": "Visitar la página del contenido adicional descargable (DLC) de un juego"
+          "text": {
+            "en": "Visit the downloadable content (DLC) page of a game",
+            "fr": "Se rendre sur la page du contenu additionnel (DLC) d'un jeu",
+            "sp": "Visitar la página del contenido adicional descargable (DLC) de un juego"
+          }
         },
         "mission-actuality-new": {
-          "en": "Visit the \"Featured\" news page",
-          "fr": "Se rendre sur la page des actualités \"À la une\"",
-          "sp": "Visitar la página de noticias \"Destacadas\""
+          "text": {
+            "en": "Visit the \"Featured\" news page",
+            "fr": "Se rendre sur la page des actualités \"À la une\"",
+            "sp": "Visitar la página de noticias \"Destacadas\""
+          }
         },
         "mission-profile": {
-          "en": "Visit a user's profile",
-          "fr": "Se rendre sur le profil d'un utilisateur",
-          "sp": "Visitar el perfil de un usuario"
+          "text": {
+            "en": "Visit a user's profile",
+            "fr": "Se rendre sur le profil d'un utilisateur",
+            "sp": "Visitar el perfil de un usuario"
+          }
         },
         "mission-game-discussion": {
-          "en": "Visit the discussion page of a game",
-          "fr": "Se rendre sur la page de discussion d'un jeu",
-          "sp": "Visitar la página de discusión de un juego"
+          "text": {
+            "en": "Visit the discussion page of a game",
+            "fr": "Se rendre sur la page de discussion d'un jeu",
+            "sp": "Visitar la página de discusión de un juego"
+          }
         },
         "mission-gift-card": {
-          "en": "Visit the gift cards page",
-          "fr": "Se rendre sur la page des cartes cadeaux",
-          "sp": "Ir a la página de tarjetas de regalo"
+          "text": {
+            "en": "Visit the gift cards page",
+            "fr": "Se rendre sur la page des cartes cadeaux",
+            "sp": "Ir a la página de tarjetas de regalo"
+          }
         },
         "mission-workshop": {
-          "en": "Visit the modification (mods) page of a game",
-          "fr": "Se rendre sur la page de la modification (mods) d'un jeu",
-          "sp": "Visitar la página de modificación (mods) de un juego"
+          "text": {
+            "en": "Visit the modification (mods) page of a game",
+            "fr": "Se rendre sur la page de la modification (mods) d'un jeu",
+            "sp": "Visitar la página de modificación (mods) de un juego"
+          }
         }
       }
     },
@@ -350,19 +394,25 @@
       },
       "choices": {
         "yes": {
-          "en": "Yes",
-          "fr": "Oui",
-          "sp": "Sí"
+          "text": {
+            "en": "Yes",
+            "fr": "Oui",
+            "sp": "Sí"
+          }
         },
         "mixed": {
-          "en": "Partially",
-          "fr": "Mitigé",
-          "sp": "Parcialmente"
+          "text": {
+            "en": "Partially",
+            "fr": "Mitigé",
+            "sp": "Parcialmente"
+          }
         },
         "no": {
-          "en": "No",
-          "fr": "Non",
-          "sp": "No"
+          "text": {
+            "en": "No",
+            "fr": "Non",
+            "sp": "No"
+          }
         }
       }
     },
@@ -393,9 +443,9 @@
         "sp": "Agradecimientos"
       },
       "description": {
-        "en": "We greatly appreciate your contribution to our survey and your time.\n\nYour collected data is located in the \"resultat\" folder.",
-        "fr": "Nous vous remercions grandement pour votre contribution à notre questionnaire et pour votre temps.\n\nVos données collectées sont situées dans le dossier \"resultat\".",
-        "sp": "Agradecemos enormemente su contribución a nuestro cuestionario y su tiempo.\n\nSus datos recopilados se encuentran en la carpeta \"resultat\"."
+        "en": "We greatly appreciate your contribution to our survey and your time.\n\nYour collected data is located in the \"results\" folder.",
+        "fr": "Nous vous remercions grandement pour votre contribution à notre questionnaire et pour votre temps.\n\nVos données collectées sont situées dans le dossier \"results\".",
+        "sp": "Agradecemos enormemente su contribución a nuestro cuestionario y su tiempo.\n\nSus datos recopilados se encuentran en la carpeta \"results\"."
       }
     }
   }

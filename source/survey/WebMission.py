@@ -1,17 +1,12 @@
 import time
-from pathlib import Path
 from typing import Optional, Any
 
 from PyQt6.QtCore import Qt, QTimer, pyqtSignal, QUrl, QEvent, QObject, QPointF
 from PyQt6.QtGui import QFont, QMouseEvent, QResizeEvent, QKeyEvent
 from PyQt6.QtWidgets import QLabel, QVBoxLayout, QSizePolicy
 
-from source import translate
-from source import assets_path
+from source import translate, widget
 from source.survey.base import BaseSurvey
-from source.widget import Browser
-
-page_success_path: Path = assets_path / "web/success.html"
 
 
 class WebMission(BaseSurvey):
@@ -52,7 +47,7 @@ class WebMission(BaseSurvey):
         self.label_title.setFont(font_title)
 
         # web page
-        self.browser = Browser()
+        self.browser = widget.Browser()
         self._layout.addWidget(self.browser)
         self.browser.web.focusProxy().installEventFilter(self)  # capture the event in eventFilter
         self.browser.web.urlChanged.connect(self._on_url_changed)  # NOQA: connect exist
@@ -75,6 +70,10 @@ class WebMission(BaseSurvey):
 
         # setup the events
         self.browser.web.page().scrollPositionChanged.connect(self._on_scroll_position_changed)
+
+        # navigation
+        self.navigation = widget.SurveyNavigation(signals=signals)
+        self._layout.addWidget(self.navigation)
 
     @classmethod
     def from_dict(cls, data: dict[str, Any], signals: dict[str, pyqtSignal]) -> "WebMission":
@@ -170,6 +169,8 @@ class WebMission(BaseSurvey):
         return super().eventFilter(obj, event)
 
     def on_show(self) -> None:
+        # TODO: remove ?
+
         # initialize the start time
         self.start_time = time.time()
 
@@ -190,6 +191,8 @@ class WebMission(BaseSurvey):
             self.timer_skip.start()
 
     def on_hide(self) -> None:
+        # TODO: remove ?
+
         # disable full screen mode
         self.window().showNormal()
 
@@ -215,13 +218,17 @@ class WebMission(BaseSurvey):
         # mark the mission as finished
         self._finished = True
 
-        # change the content of the page to the success message
-        self.browser.web.load(QUrl.fromLocalFile(str(page_success_path.absolute())))
+    def _on_url_changed(self):
+        # log the new url
+        self._save_event(
+            type="url",
+            url=self.browser.web.url().toString()
+        )
 
     def _on_time_skip(self):
         # when the timer to allow skip have run out
         if "skip" in self.signals:
-            self.signals["skip"].emit()  # NOQA: emit exist
+            self.navigation.show_skip()
 
     # condition
 
@@ -258,10 +265,3 @@ class WebMission(BaseSurvey):
         return {
             "event": self._collected_events,
         }
-
-    def _on_url_changed(self):
-        # log the new url
-        self._save_event(
-            type="url",
-            url=self.browser.web.url().toString()
-        )

@@ -9,8 +9,9 @@ from typing import Optional
 import nextcord
 import requests
 from PyQt6.QtCore import pyqtSignal
-from PyQt6.QtWidgets import QFrame, QVBoxLayout, QHBoxLayout, QPushButton, QProgressBar, QWidget
+from PyQt6.QtWidgets import QVBoxLayout, QProgressBar, QWidget
 
+from source import translate
 from source.survey.base import BaseSurvey
 from source.survey import Empty, survey_get
 
@@ -33,51 +34,16 @@ class SurveyEngine(QWidget):
         self.signal_success.connect(self._on_signal_success)  # NOQA: connect exist
 
         # prepare the survey collected data
-        self.collected_datas: dict[str, dict] = {"time": time.time(), "surveys": {}}
+        self.collected_datas: dict[str, dict] = {
+            "time": time.time(),  # get the time of the start of the survey
+            "language": translate.get_language(),  # get the user language
+            "surveys": {}  # prepare the individual surveys data
+        }
         self.discord_webhook_result_url = discord_webhook_result_url
         self.current_survey_index = 0
 
-        # set the layout
-        self._layout = QVBoxLayout()
-        self.setLayout(self._layout)
-
-        # prepare the frame for the survey elements
-        self.frame_survey: BaseSurvey = Empty()
-        self._layout.addWidget(self.frame_survey)
-
-        # navigations actions
-        self.frame_navigation = QFrame()
-        self._layout.addWidget(self.frame_navigation)
-
-        self._layout_navigation = QHBoxLayout()
-        self.frame_navigation.setLayout(self._layout_navigation)
-
-        self._layout_navigation.addStretch(0)  # add a stretch to put the buttons on the right
-
-        self.button_abandon = QPushButton()
-        self._layout_navigation.addWidget(self.button_abandon)
-        self.button_abandon.setText(self.tr("ABANDON"))
-        self.button_abandon.setStyleSheet("QPushButton { color : red; }")
-        self.button_abandon.clicked.connect(self.quit)  # NOQA: connect exist
-
-        self.button_skip = QPushButton()
-        self._layout_navigation.addWidget(self.button_skip)
-        self.button_skip.setText(self.tr("SKIP"))
-        self.button_skip.clicked.connect(self.next_survey)  # NOQA: connect exist
-
-        self.button_forward = QPushButton()
-        self._layout_navigation.addWidget(self.button_forward)
-        self.button_forward.setText(self.tr("NEXT"))
-        self.button_forward.clicked.connect(self.next_survey)  # NOQA: connect exist
-
-        # progress bar
-        self.progress = QProgressBar()
-        self._layout.addWidget(self.progress)
-        self.progress.setStyleSheet("QProgressBar::chunk { background-color: #03A9FC; }")
-        self.progress.setTextVisible(False)
-        self.progress.setFixedHeight(8)
-
         # load the survey screens
+        # TODO: create dynamically
         self.survey_screens = [
             (
                 survey_id,
@@ -93,8 +59,21 @@ class SurveyEngine(QWidget):
             for survey_id, survey_data in surveys_data.items()
         ]
 
-        # update the progress bar
-        self.progress.setMaximum(len(self.survey_screens))
+        # set the layout
+        self._layout = QVBoxLayout()
+        self.setLayout(self._layout)
+
+        # prepare the frame for the survey elements
+        self.frame_survey: BaseSurvey = Empty()
+        self._layout.addWidget(self.frame_survey)
+
+        # progress bar
+        self.progress = QProgressBar()
+        self._layout.addWidget(self.progress)
+        self.progress.setStyleSheet("QProgressBar::chunk { background-color: #03A9FC; }")
+        self.progress.setTextVisible(False)
+        self.progress.setFixedHeight(8)
+        self.progress.setMaximum(len(surveys_data))
 
         # finalize the initialisation
         self.update_survey()
@@ -116,16 +95,16 @@ class SurveyEngine(QWidget):
     # events
 
     def _on_signal_abandon(self):
-        # on success, show the button to give up
-        self.button_abandon.show()
+        # on abandon, quit the survey
+        self.quit()
 
     def _on_signal_skip(self):
-        # on success, show the button to skip
-        self.button_skip.show()
+        # on skip, skip to the next survey
+        self.next_survey()
 
     def _on_signal_success(self):
-        # on success, show the button to go forward
-        self.button_forward.show()
+        # on success, go to the next survey
+        self.next_survey()
 
     def next_survey(self):
         # get the collected data from the survey
@@ -145,11 +124,6 @@ class SurveyEngine(QWidget):
             self.finish_survey()
 
     def update_survey(self):
-        # disable the buttons
-        self.button_abandon.hide()
-        self.button_skip.hide()
-        self.button_forward.hide()
-
         # mark the actual survey as the old one
         old_frame_survey = self.frame_survey
         # call the old survey event

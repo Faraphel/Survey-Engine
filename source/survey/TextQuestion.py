@@ -4,7 +4,7 @@ from PyQt6.QtCore import Qt, pyqtSignal
 from PyQt6.QtGui import QFont
 from PyQt6.QtWidgets import QVBoxLayout, QLabel, QTextEdit
 
-from source import translate
+from source import translate, widget
 from source.survey.base import BaseSurvey
 
 
@@ -33,19 +33,17 @@ class TextQuestion(BaseSurvey):
         self.entry_response = QTextEdit()
         self._layout.addWidget(self.entry_response)
 
+        # navigation
+        self.navigation = widget.SurveyNavigation(signals=signals)
+        self._layout.addWidget(self.navigation)
+        self.navigation.show_forward()
+
     @classmethod
     def from_dict(cls, data: dict[str, Any], signals: dict[str, pyqtSignal]) -> "TextQuestion":
         return cls(
             title=data["title"],
             signals=signals,
         )
-
-    # events
-
-    def on_show(self) -> None:
-        # immediately mark the survey as successful
-        if "success" in self.signals:
-            self.signals["success"].emit()  # NOQA: emit exist
 
     # data collection
 

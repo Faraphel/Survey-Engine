@@ -4,7 +4,7 @@ from PyQt6.QtCore import Qt, pyqtSignal
 from PyQt6.QtGui import QFont
 from PyQt6.QtWidgets import QVBoxLayout, QLabel
 
-from source import translate
+from source import translate, widget
 from source.survey.base import BaseSurvey
 
 
@@ -19,7 +19,6 @@ class Text(BaseSurvey):
         super().__init__()
 
         self.abandonable = abandonable if abandonable is not None else False
-        self.signals = signals if signals is not None else {}
 
         # set the layout
         self._layout = QVBoxLayout()
@@ -43,6 +42,14 @@ class Text(BaseSurvey):
             self.label_description.setText(translate.translate(description))
             self.label_description.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
+        # navigation
+        self.navigation = widget.SurveyNavigation(signals=signals)
+        self._layout.addWidget(self.navigation)
+
+        self.navigation.show_forward()  # always show forward
+        if self.abandonable:
+            self.navigation.show_abandon()  # if enabled, show abandon
+
     @classmethod
     def from_dict(cls, data: dict[str, Any], signals: dict[str, pyqtSignal]) -> "Text":
         return cls(
@@ -52,12 +59,3 @@ class Text(BaseSurvey):
 
             signals=signals
         )
-
-    def on_show(self) -> None:
-        if "success" in self.signals:
-            # the user can skip a text whenever he wants to, directly signal a success
-            self.signals["success"].emit()  # NOQA: emit exist
-
-        # if abandon is enabled, emit on the corresponding signal
-        if self.abandonable and "abandon" in self.signals:
-            self.signals["abandon"].emit()  # NOQA: emit exist

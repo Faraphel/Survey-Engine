@@ -4,7 +4,7 @@ from PyQt6.QtCore import Qt, pyqtSignal
 from PyQt6.QtGui import QFont
 from PyQt6.QtWidgets import QVBoxLayout, QLabel, QSpinBox
 
-from source import translate
+from source import translate, widget
 from source.survey.base import BaseSurvey
 
 
@@ -46,6 +46,11 @@ class IntegerQuestion(BaseSurvey):
         self.entry_response.setValue(default)
         self._layout.addWidget(self.entry_response)
 
+        # navigation
+        self.navigation = widget.SurveyNavigation(signals=signals)
+        self._layout.addWidget(self.navigation)
+        self.navigation.show_forward()
+
     @classmethod
     def from_dict(cls, data: dict[str, Any], signals: dict[str, pyqtSignal]) -> "IntegerQuestion":
         return cls(
@@ -55,13 +60,6 @@ class IntegerQuestion(BaseSurvey):
             maximum=data.get("maximum"),
             signals=signals,
         )
-
-    # events
-
-    def on_show(self) -> None:
-        # immediately mark the survey as successful
-        if "success" in self.signals:
-            self.signals["success"].emit()  # NOQA: emit exist
 
     # data collection
 

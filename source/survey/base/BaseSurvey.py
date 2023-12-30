@@ -2,10 +2,10 @@ from abc import abstractmethod
 from typing import Optional, Any
 
 from PyQt6.QtCore import pyqtSignal
-from PyQt6.QtWidgets import QFrame
+from PyQt6.QtWidgets import QWidget
 
 
-class BaseSurvey(QFrame):
+class BaseSurvey(QWidget):
     """
     A type of survey survey that can be in the user interface
     """
