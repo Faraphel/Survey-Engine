@@ -2,7 +2,7 @@ import time
 from pathlib import Path
 from typing import Optional, Any
 
-from PyQt6.QtCore import Qt, QTimer, pyqtSignal, QUrl, QEvent, QObject
+from PyQt6.QtCore import Qt, QTimer, pyqtSignal, QUrl, QEvent, QObject, QPointF
 from PyQt6.QtGui import QFont, QMouseEvent, QResizeEvent, QKeyEvent
 from PyQt6.QtWidgets import QLabel, QVBoxLayout, QSizePolicy
 
@@ -73,6 +73,9 @@ class WebMission(BaseSurvey):
             self.timer_skip.setInterval(self.skip_time * 1000)
             self.timer_skip.timeout.connect(self._on_time_skip)  # NOQA: connect exist
 
+        # setup the events
+        self.browser.web.page().scrollPositionChanged.connect(self._on_scroll_position_changed)
+
     @classmethod
     def from_dict(cls, data: dict[str, Any], signals: dict[str, pyqtSignal]) -> "WebMission":
         return cls(
@@ -86,11 +89,13 @@ class WebMission(BaseSurvey):
 
     # events
 
-    def eventFilter(self, obj: QObject, event: QEvent) -> bool:
-        # TODO: scroll ?
+    def _on_scroll_position_changed(self, position: QPointF):
+        self._save_event(type="scroll", position=[position.x(), position.y()])
 
+    def eventFilter(self, obj: QObject, event: QEvent) -> bool:
         if obj is self.browser.web.focusProxy() and not self._finished:
             # if the object is the content of the web engine widget
+
             match event.type():
                 case QEvent.Type.MouseMove:
                     # if this is a mouse movement
