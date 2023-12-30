@@ -6,7 +6,7 @@ from PyQt6.QtCore import Qt, QTimer, pyqtSignal, QUrl, QEvent, QObject
 from PyQt6.QtGui import QFont, QMouseEvent, QResizeEvent, QKeyEvent
 from PyQt6.QtWidgets import QLabel, QVBoxLayout, QSizePolicy
 
-import translate
+from source import translate
 from source import assets_path
 from source.survey.base import BaseSurvey
 from source.widget import Browser

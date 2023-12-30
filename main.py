@@ -3,7 +3,7 @@ import sys
 from PyQt6.QtCore import QTranslator, QLocale
 from PyQt6.QtWidgets import QApplication
 
-import translate
+from source import translate
 from source import assets_path
 from source.widget import SurveyWindow
 
