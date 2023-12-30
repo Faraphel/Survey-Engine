@@ -169,21 +169,58 @@ class SurveyEngine(QWidget):
 
     def finish_survey(self):
         # TODO: page with indication and progress bar for upload
-        # TODO: split into save_file() and upload_file()
 
-        # encode and compress the data
-        data: bytes = zlib.compress(json.dumps(self.collected_datas, ensure_ascii=False).encode("utf-8"))
+        filename: str = f"{uuid.uuid4()}.rsl"
 
         # save the result in a local file
-        (result_path / f"{uuid.uuid4()}.rsl").write_bytes(data)
+        self.result_save_file(result_path / filename)
 
         # if set, try to send the result to a discord webhook
         if self.discord_webhook_result_url is not None:
-            with requests.Session() as session:
-                webhook = nextcord.SyncWebhook.from_url(self.discord_webhook_result_url, session=session)
-                message = webhook.send(file=nextcord.File(fp=BytesIO(data), filename="result.rsl"), wait=True)
+            try:
+                self.result_upload_discord(filename=filename)
+            except nextcord.HTTPException:
+                # TODO: say to send manually the local file
+                raise
 
         self.quit()
+
+    def get_result_data(self) -> bytes:
+        """
+        Return the compressed result data
+        """
+
+        return zlib.compress(json.dumps(self.collected_datas, ensure_ascii=False).encode("utf-8"))
+
+    def result_save_file(self, destination: Path | str) -> None:
+        """
+        Save the result data to a file
+        :param destination: the path to the file
+        """
+
+        with open(destination, "wb") as file:
+            file.write(self.get_result_data())
+
+    def result_upload_discord(self, filename: str = "result.rsl") -> None:
+        """
+        Upload the result to a discord webhook
+        """
+
+        # create a session
+        with requests.Session() as session:
+            # load the configured webhook
+            webhook = nextcord.SyncWebhook.from_url(
+                self.discord_webhook_result_url,
+                session=session
+            )
+
+            # send the message to discord
+            message = webhook.send(
+                file=nextcord.File(
+                    fp=BytesIO(self.get_result_data()),
+                    filename=filename),
+                wait=True
+            )
 
     def quit(self):
         # quit the application by closing and deleting the window
