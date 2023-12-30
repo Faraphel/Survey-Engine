@@ -10,6 +10,8 @@ class BaseSurvey(QWidget):
     A type of survey survey that can be in the user interface
     """
 
+    # initialisation
+
     @classmethod
     @abstractmethod
     def from_dict(cls, data: dict[str, Any], signals: dict[str, pyqtSignal]) -> "BaseSurvey":
@@ -18,16 +20,7 @@ class BaseSurvey(QWidget):
         :return: the instance
         """
 
-    def on_show(self) -> None:
-        """
-        Called when the survey is shown
-        """
-
-    def on_hide(self) -> None:
-        """
-        Called when the survey is hidden
-        :return:
-        """
+    # data collection
 
     def get_collected_data(self) -> Optional[dict]:
         """
@@ -36,3 +29,15 @@ class BaseSurvey(QWidget):
         """
 
         return None
+
+    # survey events
+
+    def on_ready(self) -> None:
+        """
+        Called once the survey screen is ready to be used
+        """
+
+    def on_finalize(self) -> None:
+        """
+        Called once the survey screen is about to be finished
+        """

@@ -51,6 +51,7 @@ class WebMission(BaseSurvey):
         self._layout.addWidget(self.browser)
         self.browser.web.focusProxy().installEventFilter(self)  # capture the event in eventFilter
         self.browser.web.urlChanged.connect(self._on_url_changed)  # NOQA: connect exist
+        self.browser.web.setUrl(QUrl(self.default_url))
 
         self.browser.web.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
 
@@ -74,6 +75,21 @@ class WebMission(BaseSurvey):
         # navigation
         self.navigation = widget.SurveyNavigation(signals=signals)
         self._layout.addWidget(self.navigation)
+
+        # initialize the start time
+        self.start_time = time.time()
+
+        # check timer
+        if self.timer_check is not None:
+            # enable the timer
+            self.timer_check.start()
+        else:
+            self._success()  # call directly the success method
+
+        # skip timer
+        if self.timer_skip is not None:
+            # enable the timer for skipping the question
+            self.timer_skip.start()
 
     @classmethod
     def from_dict(cls, data: dict[str, Any], signals: dict[str, pyqtSignal]) -> "WebMission":
@@ -168,42 +184,6 @@ class WebMission(BaseSurvey):
 
         return super().eventFilter(obj, event)
 
-    def on_show(self) -> None:
-        # TODO: remove ?
-
-        # initialize the start time
-        self.start_time = time.time()
-
-        # set the web view to the default url
-        self.browser.web.setUrl(QUrl(self.default_url))
-
-        # enable the full screen mode
-        self.window().showFullScreen()
-
-        if self.timer_check is not None:
-            # enable the timer
-            self.timer_check.start()
-        else:
-            self._success()  # call directly the success method
-
-        if self.timer_skip is not None:
-            # enable the timer for skipping the question
-            self.timer_skip.start()
-
-    def on_hide(self) -> None:
-        # TODO: remove ?
-
-        # disable full screen mode
-        self.window().showNormal()
-
-        # stop the checking loop timer
-        if self.timer_check is not None:
-            self.timer_check.stop()
-
-        # stop the timer skip
-        if self.timer_skip is not None:
-            self.timer_skip.stop()
-
     def _success(self):
         if self._finished:
             return
@@ -265,3 +245,13 @@ class WebMission(BaseSurvey):
         return {
             "event": self._collected_events,
         }
+
+    # survey events
+
+    def on_ready(self) -> None:
+        # enable the maximized mode
+        self.window().showMaximized()
+
+    def on_finalize(self) -> None:
+        # disable the maximized mode
+        self.window().showNormal()

@@ -28,44 +28,28 @@ class SurveyEngine(QWidget):
     def __init__(self, surveys_data: dict, discord_webhook_result_url: Optional[str] = None):
         super().__init__()
 
-        # signals
-        self.signal_abandon.connect(self._on_signal_abandon)  # NOQA: connect exist
-        self.signal_skip.connect(self._on_signal_skip)  # NOQA: connect exist
-        self.signal_success.connect(self._on_signal_success)  # NOQA: connect exist
+        self.surveys_data = surveys_data
+        self.discord_webhook_result_url = discord_webhook_result_url
+        self._current_survey_index = 0
 
-        # prepare the survey collected data
         self.collected_datas: dict[str, dict] = {
             "time": time.time(),  # get the time of the start of the survey
             "language": translate.get_language(),  # get the user language
             "surveys": {}  # prepare the individual surveys data
         }
-        self.discord_webhook_result_url = discord_webhook_result_url
-        self.current_survey_index = 0
 
-        # load the survey screens
-        # TODO: create dynamically
-        self.survey_screens = [
-            (
-                survey_id,
-                survey_get(
-                    survey_data,
-                    signals={
-                        "abandon": self.signal_abandon,
-                        "skip": self.signal_skip,
-                        "success": self.signal_success,
-                    }
-                )
-            )
-            for survey_id, survey_data in surveys_data.items()
-        ]
+        # signals
+        self.signal_abandon.connect(self._on_signal_abandon)  # NOQA: connect exist
+        self.signal_skip.connect(self._on_signal_skip)  # NOQA: connect exist
+        self.signal_success.connect(self._on_signal_success)  # NOQA: connect exist
 
         # set the layout
         self._layout = QVBoxLayout()
         self.setLayout(self._layout)
 
         # prepare the frame for the survey elements
-        self.frame_survey: BaseSurvey = Empty()
-        self._layout.addWidget(self.frame_survey)
+        self.survey: BaseSurvey = Empty()
+        self._layout.addWidget(self.survey)
 
         # progress bar
         self.progress = QProgressBar()
@@ -92,6 +76,21 @@ class SurveyEngine(QWidget):
 
         return cls.from_dict(data)
 
+    # property
+
+    @property
+    def current_survey_index(self):
+        return self._current_survey_index
+
+    @current_survey_index.setter
+    def current_survey_index(self, value: int):
+        self._current_survey_index = value
+        self.progress.setValue(self.current_survey_index)
+
+    @property
+    def current_survey_id(self) -> str:
+        return list(self.surveys_data.keys())[self.current_survey_index]
+
     # events
 
     def _on_signal_abandon(self):
@@ -108,38 +107,49 @@ class SurveyEngine(QWidget):
 
     def next_survey(self):
         # get the collected data from the survey
-        collected_data = self.frame_survey.get_collected_data()
+        collected_data = self.survey.get_collected_data()
         if collected_data is not None:
-            # if there is data, get the current survey id
-            survey_id, survey = self.survey_screens[self.current_survey_index]
             # save the response in the data
-            self.collected_datas["surveys"][survey_id] = collected_data
+            self.collected_datas["surveys"][self.current_survey_id] = collected_data
 
+        # go to the next survey
         self.current_survey_index += 1
-        self.progress.setValue(self.current_survey_index)
 
-        if self.current_survey_index < len(self.survey_screens):
+        if self.current_survey_index < len(self.surveys_data):
+            # if there are still survey to do, show it
             self.update_survey()
         else:
+            # otherwise end the survey
             self.finish_survey()
 
     def update_survey(self):
+
         # mark the actual survey as the old one
-        old_frame_survey = self.frame_survey
-        # call the old survey event
-        old_frame_survey.on_hide()
+        old_survey = self.survey
+
+        # finalize the old_survey
+        old_survey.on_finalize()
+
         # get the currently selected survey
-        survey_id, survey = self.survey_screens[self.current_survey_index]
+        new_survey = survey_get(
+            self.surveys_data[self.current_survey_id],
+            signals={
+                "abandon": self.signal_abandon,
+                "skip": self.signal_skip,
+                "success": self.signal_success,
+            }
+        )
+
         # update it to the new one
-        self.frame_survey = survey
+        self.survey = new_survey
         # change the widget on the layout
-        self._layout.replaceWidget(old_frame_survey, self.frame_survey)
-        # adjust the size of the widgets
-        self.window().adjustSize()
-        # call the new survey event
-        survey.on_show()
+        self._layout.replaceWidget(old_survey, self.survey)
+
         # delete the old frame
-        old_frame_survey.deleteLater()
+        old_survey.deleteLater()
+
+        # mark the new survey as ready
+        self.survey.on_ready()
 
     def finish_survey(self):
         # TODO: page with indication and progress bar for upload
