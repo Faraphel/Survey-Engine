@@ -235,7 +235,13 @@ class WebMission(BaseSurvey):
                 self._success()
 
         page = self.browser.web.page()
-        page.runJavaScript(self.check_condition, resultCallback=check_callback)
+
+        # preprocess the condition
+        condition = self.check_condition
+        condition = condition.replace("#LANGUAGE_CODE#", translate.get_language())
+
+        # run the condition
+        page.runJavaScript(condition, resultCallback=check_callback)
 
     # data collection
 
