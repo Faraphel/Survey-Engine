@@ -1,21 +1,25 @@
 import json
 import time
 import typing
+import uuid
 from pathlib import Path
 from typing import Optional
 
 from PyQt6.QtCore import pyqtSignal
-from PyQt6.QtWidgets import QVBoxLayout, QProgressBar, QWidget
+from PyQt6.QtWidgets import QVBoxLayout, QProgressBar, QWidget, QMessageBox
 
-from source import translate, widget
+from source import translate, widget, save
 from source.survey.base import BaseSurvey
 from source.survey import Empty, survey_get
+from source.utils import compress
 
 
 class SurveyEngine(QWidget):
     signal_abandon = pyqtSignal()
     signal_skip = pyqtSignal()
     signal_success = pyqtSignal()
+
+    signal_warning = pyqtSignal(str)
 
     def __init__(self, surveys_data: dict, discord_webhook_result_url: Optional[str] = None):
         super().__init__()
@@ -34,6 +38,8 @@ class SurveyEngine(QWidget):
         self.signal_abandon.connect(self._on_signal_abandon)  # NOQA: connect exist
         self.signal_skip.connect(self._on_signal_skip)  # NOQA: connect exist
         self.signal_success.connect(self._on_signal_success)  # NOQA: connect exist
+
+        self.signal_warning.connect(self._on_signal_warning)  # NOQA: connect exist
 
         # set the layout
         self._layout = QVBoxLayout()
@@ -58,7 +64,7 @@ class SurveyEngine(QWidget):
     def from_dict(cls, data: dict) -> "SurveyEngine":
         return cls(
             surveys_data=data["surveys"],
-            discord_webhook_result_url=data.get("discord_webhook_result"),
+            discord_webhook_result_url=data.get("discord_webhook_result_url"),
         )
 
     @classmethod
@@ -145,12 +151,29 @@ class SurveyEngine(QWidget):
         self.survey.on_ready()
 
     def finish_survey(self):
-        saving_screen = widget.SavingScreen(
-            self.collected_datas,
-            self.discord_webhook_result_url
+        # get the filename for the save
+        filename: str = f"{uuid.uuid4()}.rsl"
+
+        # compress the data
+        compressed_datas = compress.compress_data(self.collected_datas)
+
+        # save them
+        save.save_all(
+            compressed_datas,
+            filename,
+            self.discord_webhook_result_url,
+            signal_warning=self.signal_warning
         )
 
+        # finally, close the window
         window = typing.cast(widget.SurveyWindow, self.window())
-        window.setCentralWidget(saving_screen)
+        window.quit()
 
-        self.deleteLater()
+    # signals
+
+    def _on_signal_warning(self, message: str):
+        QMessageBox.warning(
+            self,
+            self.tr("WARNING"),
+            self.tr(message),
+        )
