@@ -1,3 +1,6 @@
-/results/
-/venv/
-/idea/
+.idea/
+
+results/
+venv/
+idea/
+surveys.json
