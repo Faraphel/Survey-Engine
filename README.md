@@ -18,4 +18,5 @@ Or download one of the build in the [releases page](https://github.com/Faraphel/
 
 You can run the projet simply by using the command `python3 main.py`.  
 A window will then open containing the survey. Once the survey finished, a file containing all the data
-will be created in the `./result/` directory.
+will be created in the `./results/` directory.  
+If configured properly, the result can also be automatically sent to a discord webhooks.
