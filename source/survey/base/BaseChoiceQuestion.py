@@ -102,6 +102,10 @@ class BaseChoiceQuestion(BaseSurvey):
         # add the navigation
         self._layout.addWidget(self.navigation)
 
+        if not self.are_buttons_exclusive():
+            # if the buttons are not exclusive, allow to select no options
+            self.navigation.show_forward()
+
     @classmethod
     def from_dict(cls, data: dict[str, Any], signals: dict[str, pyqtSignal]) -> "BaseChoiceQuestion":
         return cls(
