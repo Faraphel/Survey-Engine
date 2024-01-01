@@ -77,7 +77,7 @@ class Browser(QWidget):
         # update the progress bar
         self.progress.setValue(value)
 
-    def _load_finished(self):
+    def _load_finished(self, ok: bool):
         # update the progress bar
         self.progress.hide()
         # refresh the navigation buttons

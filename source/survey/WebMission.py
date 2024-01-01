@@ -14,13 +14,20 @@ class WebMission(BaseSurvey):
             self,
             title: translate.Translatable,
             url: str,
-            check_condition: Optional[str] = None,
+
+            initial_js: Optional[str] = None,
+            start_check_js: Optional[str] = None,
+            check_js: Optional[str] = None,
+
             skip_time: Optional[float] = None,
             signals: dict[str, pyqtSignal] = None
     ):
         super().__init__()
 
-        self.check_condition = check_condition
+        self.initial_js = initial_js if initial_js is not None else ""
+        self.start_check_js = start_check_js if start_check_js is not None else "true"
+        self.check_js = check_js if check_js is not None else "true"
+
         self.default_url = url
         self.skip_time = skip_time
         self.signals = signals if signals is not None else {}
@@ -49,25 +56,14 @@ class WebMission(BaseSurvey):
         # web page
         self.browser = ui.Browser()
         self._layout.addWidget(self.browser)
+
         self.browser.web.focusProxy().installEventFilter(self)  # capture the event in eventFilter
         self.browser.web.urlChanged.connect(self._on_url_changed)  # NOQA: connect exist
+
         self.browser.web.setUrl(QUrl(self.default_url))
+        self.browser.web.loadFinished.connect(self._initialise_js)  # NOQA: connect exist
 
         self.browser.web.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
-
-        # setup the timer for the check
-        self.timer_check = None
-        if self.check_condition is not None:
-            self.timer_check = QTimer()
-            self.timer_check.setInterval(100)
-            self.timer_check.timeout.connect(self.check)  # NOQA: connect exist
-
-        # setup the timer for skipping the mission
-        self.timer_skip = None
-        if self.skip_time is not None:
-            self.timer_skip = QTimer()
-            self.timer_skip.setInterval(self.skip_time * 1000)
-            self.timer_skip.timeout.connect(self._on_time_skip)  # NOQA: connect exist
 
         # setup the events
         self.browser.web.page().scrollPositionChanged.connect(self._on_scroll_position_changed)
@@ -79,16 +75,17 @@ class WebMission(BaseSurvey):
         # initialize the start time
         self.start_time = time.time()
 
-        # check timer
-        if self.timer_check is not None:
-            # enable the timer
-            self.timer_check.start()
-        else:
-            self._success()  # call directly the success method
+        # initialise the timers
+        self.timer_start_check: Optional[QTimer] = None
+        self.timer_check: Optional[QTimer] = None
+        self.timer_skip: Optional[QTimer] = None
 
         # skip timer
-        if self.timer_skip is not None:
-            # enable the timer for skipping the question
+        if self.skip_time is not None:
+            self.timer_skip = QTimer()
+            self.timer_skip.setInterval(self.skip_time * 1000)
+            self.timer_skip.timeout.connect(self._allow_time_skip)  # NOQA: connect exist
+
             self.timer_skip.start()
 
     @classmethod
@@ -96,7 +93,11 @@ class WebMission(BaseSurvey):
         return cls(
             title=data["title"],
             url=data.get("url"),
-            check_condition=data.get("check"),
+
+            initial_js=data.get("initial_js"),
+            start_check_js=data.get("start_check_js"),
+            check_js=data.get("check_js"),
+
             skip_time=data.get("skip_time"),
 
             signals=signals
@@ -205,30 +206,80 @@ class WebMission(BaseSurvey):
             url=self.browser.web.url().toString()
         )
 
-    def _on_time_skip(self):
+    def _allow_time_skip(self):
         # when the timer to allow skip have run out
         if "skip" in self.signals:
             self.navigation.show_skip()
 
     # condition
 
-    def check(self) -> None:
+    def _preprocess_check(self, check: str) -> str:
+        """
+        Preprocess a check
+        """
+
+        check = check.replace("#LANGUAGE_CODE#", translate.get_language())
+        check = check.replace("#START_TIME#", str(self.start_time))
+
+        return check
+
+    def _initialise_js(self, ok: bool):
+        # prevent the event from being call a second time
+        self.browser.web.loadFinished.disconnect(self._initialise_js)
+
+        def callback(result: bool):
+            self.timer_start_check = QTimer()
+            self.timer_start_check.setInterval(100)
+            self.timer_start_check.timeout.connect(self._start_check)  # NOQA: connect exist
+            self.timer_start_check.start()
+
+        # run the initial command
+        self.browser.web.page().runJavaScript(
+            self._preprocess_check(self.initial_js),
+            resultCallback=callback
+        )
+
+    def _start_check(self) -> None:
+        """
+        Check if the real checking condition should start
+        """
+
+        # if the check evaluated to True, enable the normal check
+        def callback(result: bool):
+            if result:
+                # stop this start check timer
+                self.timer_start_check.stop()
+
+                # create a new timer for the normal check
+                self.timer_check = QTimer()
+                self.timer_check.setInterval(100)
+                self.timer_check.timeout.connect(self._check)  # NOQA: connect exist
+                self.timer_check.start()
+
+        # run the check
+        self.browser.web.page().runJavaScript(
+            self._preprocess_check(self.start_check_js),
+            resultCallback=callback
+        )
+
+    def _check(self) -> None:
         """
         Check if the checking condition have been completed
         """
 
-        def check_callback(result: bool):
+        # if the check evaluated to True, call the success method
+        def callback(result: bool):
             if result:
+                # stop this check timer
+                self.timer_check.stop()
+                # mark the test as successful
                 self._success()
 
-        page = self.browser.web.page()
-
-        # preprocess the condition
-        condition = self.check_condition
-        condition = condition.replace("#LANGUAGE_CODE#", translate.get_language())
-
-        # run the condition
-        page.runJavaScript(condition, resultCallback=check_callback)
+        # run the check
+        self.browser.web.page().runJavaScript(
+            self._preprocess_check(self.check_js),
+            resultCallback=callback
+        )
 
     # data collection
 
