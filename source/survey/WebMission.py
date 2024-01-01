@@ -5,7 +5,7 @@ from PyQt6.QtCore import Qt, QTimer, pyqtSignal, QUrl, QEvent, QObject, QPointF
 from PyQt6.QtGui import QFont, QMouseEvent, QResizeEvent, QKeyEvent
 from PyQt6.QtWidgets import QLabel, QVBoxLayout, QSizePolicy
 
-from source import translate, widget
+from source import translate, ui
 from source.survey.base import BaseSurvey
 
 
@@ -47,7 +47,7 @@ class WebMission(BaseSurvey):
         self.label_title.setFont(font_title)
 
         # web page
-        self.browser = widget.Browser()
+        self.browser = ui.Browser()
         self._layout.addWidget(self.browser)
         self.browser.web.focusProxy().installEventFilter(self)  # capture the event in eventFilter
         self.browser.web.urlChanged.connect(self._on_url_changed)  # NOQA: connect exist
@@ -73,7 +73,7 @@ class WebMission(BaseSurvey):
         self.browser.web.page().scrollPositionChanged.connect(self._on_scroll_position_changed)
 
         # navigation
-        self.navigation = widget.SurveyNavigation(signals=signals)
+        self.navigation = ui.SurveyNavigation(signals=signals)
         self._layout.addWidget(self.navigation)
 
         # initialize the start time

@@ -8,7 +8,7 @@ from typing import Optional
 from PyQt6.QtCore import pyqtSignal
 from PyQt6.QtWidgets import QVBoxLayout, QProgressBar, QWidget, QMessageBox
 
-from source import translate, widget, save
+from source import translate, ui, save
 from source.survey.base import BaseSurvey
 from source.survey import Empty, survey_get
 from source.utils import compress
@@ -93,7 +93,7 @@ class SurveyEngine(QWidget):
 
     def _on_signal_abandon(self):
         # on abandon, quit the survey
-        window = typing.cast(widget.SurveyWindow, self.window())
+        window = typing.cast(ui.SurveyWindow, self.window())
         window.quit()
 
     def _on_signal_skip(self):
@@ -166,7 +166,7 @@ class SurveyEngine(QWidget):
         )
 
         # finally, close the window
-        window = typing.cast(widget.SurveyWindow, self.window())
+        window = typing.cast(ui.SurveyWindow, self.window())
         window.quit()
 
     # signals

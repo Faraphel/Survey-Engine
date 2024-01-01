@@ -5,7 +5,7 @@ from PyQt6.QtCore import Qt, pyqtSignal
 from PyQt6.QtGui import QFont
 from PyQt6.QtWidgets import QFrame, QVBoxLayout, QLabel, QButtonGroup, QLineEdit, QAbstractButton
 
-from source import translate, widget
+from source import translate, ui
 from source.survey.base import BaseSurvey
 
 
@@ -54,7 +54,7 @@ class BaseChoiceQuestion(BaseSurvey):
         self.label_question.setFont(font_title)
 
         # prepare navigation
-        self.navigation = widget.SurveyNavigation(signals=signals)
+        self.navigation = ui.SurveyNavigation(signals=signals)
 
         # responses
         self.frame_responses = QFrame()

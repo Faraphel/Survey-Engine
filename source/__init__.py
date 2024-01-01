@@ -3,7 +3,7 @@ from pathlib import Path
 assets_path = Path("./assets/")
 
 __appname__ = "Survey Engine"
-__version__ = (1,0,0)
+__version__ = (1,0,2)
 __str_version__ = ".".join(map(str, __version__))
 __author__ = "Faraphel"
 __mail__ = "rc60650@hotmail.com"

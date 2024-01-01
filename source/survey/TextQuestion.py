@@ -4,7 +4,7 @@ from PyQt6.QtCore import Qt, pyqtSignal
 from PyQt6.QtGui import QFont
 from PyQt6.QtWidgets import QVBoxLayout, QLabel, QTextEdit
 
-from source import translate, widget
+from source import translate, ui
 from source.survey.base import BaseSurvey
 
 
@@ -34,7 +34,7 @@ class TextQuestion(BaseSurvey):
         self._layout.addWidget(self.entry_response)
 
         # navigation
-        self.navigation = widget.SurveyNavigation(signals=signals)
+        self.navigation = ui.SurveyNavigation(signals=signals)
         self._layout.addWidget(self.navigation)
         self.navigation.show_forward()
 
