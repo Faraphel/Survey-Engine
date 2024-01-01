@@ -19,7 +19,6 @@ class LanguageSelection(QWidget):
         # title
         self.title = QLabel()
         self._layout.addWidget(self.title)
-        self.title.setText("Select your language.")
         self.title.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         # language selection
@@ -40,13 +39,17 @@ class LanguageSelection(QWidget):
             if language == language_default:
                 self.select_language.setCurrentIndex(i)
 
+        self.select_language.currentIndexChanged.connect(self.refresh_language)  # NOQA: connect exist
+
         # start button
         self.button_start = QPushButton()
         self._layout.addWidget(self.button_start)
-        self.button_start.setText("Start")
         self.button_start.clicked.connect(self.start)  # NOQA: connect exist
 
-    def start(self) -> None:
+        # refresh the texts
+        self.refresh_language()
+
+    def refresh_language(self):
         language_code = self.select_language.currentData()
 
         # load the correct translator
@@ -60,6 +63,14 @@ class LanguageSelection(QWidget):
         application = QApplication.instance()
         application.installTranslator(translator)
 
+        # refresh the texts
+        self.retranslate()
+
+    def retranslate(self):
+        self.title.setText(self.tr("SELECT YOUR LANGUAGE"))
+        self.button_start.setText(self.tr("START"))
+
+    def start(self) -> None:
         # call the after event
         self.after()
 

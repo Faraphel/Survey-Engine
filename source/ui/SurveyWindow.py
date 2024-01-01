@@ -3,7 +3,7 @@ from pathlib import Path
 from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QMainWindow
 
-from source import ui, assets_path, __icon_png__
+from source import ui, assets_path, __icon_png__, __appname__
 
 icon_path = assets_path / "icon.png"
 
@@ -14,7 +14,7 @@ class SurveyWindow(QMainWindow):
 
         # window style
         self.setWindowIcon(QIcon(__icon_png__))
-        self.setWindowTitle(self.tr("SURVEY"))
+        self.setWindowTitle(__appname__)
 
         # start by asking the user his language
         language_selection = ui.LanguageSelection(

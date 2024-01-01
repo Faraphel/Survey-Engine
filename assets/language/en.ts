@@ -2,6 +2,19 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="en">
 <context>
+    <name>LanguageSelection</name>
+    <message>
+        <location filename="../../source/ui/LanguageSelection.py" line="70"/>
+        <source>SELECT YOUR LANGUAGE</source>
+        <translation>Select your language</translation>
+    </message>
+    <message>
+        <location filename="../../source/ui/LanguageSelection.py" line="71"/>
+        <source>START</source>
+        <translation>Start</translation>
+    </message>
+</context>
+<context>
     <name>SurveyEngine</name>
     <message>
         <location filename="../../source/ui/SurveyEngine.py" line="177"/>
@@ -25,14 +38,6 @@
         <location filename="../../source/ui/SurveyNavigation.py" line="38"/>
         <source>NEXT</source>
         <translation>Next</translation>
-    </message>
-</context>
-<context>
-    <name>SurveyWindow</name>
-    <message>
-        <location filename="../../source/ui/SurveyWindow.py" line="17"/>
-        <source>SURVEY</source>
-        <translation>Survey</translation>
     </message>
 </context>
 </TS>

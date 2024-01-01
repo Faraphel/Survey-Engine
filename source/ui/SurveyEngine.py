@@ -175,5 +175,5 @@ class SurveyEngine(QWidget):
         QMessageBox.warning(
             self,
             self.tr("WARNING"),
-            self.tr(message),
+            message,
         )

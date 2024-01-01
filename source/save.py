@@ -5,6 +5,7 @@ from typing import Optional
 import nextcord
 import requests
 from PyQt6.QtCore import pyqtSignal
+from PyQt6.QtWidgets import QApplication
 
 result_path = Path("./results/")
 
@@ -59,6 +60,7 @@ def upload_discord(
 
         except Exception as exc:
             if signal_warning is not None:
-                signal_warning.emit("COULD NOT UPLOAD THE DATA")  # NOQA: emit exist
+                application = QApplication.instance()
+                signal_warning.emit(application.tr("COULD NOT UPLOAD THE DATA"))  # NOQA: emit exist
             else:
                 raise exc
