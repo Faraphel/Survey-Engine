@@ -1,14 +1,15 @@
+import typing
 from typing import Callable
 
-from PyQt6.QtCore import Qt, QLocale, QTranslator
-from PyQt6.QtWidgets import QWidget, QLabel, QVBoxLayout, QComboBox, QApplication, QPushButton
+from PyQt6.QtCore import Qt, QLocale
+from PyQt6.QtWidgets import QWidget, QLabel, QVBoxLayout, QComboBox, QPushButton
 
-from source import assets_path, translate
+from source import assets_path, translate, ui
 
 
 class LanguageSelection(QWidget):
-    def __init__(self, after: Callable):
-        super().__init__()
+    def __init__(self, parent: QWidget, after: Callable):
+        super().__init__(parent=parent)
 
         self.after = after
 
@@ -49,19 +50,17 @@ class LanguageSelection(QWidget):
         # refresh the texts
         self.refresh_language()
 
+        super().show()
+
     def refresh_language(self):
         language_code = self.select_language.currentData()
 
-        # load the correct translator
-        translator = QTranslator()
-        translator.load(str(assets_path / f"language/{language_code}.qm"))
+        # load the correct translation in the window
+        window = typing.cast(ui.SurveyWindow, self.window())
+        window.translator.load(str(assets_path / f"language/{language_code}.qm"))
 
         # apply the language on the custom translator
         translate.set_language(language_code)
-
-        # install the translator on the application
-        application = QApplication.instance()
-        application.installTranslator(translator)
 
         # refresh the texts
         self.retranslate()
