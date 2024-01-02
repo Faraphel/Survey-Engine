@@ -9,7 +9,7 @@ This run with the [PyQt6](https://www.riverbankcomputing.com/software/pyqt/) and
 
 To install the projet, you will need to install :
 
-- Python >= 3.11  (preferably in a virtual environment)
+- Python >= 3.11 (preferably in a virtual environment with `python3 -m venv ./.venv/`)
 - Python dependencies (`python3 -m pip install -r ./requirements.txt`)
 
 Or download one of the build in the [releases page](https://github.com/Faraphel/M1-Recherche/releases).
