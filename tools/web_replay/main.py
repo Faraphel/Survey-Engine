@@ -18,7 +18,7 @@ if __name__ == "__main__":
     # create the window
     window = ReplayWindow(
         datetime.fromtimestamp(data["time"]),
-        data["surveys"]["mission-game-dlc"]["event"]
+        data["surveys"]["mission-language"]["event"]
     )
     window.show()
 

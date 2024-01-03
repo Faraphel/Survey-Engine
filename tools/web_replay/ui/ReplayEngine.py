@@ -3,7 +3,7 @@ from typing import Callable
 
 from PyQt6.QtCore import Qt, QUrl, QPointF, QTimer
 from PyQt6.QtGui import QKeyEvent, QMouseEvent
-from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QApplication
+from PyQt6.QtWidgets import QWidget, QVBoxLayout, QApplication, QLabel
 
 from tools.web_replay.ui import ReplayWebEngineView, ReplayNavigation
 
@@ -126,7 +126,7 @@ class ReplayEngine(QWidget):
             case "mouse_move":
                 # mouse moved event
                 qevent = QMouseEvent(
-                    QMouseEvent.Type.KeyRelease,
+                    QMouseEvent.Type.MouseMove,
                     QPointF(*event["position"]) / self.web.zoomFactor(),
                     Qt.MouseButton.NoButton,
                     Qt.MouseButton.NoButton,
@@ -135,8 +135,8 @@ class ReplayEngine(QWidget):
                 qevent.custom = True
                 QApplication.postEvent(self.web.focusProxy(), qevent)
 
-                # move the fake cursor
-                self.cursor.move(QPointF(*event["position"]).toPoint() - self.cursor.rect().center())
+                # move the cursor
+                self.cursor.move(QPointF(*event["position"]).toPoint())
                 self.cursor.raise_()
 
                 # callback
