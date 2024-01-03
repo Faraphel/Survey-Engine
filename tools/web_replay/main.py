@@ -1,4 +1,5 @@
 import sys
+from datetime import datetime
 
 from PyQt6.QtWidgets import QApplication
 
@@ -9,12 +10,16 @@ if __name__ == "__main__":
     # create the application
     application = QApplication(sys.argv)
 
+    # TODO: cmd arguments ?
     from source.utils import compress
-    with open(r"C:\Users\RC606\Downloads\41a6268b-72e5-47a9-8106-6c15a0be366e.rsl", "rb") as file:
+    with open(r"C:\Users\RC606\PycharmProjects\M1-Recherche\results\c3376670-548d-4494-b963-dc2facf7a3d1.rsl", "rb") as file:
         data = compress.uncompress_data(file.read())
 
     # create the window
-    window = ReplayWindow(data["surveys"]["mission-gift-card"]["event"])
+    window = ReplayWindow(
+        datetime.fromtimestamp(data["time"]),
+        data["surveys"]["mission-game-dlc"]["event"]
+    )
     window.show()
 
     # start the application

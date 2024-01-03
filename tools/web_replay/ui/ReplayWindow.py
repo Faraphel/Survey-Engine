@@ -1,18 +1,23 @@
-from PyQt6.QtCore import QTimer
+from datetime import datetime
+
 from PyQt6.QtWidgets import QMainWindow
 
 from tools.web_replay.ui import ReplayEngine
 
 
 class ReplayWindow(QMainWindow):
-    def __init__(self, replay_data: dict):
+    def __init__(self, start_time: datetime, replay_data: list):
         super().__init__()
 
-        self.replay_engine = ReplayEngine(replay_data)
+        # decoration
+        self.setWindowTitle("Survey Engine - Web Replay")
+
+        # setup the engine
+        self.replay_engine = ReplayEngine(start_time, replay_data)
         self.setCentralWidget(self.replay_engine)
 
-        # TODO: TEST REMOVE
-        self.timer = QTimer()
-        self.timer.setInterval(10)
-        self.timer.timeout.connect(self.replay_engine.next)  # NOQA: connect exist
-        self.timer.start()
+        # show the window as fullscreen
+        self.showFullScreen()
+
+        # TODO: remove ?
+        self.replay_engine.next()  # play the replay
