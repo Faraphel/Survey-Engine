@@ -5,7 +5,7 @@ from PyQt6.QtCore import Qt, QUrl, QPointF, QTimer
 from PyQt6.QtGui import QKeyEvent, QMouseEvent
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QApplication
 
-from tools.web_replay.ui import ReplayWebEngineView, ReplayInfo
+from tools.web_replay.ui import ReplayWebEngineView, ReplayNavigation
 
 
 class ReplayEngine(QWidget):
@@ -35,8 +35,8 @@ class ReplayEngine(QWidget):
         self._layout.addWidget(self.web, 1)
 
         # information
-        self.information = ReplayInfo()
-        self._layout.addWidget(self.information)
+        self.navigation = ReplayNavigation()
+        self._layout.addWidget(self.navigation)
 
         # event timer
         self.timer = QTimer()
@@ -157,7 +157,7 @@ class ReplayEngine(QWidget):
         self.replay_index = self.replay_index + 1
 
         # set text
-        self.information.set_description(f"{event}")
+        self.navigation.set_description(f"{event}")
 
         # run the event
         self.run_event(
