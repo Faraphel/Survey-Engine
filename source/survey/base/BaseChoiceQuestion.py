@@ -118,7 +118,7 @@ class BaseChoiceQuestion(BaseSurvey):
         collected_data = {
             "choices": {
                 choice_id: {
-                    "checked": choice_data["button"].isEnabled(),
+                    "checked": choice_data["button"].isChecked(),
                     "details": entry.text() if (entry := choice_data["entry"]) is not None else None
                 }
                 for choice_id, choice_data in self.buttons_responses.items()
