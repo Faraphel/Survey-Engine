@@ -1,10 +1,12 @@
-from datetime import datetime, timedelta
+from datetime import datetime
+from pathlib import Path
 from typing import Callable
 
 from PyQt6.QtCore import Qt, QUrl, QPointF, QTimer
 from PyQt6.QtGui import QKeyEvent, QMouseEvent
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QApplication, QLabel
 
+from source.utils import compress
 from tools.web_replay.ui import ReplayWebEngineView, ReplayNavigation
 
 
@@ -13,11 +15,15 @@ class ReplayEngine(QWidget):
     This widget allow to replay some event that occurred on a web page
     """
 
-    def __init__(self, start_time: datetime, replay_data: list):
+    def __init__(self, replay_path: Path | str, mission: str):
         super().__init__()
 
-        self.start_time = start_time - timedelta(days=1)  # remove a day to prevent archive rounding
-        self.replay_data = replay_data
+        # load the replay
+        with open(replay_path, "rb") as file:
+            replay_data = compress.uncompress_data(file.read())
+
+        self.start_time = datetime.fromtimestamp(replay_data["time"])
+        self.replay_events = replay_data["surveys"][mission]["event"]
         self.replay_index: int = 0
         self.replay_time: float = 0
 
@@ -152,7 +158,7 @@ class ReplayEngine(QWidget):
 
     def next(self):
         # get event information
-        event = self.replay_data[self.replay_index]
+        event = self.replay_events[self.replay_index]
         self.replay_time = event["time"]
         self.replay_index = self.replay_index + 1
 
@@ -173,9 +179,9 @@ class ReplayEngine(QWidget):
             pass
 
         # if there are still events after this one
-        if self.replay_index < len(self.replay_data):
+        if self.replay_index < len(self.replay_events):
             # next event
-            next_event: dict = self.replay_data[self.replay_index]
+            next_event: dict = self.replay_events[self.replay_index]
             next_time: float = next_event["time"]
 
             # prepare the timer to play the event at the corresponding time
