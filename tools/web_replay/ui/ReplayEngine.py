@@ -67,7 +67,7 @@ class ReplayEngine(QWidget):
             case "resize":
                 # changing widget size event
                 w, h = event["size"]
-                zoom_factor: float = self.web.width() / w
+                zoom_factor: float = self.web.page().contentsSize().width() / w
                 self.web.setZoomFactor(zoom_factor)
 
                 # callback
