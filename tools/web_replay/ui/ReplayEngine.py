@@ -158,6 +158,9 @@ class ReplayEngine(QWidget):
 
     def next(self):
         # get event information
+        if self.replay_index >= len(self.replay_events):
+            return
+
         event = self.replay_events[self.replay_index]
         self.replay_time = event["time"]
         self.replay_index = self.replay_index + 1
