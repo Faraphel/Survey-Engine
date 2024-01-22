@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Optional
 
 from PyQt6.QtCore import QObject, QEvent, QUrl
 from PyQt6.QtWebEngineWidgets import QWebEngineView
@@ -9,21 +10,25 @@ class ReplayWebEngineView(QWebEngineView):
         super().__init__()
 
         self.start_time = start_time
+        self._last_url: Optional[QUrl] = None
 
         self.loadFinished.connect(self._initialize_proxy_event)  # NOQA: connect exist
 
     # event filter
 
-    def setUrl(self, url: QUrl) -> None:
-        # get the archive.org link corresponding to that time
-        archive_time: str = self.start_time.strftime("%Y%m%d%H%M%S")
-        archive_url = f"https://web.archive.org/web/{archive_time}/{url.toString()}"
+    def setUrl(self, url: QUrl, archive: bool = True) -> None:
+        if archive:
+            # get the archive.org link corresponding to that time
+            archive_time: str = self.start_time.strftime("%Y%m%d%H%M%S")
+            url = QUrl(f"https://web.archive.org/web/{archive_time}/{url.toString()}")
+
+        self._last_url = url
 
         # call the super function with the archive url instead
-        super().setUrl(QUrl(archive_url))
+        super().setUrl(url)
 
         # clean the archive header popup that will appear
-        self.loadFinished.connect(self._clean_archive_header)  # NOQA: connect exist
+        self.loadFinished.connect(self._on_load_finished)  # NOQA: connect exist
 
     def eventFilter(self, obj: QObject, event: QEvent) -> bool:
         match event.type():
@@ -44,16 +49,18 @@ class ReplayWebEngineView(QWebEngineView):
 
     # events
 
-    def _initialize_proxy_event(self, ok: bool):
-        # prevent the event from being enabled another time
-        self.loadFinished.disconnect(self._initialize_proxy_event)  # NOQA: disconnect exist
-
+    def _initialize_proxy_event(self):
         # make self.eventFilter intercept all focusProxy events
         self.focusProxy().installEventFilter(self)
 
-    def _clean_archive_header(self, ok: bool):
+    def _on_load_finished(self, ok: bool):
         # prevent the event from being enabled another time
-        self.loadFinished.disconnect(self._clean_archive_header)  # NOQA: disconnect exist
+        self.loadFinished.disconnect(self._on_load_finished)  # NOQA: disconnect exist
 
-        # hide archive.org header to avoid mouse movement being shifted
-        self.page().runJavaScript("document.getElementById('wm-ipp-base').style.display = 'none';")
+        if ok:
+            # hide archive.org header to avoid mouse movement being shifted
+            self.page().runJavaScript("document.getElementById('wm-ipp-base').style.display = 'none';")
+            self._initialize_proxy_event()
+
+        else:
+            self.setUrl(self._last_url, archive=False)

@@ -1,10 +1,8 @@
-import json
 import sys
-from datetime import datetime
 
-from PyQt6.QtWidgets import QApplication, QFileDialog
+from PyQt6.QtWidgets import QApplication
 
-from tools.web_replay.ui import ReplayWindow
+from ui import ReplayWindow
 
 
 if __name__ == "__main__":

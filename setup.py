@@ -22,16 +22,25 @@ setup(
         "build_exe": {
             "include_msvcr": True,
             "include_files": [
+                ("./tools/", "./tools/"),
                 ("./assets/", "./assets/"),
                 ("./README.md", "./README.md"),
             ]
         }
     },
 
-    executables=[Executable(
-        "main.py",
-        base=base,
-        target_name=__appname__,
-        icon=__icon_ico__
-    )]
+    executables=[
+        Executable(
+            "main.py",
+            base=base,
+            target_name=__appname__,
+            icon=__icon_ico__
+        ),
+        Executable(
+            "tools/web_replay/main.py",
+            base=base,
+            target_name="tools/web_replay/main",
+            icon=__icon_ico__
+        ),
+    ]
 )

@@ -7,7 +7,7 @@ from PyQt6.QtGui import QKeyEvent, QMouseEvent
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QApplication, QLabel
 
 from source.utils import compress
-from tools.web_replay.ui import ReplayWebEngineView, ReplayNavigation
+from . import ReplayWebEngineView, ReplayNavigation
 
 
 class ReplayEngine(QWidget):
@@ -186,6 +186,6 @@ class ReplayEngine(QWidget):
 
             # prepare the timer to play the event at the corresponding time
             self.timer.singleShot(
-                round((next_time - self.replay_time) / 1000),
+                round((next_time - self.replay_time) / 200),
                 self.next
             )
