@@ -1,12 +1,12 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-from tools.statistics import extract
+from tools.statistics import extract, ressource
 
 
-def analyse(datas: list[dict]):
-    experience_completion: dict[str, int] = {"yes": 0, "mixed": 0, "no": 0}
-    experience_count: dict[str, int] = {"yes": 0, "mixed": 0, "no": 0}
+def analyse(datas: list[dict]) -> plt.Figure:
+    experience_completion: dict[str, int] = dict.fromkeys(ressource.experience.choices, 0)
+    experience_count: dict[str, int] = dict.fromkeys(ressource.experience.choices, 0)
 
     for data in datas:
         experience = extract.experience.extract(data)
@@ -32,6 +32,6 @@ def analyse(datas: list[dict]):
     axes.set_title("Nombre moyen de mission complété par expérience")
 
     # bar chart
-    axes.bar(x, y)
+    axes.bar(x, y, edgecolor='black')
 
-    plt.show(block=True)
+    return figure

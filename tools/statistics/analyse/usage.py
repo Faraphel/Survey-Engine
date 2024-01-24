@@ -1,12 +1,12 @@
 import matplotlib.pyplot as plt
 
-from tools.statistics import extract
+from tools.statistics import extract, ressource
 
 
-def analyse(datas: list[dict]):
+def analyse(datas: list[dict]) -> plt.Figure:
     usage_data = list(map(extract.usage.extract, datas))
 
-    usages: dict[str, int] = {"always": 0, "often": 0, "sometime": 0, "rarely": 0, "never": 0}
+    usages: dict[str, int] = dict.fromkeys(ressource.usage.choices, 0)
     for usage in usage_data:
         usages[usage] += 1
 
@@ -19,6 +19,6 @@ def analyse(datas: list[dict]):
     axes.set_title("Expérience antérieure des personnes sondées")
 
     # bar chart
-    axes.bar(x, y)
+    axes.bar(x, y, edgecolor='black')
 
-    plt.show(block=True)
+    return figure

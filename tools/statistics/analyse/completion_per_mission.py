@@ -1,23 +1,12 @@
 import matplotlib.pyplot as plt
 
-from tools.statistics import extract
+from tools.statistics import extract, ressource
 
 
-def analyse(datas: list[dict]):
-    completions: dict[str] = {
-        "mission-language": 0,
-        "mission-price": 0,
-        "mission-community-hub": 0,
-        "mission-game-page": 0,
-        "mission-game-dlc": 0,
-        "mission-actuality-new": 0,
-        "mission-profile": 0,
-        "mission-game-discussion": 0,
-        "mission-gift-card": 0,
-        "mission-workshop": 0,
-    }
+def analyse(datas: list[dict]) -> plt.Figure:
+    completions: dict[str] = dict.fromkeys(ressource.mission.choices, 0)
 
-    # NOTE : séparé avant / après grosse mise à jour pour carte cadeau ?
+    # TODO : couleur par mission
 
     for data in datas:
         for survey in data["surveys"].keys():
@@ -37,8 +26,8 @@ def analyse(datas: list[dict]):
     axes.set_title("Nombre de personne ayant réussi par mission")
 
     # bar chart
-    axes.bar(x, y)
+    axes.bar(x, y, edgecolor='black')
     axes.set_xticks(x)
     axes.set_xticklabels(x, rotation=45)
 
-    plt.show(block=True)
+    return figure

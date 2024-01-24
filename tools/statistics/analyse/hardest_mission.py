@@ -1,21 +1,10 @@
 import matplotlib.pyplot as plt
 
-from tools.statistics import extract
+from tools.statistics import extract, ressource
 
 
-def analyse(datas: list[dict]):
-    missions = {
-        "mission-language": 0,
-        "mission-price": 0,
-        "mission-community-hub": 0,
-        "mission-game-page": 0,
-        "mission-game-dlc": 0,
-        "mission-actuality-new": 0,
-        "mission-profile": 0,
-        "mission-game-discussion": 0,
-        "mission-gift-card": 0,
-        "mission-workshop": 0
-    }
+def analyse(datas: list[dict]) -> plt.Figure:
+    missions = dict.fromkeys(ressource.mission.choices, 0)
 
     for data in datas:
         missions[extract.hardest_mission.extract(data)] += 1
@@ -29,8 +18,8 @@ def analyse(datas: list[dict]):
     axes.set_title("Mission la plus difficile des personnes sondées")
 
     # bar chart
-    axes.bar(x, y)
+    axes.bar(x, y, edgecolor='black')
     axes.set_xticks(x)
     axes.set_xticklabels(x, rotation=45)
 
-    plt.show(block=True)
+    return figure

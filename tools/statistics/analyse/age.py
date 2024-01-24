@@ -1,16 +1,11 @@
-from collections import Counter
-
 import matplotlib.pyplot as plt
+import numpy as np
 
 from tools.statistics import extract
 
 
-def analyse(datas: list[dict]):
-    ages_data = list(map(extract.age.extract, datas))
-
-    counter = Counter(ages_data)
-    x = list(counter.keys())
-    y = list(counter.values())
+def analyse(datas: list[dict]) -> plt.Figure:
+    x = list(map(extract.age.extract, datas))
 
     # prepare plotting
     figure: plt.Figure = plt.figure()
@@ -18,6 +13,7 @@ def analyse(datas: list[dict]):
     axes.set_title("Nombre de personne par âge")
 
     # bar chart
-    axes.bar(x, y)
+    bins = np.arange(min(x), max(x), 1)
+    axes.hist(x, bins=bins, edgecolor='black')
 
-    plt.show(block=True)
+    return figure

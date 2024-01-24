@@ -1,14 +1,12 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-from tools.statistics import extract
+from tools.statistics import extract, ressource
 
 
-def analyse(datas: list[dict]):
-    usage_completion: dict[str, int] = {"always": 0, "often": 0, "sometime": 0, "rarely": 0, "never": 0}
-    usage_count: dict[str, int] = {"always": 0, "often": 0, "sometime": 0, "rarely": 0, "never": 0}
-
-    # TODO: faire des tranches d'âges ?
+def analyse(datas: list[dict]) -> plt.Figure:
+    usage_completion: dict[str, int] = dict.fromkeys(ressource.usage.choices, 0)
+    usage_count: dict[str, int] = dict.fromkeys(ressource.usage.choices, 0)
 
     for data in datas:
         usage = extract.usage.extract(data)
@@ -33,6 +31,6 @@ def analyse(datas: list[dict]):
     axes.set_title("Temps moyen passé par niveau")
 
     # bar chart
-    axes.bar(x, y)
+    axes.bar(x, y, edgecolor='black')
 
-    plt.show(block=True)
+    return figure

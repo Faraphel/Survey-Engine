@@ -6,11 +6,11 @@ import numpy as np
 from tools.statistics import extract
 
 
-def analyse(datas: list[dict]):
+def analyse(datas: list[dict]) -> plt.Figure:
     ages_duration: dict[int, int] = defaultdict(lambda: 0)
     ages_count: dict[int, int] = defaultdict(lambda: 0)
 
-    # TODO: faire des tranches d'âges ?
+    # TODO: affichage en minutes ?
 
     for data in datas:
         age = extract.age.extract(data)
@@ -35,6 +35,7 @@ def analyse(datas: list[dict]):
     axes.set_title("Temps moyen passé par âge")
 
     # bar chart
-    axes.bar(x, y)
+    bins = np.arange(min(x), max(x), 1)
+    axes.hist(x, bins, weights=y, edgecolor="black")
 
-    plt.show(block=True)
+    return figure

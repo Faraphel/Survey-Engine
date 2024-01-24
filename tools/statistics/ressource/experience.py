@@ -1,0 +1,1 @@
+choices = ["yes", "mixed", "no"]

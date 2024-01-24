@@ -7,12 +7,12 @@ from tools.statistics import extract
 
 
 def analyse(datas: list[dict]) -> plt.Figure:
-    ages_completion: dict[int, int] = defaultdict(lambda: 0)
-    ages_count: dict[int, int] = defaultdict(lambda: 0)
+    languages_completion: dict[str, int] = defaultdict(lambda: 0)
+    languages_count: dict[str, int] = defaultdict(lambda: 0)
 
     for data in datas:
-        age = extract.age.extract(data)
-        ages_count[age] += 1
+        language = extract.language.extract(data)
+        languages_count[language] += 1
 
         for survey, survey_data in data["surveys"].items():
             # only scan survey mission
@@ -20,21 +20,20 @@ def analyse(datas: list[dict]) -> plt.Figure:
                 continue
 
             if extract.mission_completed.extract(data, survey):
-                ages_completion[age] += 1
+                languages_completion[language] += 1
 
-    x = list(ages_completion.keys())
+    x = list(languages_completion.keys())
     y = (
-        np.array(list(ages_completion.values()))
-        / np.array(list(ages_count.values()))
+        np.array(list(languages_completion.values()))
+        / np.array(list(languages_count.values()))
     )
 
     # prepare plotting
     figure: plt.Figure = plt.figure()
     axes = figure.add_subplot(1, 1, 1)
-    axes.set_title("Nombre moyen de mission complété par âge")
+    axes.set_title("Nombre moyen de mission complété par langue")
 
     # bar chart
-    bins = np.arange(min(x), max(x), 1)
-    axes.hist(x, bins, weights=y, edgecolor="black")
+    axes.bar(x, y, edgecolor='black')
 
     return figure
