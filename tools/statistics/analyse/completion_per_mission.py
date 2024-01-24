@@ -28,8 +28,8 @@ def analyse(datas: list[dict]):
             if extract.mission_completed.extract(data, survey):
                 completions[survey] += 1
 
-    completions_x = list(completions.keys())
-    completions_y = list(completions.values())
+    x = list(completions.keys())
+    y = list(completions.values())
 
     # prepare plotting
     figure: plt.Figure = plt.figure()
@@ -37,8 +37,8 @@ def analyse(datas: list[dict]):
     axes.set_title("Nombre de personne ayant réussi par mission")
 
     # bar chart
-    axes.bar(completions_x, completions_y)
-    axes.set_xticks(completions_x)
-    axes.set_xticklabels(completions_x, rotation=45)
+    axes.bar(x, y)
+    axes.set_xticks(x)
+    axes.set_xticklabels(x, rotation=45)
 
     plt.show(block=True)

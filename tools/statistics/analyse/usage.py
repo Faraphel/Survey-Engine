@@ -10,15 +10,15 @@ def analyse(datas: list[dict]):
     for usage in usage_data:
         usages[usage] += 1
 
-    usages_x = list(usages.keys())
-    usages_y = list(usages.values())
+    x = list(usages.keys())
+    y = list(usages.values())
 
     # prepare plotting
     figure: plt.Figure = plt.figure()
     axes = figure.add_subplot(1, 1, 1)
-    axes.set_title("Expérience des personnes sondées")
+    axes.set_title("Expérience antérieure des personnes sondées")
 
     # bar chart
-    axes.bar(usages_x, usages_y)
+    axes.bar(x, y)
 
     plt.show(block=True)

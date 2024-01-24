@@ -24,8 +24,8 @@ def analyse(datas: list[dict]):
             if extract.mission_completed.extract(data, survey):
                 usage_completion[usage] += 1
 
-    usages_x = list(usage_completion.keys())
-    usages_y = (
+    x = list(usage_completion.keys())
+    y = (
         np.array(list(usage_completion.values()))
         / np.array(list(usage_count.values()))
     )
@@ -36,6 +36,6 @@ def analyse(datas: list[dict]):
     axes.set_title("Nombre moyen de mission complété par niveau")
 
     # bar chart
-    axes.bar(usages_x, usages_y)
+    axes.bar(x, y)
 
     plt.show(block=True)

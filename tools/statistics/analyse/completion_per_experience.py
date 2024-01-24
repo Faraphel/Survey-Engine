@@ -20,8 +20,8 @@ def analyse(datas: list[dict]):
             if extract.mission_completed.extract(data, survey):
                 experience_completion[experience] += 1
 
-    ages_x = list(experience_completion.keys())
-    ages_y = (
+    x = list(experience_completion.keys())
+    y = (
         np.array(list(experience_completion.values()))
         / np.array(list(experience_count.values()))
     )
@@ -32,6 +32,6 @@ def analyse(datas: list[dict]):
     axes.set_title("Nombre moyen de mission complété par expérience")
 
     # bar chart
-    axes.bar(ages_x, ages_y)
+    axes.bar(x, y)
 
     plt.show(block=True)

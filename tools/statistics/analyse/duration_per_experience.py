@@ -20,8 +20,8 @@ def analyse(datas: list[dict]):
             if extract.mission_completed.extract(data, survey):
                 experience_duration[experience] += extract.mission_duration.extract(data, survey)
 
-    ages_x = list(experience_duration.keys())
-    ages_y = (
+    x = list(experience_duration.keys())
+    y = (
         np.array(list(experience_duration.values()))
         / np.array(list(experience_count.values()))
     )
@@ -32,6 +32,6 @@ def analyse(datas: list[dict]):
     axes.set_title("Temps moyen passé par expérience")
 
     # bar chart
-    axes.bar(ages_x, ages_y)
+    axes.bar(x, y)
 
     plt.show(block=True)

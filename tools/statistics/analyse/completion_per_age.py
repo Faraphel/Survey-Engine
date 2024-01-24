@@ -22,8 +22,8 @@ def analyse(datas: list[dict]):
             if extract.mission_completed.extract(data, survey):
                 ages_completion[age] += 1
 
-    ages_x = list(ages_completion.keys())
-    ages_y = (
+    x = list(ages_completion.keys())
+    y = (
         np.array(list(ages_completion.values()))
         / np.array(list(ages_count.values()))
     )
@@ -34,6 +34,6 @@ def analyse(datas: list[dict]):
     axes.set_title("Nombre moyen de mission complété par âge")
 
     # bar chart
-    axes.bar(ages_x, ages_y)
+    axes.bar(x, y)
 
     plt.show(block=True)

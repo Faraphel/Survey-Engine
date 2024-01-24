@@ -15,17 +15,17 @@ if __name__ == "__main__":
         for file in directory.rglob("*.rsl")
     ]
 
-    # age.analyse(datas)
-    # usage.analyse(datas)
-    # experience.analyse(datas)
-    # hardest_mission.analyse(datas)  # !
+    age.analyse(datas)
+    usage.analyse(datas)
+    experience.analyse(datas)
+    hardest_mission.analyse(datas)
 
-    # completion_per_mission.analyse(datas)
-    # completion_per_age.analyse(datas)
-    # completion_per_usage.analyse(datas)  # !
-    # completion_per_experience.analyse(datas)
+    completion_per_mission.analyse(datas)
+    completion_per_age.analyse(datas)
+    completion_per_usage.analyse(datas)
+    completion_per_experience.analyse(datas)
 
-    # duration_per_mission.analyse(datas)
-    # duration_per_age.analyse(datas)
-    # duration_per_usage.analyse(datas)  # !
-    # duration_per_experience.analyse(datas)  # !
+    duration_per_mission.analyse(datas)
+    duration_per_age.analyse(datas)
+    duration_per_usage.analyse(datas)
+    duration_per_experience.analyse(datas)

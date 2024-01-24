@@ -21,8 +21,8 @@ def analyse(datas: list[dict]):
 
             usage_completion[usage] += extract.mission_duration.extract(data, survey)
 
-    ages_x = list(usage_completion.keys())
-    ages_y = (
+    x = list(usage_completion.keys())
+    y = (
         np.array(list(usage_completion.values()))
         / np.array(list(usage_count.values()))
     )
@@ -33,6 +33,6 @@ def analyse(datas: list[dict]):
     axes.set_title("Temps moyen passé par niveau")
 
     # bar chart
-    axes.bar(ages_x, ages_y)
+    axes.bar(x, y)
 
     plt.show(block=True)

@@ -29,8 +29,8 @@ def analyse(datas: list[dict]):
 
             durations[survey] += extract.mission_duration.extract(data, survey)
 
-    durations_x = list(durations.keys())
-    durations_y = np.array(list(durations.values())) / len(datas)
+    x = list(durations.keys())
+    y = np.array(list(durations.values())) / len(datas)
 
     # prepare plotting
     figure: plt.Figure = plt.figure()
@@ -38,8 +38,8 @@ def analyse(datas: list[dict]):
     axes.set_title("Temps moyen passé par test")
 
     # bar chart
-    axes.bar(durations_x, durations_y)
-    axes.set_xticks(durations_x)
-    axes.set_xticklabels(durations_x, rotation=45)
+    axes.bar(x, y)
+    axes.set_xticks(x)
+    axes.set_xticklabels(x, rotation=45)
 
     plt.show(block=True)
