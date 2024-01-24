@@ -1,38 +1,31 @@
 from pathlib import Path
 
+from tools.statistics.analyse import (age, usage, completion_per_mission, duration_per_mission, completion_per_age,
+                                      completion_per_usage, duration_per_age, duration_per_usage,
+                                      completion_per_experience, duration_per_experience, experience, hardest_mission)
+
 if __name__ == "__main__":
     from source.utils import compress
 
-    directory = Path(r"C:\Users\RC606\Downloads\résultats étude")
+    directory = Path(r"./sondage/")
 
     # read every people survey data
-    for file in directory.rglob("*.rsl"):
-        # decompress the data
-        data = compress.uncompress_data(file.read_bytes())
+    datas = [
+        compress.uncompress_data(file.read_bytes())  # decompress the data
+        for file in directory.rglob("*.rsl")
+    ]
 
-        
+    # age.analyse(datas)
+    # usage.analyse(datas)
+    # experience.analyse(datas)
+    # hardest_mission.analyse(datas)  # !
 
+    # completion_per_mission.analyse(datas)
+    # completion_per_age.analyse(datas)
+    # completion_per_usage.analyse(datas)  # !
+    # completion_per_experience.analyse(datas)
 
-    ages = sorted(list(map(
-        lambda data: data["surveys"]["question-age"]["value"],
-        datas
-    )))
-
-    print(ages)
-    print(sum(ages) / len(ages))
-    print(ages[len(ages) // 2])
-    print(min(ages))
-    print(max(ages))
-
-    print(datas[1]["surveys"]["question-usage-steam"])
-
-    usages = sorted(list(map(
-        lambda data: data["surveys"]["question-usage-steam"]["choices"],
-        datas
-    )))
-
-    print(usages)
-    print(sum(usages) / len(usages))
-    print(usages[len(usages) // 2])
-    print(min(usages))
-    print(max(usages))
+    # duration_per_mission.analyse(datas)
+    # duration_per_age.analyse(datas)
+    # duration_per_usage.analyse(datas)  # !
+    # duration_per_experience.analyse(datas)  # !
