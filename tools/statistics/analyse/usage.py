@@ -20,5 +20,7 @@ def analyse(datas: list[dict]) -> plt.Figure:
     axes.bar(x, y, color=ressource.usage.colors, edgecolor='black')
     axes.set_xticks(x)
     axes.set_xticklabels(ressource.usage.labels)
+    axes.set_xlabel("Usage")
+    axes.set_ylabel("Quantité")
 
     return figure
