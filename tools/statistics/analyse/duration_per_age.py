@@ -37,5 +37,7 @@ def analyse(datas: list[dict]) -> plt.Figure:
     # bar chart
     bins = np.arange(min(x), max(x), 1)
     axes.hist(x, bins, weights=y, edgecolor="black")
+    axes.set_xlabel("Âge")
+    axes.set_ylabel("Durée")
 
     return figure

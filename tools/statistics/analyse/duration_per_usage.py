@@ -28,9 +28,13 @@ def analyse(datas: list[dict]) -> plt.Figure:
     # prepare plotting
     figure: plt.Figure = plt.figure()
     axes = figure.add_subplot(1, 1, 1)
-    axes.set_title("Temps moyen passé par niveau")
+    axes.set_title("Temps moyen passé par habitude d'utilisation")
 
     # bar chart
-    axes.bar(x, y, edgecolor='black')
+    axes.bar(x, y, color=ressource.usage.colors, edgecolor='black')
+    axes.set_xticks(x)
+    axes.set_xticklabels(ressource.usage.labels)
+    axes.set_xlabel("Usage")
+    axes.set_ylabel("Durée")
 
     return figure

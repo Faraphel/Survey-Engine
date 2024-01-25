@@ -18,9 +18,13 @@ def analyse(datas: list[dict]) -> plt.Figure:
     # prepare plotting
     figure: plt.Figure = plt.figure()
     axes = figure.add_subplot(1, 1, 1)
-    axes.set_title("Nombre de personne par expérience")
+    axes.set_title("Opinion des personnes sondées")
 
     # bar chart
-    axes.bar(x, y, edgecolor='black')
+    axes.bar(x, y, color=ressource.experience.colors, edgecolor='black')
+    axes.set_xticks(x)
+    axes.set_xticklabels(ressource.experience.labels)
+    axes.set_xlabel("Expérience")
+    axes.set_ylabel("Quantité")
 
     return figure

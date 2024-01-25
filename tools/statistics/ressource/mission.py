@@ -10,3 +10,27 @@ choices = [
     "mission-gift-card",
     "mission-workshop",
 ]
+labels = [
+    "Changement de Langue",
+    "Filtre de Prix",
+    "Hub de la Communauté",
+    "Page de Jeu",
+    "Page de DLC",
+    "Page d'Actualité",
+    "Page de Profil",
+    "Page de Discussion",
+    "Carte Cadeaux",
+    "Workshop",
+]
+colors = [
+    "tab:blue",
+    "tab:orange",
+    "tab:green",
+    "tab:red",
+    "tab:olive",
+    "tab:purple",
+    "tab:brown",
+    "tab:pink",
+    "tab:cyan",
+    "tab:gray",
+]

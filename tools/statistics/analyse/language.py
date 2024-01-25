@@ -1,16 +1,15 @@
-from collections import Counter
-
 import matplotlib.pyplot as plt
 
-from tools.statistics import extract
+from tools.statistics import extract, ressource
 
 
 def analyse(datas: list[dict]) -> plt.Figure:
-    languages = list(map(extract.language.extract, datas))
+    languages = dict.fromkeys(ressource.language.choices, 0)
+    for language in map(extract.language.extract, datas):
+        languages[language] += 1
 
-    counter = Counter(languages)
-    x = list(counter.keys())
-    y = list(counter.values())
+    x = list(languages.keys())
+    y = list(languages.values())
 
     # prepare plotting
     figure: plt.Figure = plt.figure()
@@ -18,6 +17,10 @@ def analyse(datas: list[dict]) -> plt.Figure:
     axes.set_title("Langue des personnes sondées")
 
     # bar chart
-    axes.bar(x, y, edgecolor='black')
+    axes.bar(x, y, color=ressource.language.colors, edgecolor='black')
+    axes.set_xticks(x)
+    axes.set_xticklabels(ressource.language.labels)
+    axes.set_xlabel("Langue")
+    axes.set_ylabel("Quantité")
 
     return figure

@@ -18,8 +18,11 @@ def analyse(datas: list[dict]) -> plt.Figure:
     axes.set_title("Mission la plus difficile des personnes sondées")
 
     # bar chart
-    axes.bar(x, y, edgecolor='black')
+    axes.bar(x, y, color=ressource.mission.colors, edgecolor='black')
+    axes.set_xlabel("Mission")
+    axes.set_ylabel("Quantité")
     axes.set_xticks(x)
-    axes.set_xticklabels(x, rotation=45)
+    axes.set_xticklabels(ressource.mission.labels, rotation=45, ha="right")
+    figure.tight_layout()
 
     return figure

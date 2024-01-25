@@ -1,22 +1,28 @@
 from pathlib import Path
 
+from matplotlib import pyplot as plt
+
 from tools.statistics.analyse import (age, usage, completion_per_mission, duration_per_mission, completion_per_age,
                                       completion_per_usage, duration_per_age, duration_per_usage,
                                       completion_per_experience, duration_per_experience, experience, hardest_mission,
                                       language, duration_per_language, completion_per_language)
 
+
+plt.rcParams['text.usetex'] = True
+
+
 if __name__ == "__main__":
     from source.utils import compress
 
-    # import matplotlib
-    # matplotlib.use("pgf")
-    # matplotlib.rcParams.update({
-    #     "pgf.texsystem": "pdflatex",
-    #     'font.family': 'serif',
-    #     'font.size': 11,
-    #     'text.usetex': True,
-    #     'pgf.rcfonts': False,
-    # })
+    import matplotlib
+    matplotlib.use("pgf")
+    matplotlib.rcParams.update({
+        "pgf.texsystem": "pdflatex",
+        'font.family': 'serif',
+        'font.size': 11,
+        'text.usetex': True,
+        'pgf.rcfonts': False,
+    })
 
     sondage_path = Path(r"./sondage/")
     graph_path = Path(r"./graph/")

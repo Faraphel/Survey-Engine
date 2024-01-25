@@ -1,14 +1,12 @@
-from collections import defaultdict
-
 import matplotlib.pyplot as plt
 import numpy as np
 
-from tools.statistics import extract
+from tools.statistics import extract, ressource
 
 
 def analyse(datas: list[dict]) -> plt.Figure:
-    languages_duration: dict[str, int] = defaultdict(lambda: 0)
-    languages_count: dict[str, int] = defaultdict(lambda: 0)
+    languages_duration: dict[str, int] = dict.fromkeys(ressource.language.choices, 0)
+    languages_count: dict[str, int] = dict.fromkeys(ressource.language.choices, 0)
 
     for data in datas:
         language = extract.language.extract(data)
@@ -33,6 +31,10 @@ def analyse(datas: list[dict]) -> plt.Figure:
     axes.set_title("Temps moyen passé par langue")
 
     # bar chart
-    axes.bar(x, y, edgecolor='black')
+    axes.bar(x, y, color=ressource.language.colors, edgecolor='black')
+    axes.set_xticks(x)
+    axes.set_xticklabels(ressource.language.labels)
+    axes.set_xlabel("Langue")
+    axes.set_ylabel("Durée")
 
     return figure
